@@ -16,9 +16,10 @@
   const stayStorageKey = "nz-2026-stays-v46";
   const briefingStorageKey = "nz-2026-briefing-v47";
   const rentalStorageKey = "nz-2026-rental-v48";
+  const documentsStorageKey = "nz-2026-documents-v49";
   const backupSchema = "nz-2026-guide-backup";
-  const backupVersion = 3;
-  const localStorageKeys = [checklistStorageKey, plannerStorageKey, bookingStorageKey, budgetStorageKey, driveStorageKey, weatherStorageKey, stayStorageKey, briefingStorageKey, rentalStorageKey];
+  const backupVersion = 4;
+  const localStorageKeys = [checklistStorageKey, plannerStorageKey, bookingStorageKey, budgetStorageKey, driveStorageKey, weatherStorageKey, stayStorageKey, briefingStorageKey, rentalStorageKey, documentsStorageKey];
   let activeStageFilter = "all";
 
   function escapeHtml(value) {
@@ -651,6 +652,156 @@
     renderBackupSummary();
   }
 
+
+
+  function getDocumentState() {
+    return loadState(documentsStorageKey, {});
+  }
+
+  function documentRecord(item) {
+    const state = getDocumentState();
+    const source = state[item.id] && typeof state[item.id] === "object" && !Array.isArray(state[item.id]) ? state[item.id] : {};
+    return {
+      status: source.status || "offen",
+      reference: source.reference || "",
+      location: source.location || "",
+      note: source.note || "",
+      checks: source.checks && typeof source.checks === "object" && !Array.isArray(source.checks) ? source.checks : {}
+    };
+  }
+
+  function documentStatusLabel(status) {
+    const labels = {
+      offen: "offen",
+      geprüft: "geprüft",
+      offline: "offline bereit",
+      eingepackt: "eingepackt"
+    };
+    return labels[status] || "offen";
+  }
+
+  function documentStatusOptions(selected) {
+    return ["offen", "geprüft", "offline", "eingepackt"]
+      .map((value) => `<option value="${value}"${value === selected ? " selected" : ""}>${documentStatusLabel(value)}</option>`)
+      .join("");
+  }
+
+  function documentRecordHasEntry(record) {
+    return Boolean(record.reference || record.location || record.note || (record.status && record.status !== "offen") || Object.values(record.checks || {}).some(Boolean));
+  }
+
+  function documentCheckCount(item) {
+    const record = documentRecord(item);
+    const checks = Array.isArray(item.checks) ? item.checks : [];
+    return checks.filter((check) => record.checks[check.id]).length;
+  }
+
+  function documentStats() {
+    const items = Array.isArray(data.documents) ? data.documents : [];
+    const records = items.map((item) => ({ item, record: documentRecord(item) }));
+    const checked = records.filter(({ item }) => documentCheckCount(item) === (item.checks || []).length && (item.checks || []).length > 0).length;
+    const offline = records.filter(({ record }) => record.status === "offline" || record.status === "eingepackt").length;
+    const packed = records.filter(({ record }) => record.status === "eingepackt").length;
+    const started = records.filter(({ record }) => documentRecordHasEntry(record)).length;
+    return { total: items.length, checked, offline, packed, started };
+  }
+
+  function renderDocumentSummary() {
+    const target = $("#document-summary");
+    if (!target) return;
+    const stats = documentStats();
+    target.innerHTML = `
+      <article class="document-stat"><strong>${stats.total}</strong><span>Unterlagenpakete</span></article>
+      <article class="document-stat"><strong>${stats.checked}/${stats.total}</strong><span>Checks vollständig</span></article>
+      <article class="document-stat"><strong>${stats.offline}</strong><span>offline bereit</span></article>
+      <article class="document-stat"><strong>${stats.packed}</strong><span>eingepackt</span></article>
+    `;
+  }
+
+  function documentCard(item) {
+    const record = documentRecord(item);
+    const checks = Array.isArray(item.checks) ? item.checks : [];
+    const allChecked = checks.length > 0 && checks.every((check) => record.checks[check.id]);
+    return `
+      <article class="document-card${allChecked ? " is-complete" : ""}">
+        <div class="document-card-top">
+          <div>
+            <span class="document-category">${escapeHtml(item.category || "Unterlagen")}</span>
+            <h3>${escapeHtml(item.title || "Unterlagenpaket")}</h3>
+          </div>
+          <label class="document-status-control">
+            <span>Status</span>
+            <select data-document-status="${escapeHtml(item.id)}">
+              ${documentStatusOptions(record.status)}
+            </select>
+          </label>
+        </div>
+        <p class="document-priority">${escapeHtml(item.priority || "Wichtige Unterlagen vor Abflug prüfen.")}</p>
+        <div class="document-checks" role="group" aria-label="Checks für ${escapeHtml(item.title || "Unterlagen")}">
+          ${checks.map((check) => `
+            <label class="document-check${record.checks[check.id] ? " is-checked" : ""}">
+              <input type="checkbox" data-document-check="${escapeHtml(check.id)}" data-document-id="${escapeHtml(item.id)}"${record.checks[check.id] ? " checked" : ""}>
+              <span>${escapeHtml(check.label)}</span>
+            </label>
+          `).join("")}
+        </div>
+        <div class="document-fields">
+          <label class="document-field">
+            <span>Referenz / Hinweis</span>
+            <input type="text" autocomplete="off" placeholder="z. B. Bestätigung oder Ablaufdatum" value="${escapeHtml(record.reference)}" data-document-field="reference" data-document-id="${escapeHtml(item.id)}">
+          </label>
+          <label class="document-field">
+            <span>Ablage / Zugriff</span>
+            <input type="text" autocomplete="off" placeholder="z. B. offline im Telefon / Reisemappe" value="${escapeHtml(record.location)}" data-document-field="location" data-document-id="${escapeHtml(item.id)}">
+          </label>
+          <label class="document-field document-field-wide">
+            <span>Eigene Notiz</span>
+            <textarea rows="3" placeholder="Nur organisatorische Hinweise – keine sensiblen Daten" data-document-field="note" data-document-id="${escapeHtml(item.id)}">${escapeHtml(record.note)}</textarea>
+          </label>
+        </div>
+        <footer class="document-card-footer">
+          <span>${documentCheckCount(item)}/${checks.length || "—"} Checks erledigt</span>
+          <span>${escapeHtml(documentStatusLabel(record.status))}</span>
+        </footer>
+      </article>
+    `;
+  }
+
+  function renderDocuments() {
+    const board = $("#document-board");
+    if (!board) return;
+    renderDocumentSummary();
+    const items = Array.isArray(data.documents) ? data.documents : [];
+    board.innerHTML = items.map(documentCard).join("");
+  }
+
+  function updateDocumentCheck(id, checkId, checked) {
+    const state = getDocumentState();
+    const record = documentRecord({ id });
+    record.checks[checkId] = checked;
+    state[id] = record;
+    saveState(documentsStorageKey, state);
+    renderDocuments();
+    renderBackupSummary();
+  }
+
+  function updateDocumentField(id, field, value) {
+    const state = getDocumentState();
+    const record = documentRecord({ id });
+    record[field] = value;
+    state[id] = record;
+    saveState(documentsStorageKey, state);
+    if (field === "status") renderDocuments();
+    else renderDocumentSummary();
+    renderBackupSummary();
+  }
+
+  function resetDocuments() {
+    if (!window.confirm("Alle Einträge im Unterlagencheck in diesem Browser löschen?")) return;
+    saveState(documentsStorageKey, {});
+    renderDocuments();
+    renderBackupSummary();
+  }
 
   function getDriveState() {
     const state = loadState(driveStorageKey, { activeDay: 1, days: {} });
@@ -1351,7 +1502,8 @@
     const stayCount = Array.isArray(data.stays) ? data.stays.filter((stay) => stayRecordHasEntry(getStayRecord(stay))).length : 0;
     const briefingCount = data.days.filter((day) => briefingRecordHasEntry(briefingRecord(day.number))).length;
     const rentalCount = [rentalRecord("pickup"), rentalRecord("return")].filter(rentalRecordHasEntry).length;
-    return { planner: plannerCount, booking: bookingCount, budget: budgetCount, checklist: checklistCount, drive: driveCount, weather: weatherCount, stays: stayCount, briefing: briefingCount, rental: rentalCount };
+    const documentCount = Array.isArray(data.documents) ? data.documents.filter((item) => documentRecordHasEntry(documentRecord(item))).length : 0;
+    return { planner: plannerCount, booking: bookingCount, budget: budgetCount, checklist: checklistCount, drive: driveCount, weather: weatherCount, stays: stayCount, briefing: briefingCount, rental: rentalCount, documents: documentCount };
   }
 
   function renderBackupSummary() {
@@ -1360,7 +1512,7 @@
     const count = savedEntryCount();
     target.innerHTML = `
       <article class="backup-stat"><strong>${count.planner}</strong><span>Planungseinträge</span></article>
-      <article class="backup-stat"><strong>${count.booking + count.budget + count.stays + count.rental}</strong><span>Buchungs-, Unterkunfts-, Kosten- & Mietwagen-Einträge</span></article>
+      <article class="backup-stat"><strong>${count.booking + count.budget + count.stays + count.rental + count.documents}</strong><span>Buchungs-, Unterlagen-, Unterkunfts-, Kosten- & Mietwagen-Einträge</span></article>
       <article class="backup-stat"><strong>${count.drive}</strong><span>Fahrtage erfasst</span></article>
       <article class="backup-stat"><strong>${count.weather}</strong><span>Wetterfenster bewertet</span></article>
       <article class="backup-stat"><strong>${count.briefing}</strong><span>Tagesbriefings erfasst</span></article>
@@ -1390,7 +1542,8 @@
         weather: getWeatherState(),
         stays: getStayState(),
         briefing: getBriefingState(),
-        rental: getRentalState()
+        rental: getRentalState(),
+        documents: getDocumentState()
       }
     };
   }
@@ -1427,6 +1580,7 @@
     renderWeather();
     renderBriefing();
     renderRental();
+    renderDocuments();
     renderStages();
     renderChecklist();
     renderBackupSummary();
@@ -1438,7 +1592,7 @@
     reader.onload = (event) => {
       try {
         const payload = JSON.parse(String(event.target?.result || ""));
-        if (!payload || payload.schema !== backupSchema || ![1, 2, 3].includes(Number(payload.version)) || !plainObject(payload.state)) {
+        if (!payload || payload.schema !== backupSchema || ![1, 2, 3, 4].includes(Number(payload.version)) || !plainObject(payload.state)) {
           throw new Error("invalid-backup");
         }
         const state = payload.state;
@@ -1451,6 +1605,7 @@
         saveState(stayStorageKey, plainObject(state.stays));
         saveState(briefingStorageKey, plainObject(state.briefing));
         saveState(rentalStorageKey, plainObject(state.rental));
+        saveState(documentsStorageKey, plainObject(state.documents));
         closeStage();
         refreshLocalViews();
         setBackupStatus("Sicherungsdatei wurde eingespielt. Vorherige lokale Eingaben wurden ersetzt.", "success");
@@ -1522,6 +1677,7 @@
       if (event.target.closest("[data-reset-stays]")) resetStays();
       if (event.target.closest("[data-reset-briefing]")) resetBriefing();
       if (event.target.closest("[data-reset-rental]")) resetRental();
+      if (event.target.closest("[data-reset-documents]")) resetDocuments();
       if (event.target.closest("[data-export-state]")) downloadBackup();
       if (event.target.closest("[data-select-import]")) $("#backup-import")?.click();
       if (event.target.closest("[data-clear-local]")) clearLocalData();
@@ -1538,6 +1694,8 @@
       const briefingCheck = event.target.closest("[data-briefing-check]");
       const briefingStatus = event.target.closest("[data-briefing-status]");
       const rentalCheck = event.target.closest("[data-rental-check]");
+      const documentCheck = event.target.closest("[data-document-check]");
+      const documentStatus = event.target.closest("[data-document-status]");
       if (checkbox) {
         const state = getChecklistState();
         state[checkbox.dataset.checkIndex] = checkbox.checked;
@@ -1562,6 +1720,8 @@
       if (briefingCheck) updateBriefingCheck(briefingCheck.dataset.briefingDayNumber, briefingCheck.dataset.briefingCheck, briefingCheck.checked);
       if (briefingStatus) updateBriefingField(briefingStatus.dataset.briefingStatus, "status", briefingStatus.value);
       if (rentalCheck) updateRentalCheck(rentalCheck.dataset.rentalPart, rentalCheck.dataset.rentalCheck, rentalCheck.checked);
+      if (documentCheck) updateDocumentCheck(documentCheck.dataset.documentId, documentCheck.dataset.documentCheck, documentCheck.checked);
+      if (documentStatus) updateDocumentField(documentStatus.dataset.documentStatus, "status", documentStatus.value);
     });
 
     document.addEventListener("input", (event) => {
@@ -1573,6 +1733,7 @@
       const stayField = event.target.closest("[data-stay-field]");
       const briefingField = event.target.closest("[data-briefing-field]");
       const rentalField = event.target.closest("[data-rental-field]");
+      const documentField = event.target.closest("[data-document-field]");
       if (note) {
         updateDayNote(note.dataset.dayNote, note.value);
         renderBackupSummary();
@@ -1590,6 +1751,7 @@
       if (stayField) updateStayField(stayField.dataset.stayId, stayField.dataset.stayField, stayField.value);
       if (briefingField) updateBriefingField(briefingField.dataset.briefingDayNumber, briefingField.dataset.briefingField, briefingField.value);
       if (rentalField) updateRentalField(rentalField.dataset.rentalPart, rentalField.dataset.rentalField, rentalField.value);
+      if (documentField) updateDocumentField(documentField.dataset.documentId, documentField.dataset.documentField, documentField.value);
     });
 
     stageDialog?.addEventListener("click", (event) => {
@@ -1611,6 +1773,7 @@
   renderWeather();
   renderBriefing();
   renderRental();
+  renderDocuments();
   renderStages();
   renderChecklist();
   renderBackupSummary();

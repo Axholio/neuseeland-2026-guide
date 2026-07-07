@@ -9,7 +9,7 @@ window.tripData = {
     "totalDays": 11,
     "totalNights": 10,
     "totalDistance": "ca. 1.700 km mit Mietwagen",
-    "version": "4.8"
+    "version": "4.9"
   },
   "days": [
     {
@@ -499,6 +499,128 @@ window.tripData = {
       { "id": "receipt", "label": "Rückgabebeleg oder Bestätigung erhalten" }
     ]
   },
+  "documents": [
+    {
+      "id": "passport-nzeta",
+      "category": "Einreise",
+      "title": "Reisepass & Einreiseunterlagen",
+      "priority": "Gültigkeit, Einreiseanforderungen und Zugriff vor dem Abflug mit offiziellen Stellen prüfen.",
+      "checks": [
+        {
+          "id": "validity",
+          "label": "Gültigkeit und Einreiseanforderungen geprüft"
+        },
+        {
+          "id": "offline",
+          "label": "Unterlagen offline verfügbar"
+        },
+        {
+          "id": "ready",
+          "label": "Reisepass sicher eingepackt"
+        }
+      ]
+    },
+    {
+      "id": "flights",
+      "category": "An- & Rückreise",
+      "title": "Flugunterlagen & Check-in",
+      "priority": "Flugnummern, Zeiten, Gepäckbedingungen und Anfahrt zum Flughafen gemeinsam ablegen.",
+      "checks": [
+        {
+          "id": "details",
+          "label": "Flugzeiten und Gepäckbedingungen geprüft"
+        },
+        {
+          "id": "offline",
+          "label": "Bestätigungen offline gespeichert"
+        },
+        {
+          "id": "ready",
+          "label": "Check-in- und Transferplan bereit"
+        }
+      ]
+    },
+    {
+      "id": "tranzalpine",
+      "category": "Bahnreise",
+      "title": "TranzAlpine Christchurch → Greymouth",
+      "priority": "Für den 8. September: Ticket, Bahnhofweg, Gepäck und verbindliche Abfahrtszeit bereithalten.",
+      "checks": [
+        {
+          "id": "ticket",
+          "label": "Ticket und Sitzplatz geprüft"
+        },
+        {
+          "id": "offline",
+          "label": "Ticket offline verfügbar"
+        },
+        {
+          "id": "ready",
+          "label": "Gepäck und Bahnhofweg vorbereitet"
+        }
+      ]
+    },
+    {
+      "id": "rental-docs",
+      "category": "Mietwagen",
+      "title": "Mietwagen: Fahrer & Übergabe",
+      "priority": "Für die Übernahme an der Westküste: Reservierung, Fahrerunterlagen, Zahlungsmittel und Versicherungsdetails prüfen.",
+      "checks": [
+        {
+          "id": "documents",
+          "label": "Fahrerunterlagen und Reservierung geprüft"
+        },
+        {
+          "id": "cover",
+          "label": "Versicherung und Tankregel nachvollziehbar"
+        },
+        {
+          "id": "ready",
+          "label": "Übergabeort und Öffnungszeit notiert"
+        }
+      ]
+    },
+    {
+      "id": "insurance",
+      "category": "Absicherung",
+      "title": "Reiseversicherung & Notfallzugang",
+      "priority": "Police, Leistungsumfang und erreichbare Notfallnummern so ablegen, dass sie offline auffindbar sind.",
+      "checks": [
+        {
+          "id": "cover",
+          "label": "Leistungsumfang und Selbstbehalt geprüft"
+        },
+        {
+          "id": "offline",
+          "label": "Kontakt und Policenhinweis offline verfügbar"
+        },
+        {
+          "id": "ready",
+          "label": "Notfallzugang mit Reisebegleitung geteilt"
+        }
+      ]
+    },
+    {
+      "id": "payment",
+      "category": "Zahlung & Mobilität",
+      "title": "Zahlungsmittel, Führerschein & Offline-Karten",
+      "priority": "Zahlungsmittel, Führerschein und Kartenmaterial getrennt, erreichbar und ohne sensible Kartendaten im Guide vorbereiten.",
+      "checks": [
+        {
+          "id": "payment",
+          "label": "Zahlungsmittel und Reserve geprüft"
+        },
+        {
+          "id": "maps",
+          "label": "Offline-Karten geladen"
+        },
+        {
+          "id": "ready",
+          "label": "Führerschein und Ladeoptionen bereit"
+        }
+      ]
+    }
+  ],
   "stays": [
     {
       "id": "christchurch",
