@@ -1,6 +1,8 @@
 # Neuseeland 2026 – Reiseführer
 
-**Version 6.0 Final** – statischer, installierbarer HTML-Reiseführer für die Südinsel-Rundreise vom **7. bis 17. September 2026**.
+**Version 6.0.1 Final** – statischer, installierbarer HTML-Reiseführer für die Südinsel-Rundreise vom **7. bis 17. September 2026**.
+
+> Korrekturversion 6.0.1: sichtbare Versionskennzeichnung in der Kopfzeile auf „Version 6.0 Final“ berichtigt.
 
 ## Route
 
@@ -18,7 +20,7 @@
 
 Mietwagenrückgabe: **17. September bis 17:00 Uhr** am Christchurch Airport. Abflug: **20:00 Uhr**.
 
-## Version 6.0 Final
+## Version 6.0.1 Final
 
 - Route und Tagesfolge nochmals auf die korrekte Grundlage geprüft: Zugfahrt am **8. September** von Christchurch nach Greymouth, danach Westküste, Südalpen, Kaikōura und Akaroa
 - Tagesatlas mit 11 schematischen Etappenkarten, Bildankern, Tagesrhythmus und Plan B
