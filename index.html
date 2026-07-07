@@ -8,8 +8,11 @@
   <title>Neuseeland 2026 · Südinsel-Rundreise</title>
   <link rel="icon" href="assets/icons/fern.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <script src="assets/data/trip-data.js" defer></script>
   <script src="assets/js/app.js" defer></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer crossorigin=""></script>
+  <script src="assets/js/route-map.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Zum Inhalt springen</a>
@@ -26,6 +29,8 @@
       </button>
       <nav class="site-nav" id="site-nav" aria-label="Hauptnavigation">
         <a href="#route">Route</a>
+        <a href="#karte">Karte</a>
+        <a href="#bilder">Bilder</a>
         <a href="#unterkuenfte">Unterkünfte</a>
         <a href="#planung">Planung</a>
         <a href="#buchungen">Buchungen</a>
@@ -49,7 +54,7 @@
       <div class="hero-contour contour-two" aria-hidden="true"></div>
       <div class="page-shell hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow">Persönlicher Reiseführer · Version 4.9</p>
+          <p class="eyebrow">Persönlicher Reiseführer · Version 5.0</p>
           <h1>Mit dem TranzAlpine zur Westküste. Zurück über Kaikōura und Akaroa.</h1>
           <p class="hero-lead">Elf Reisetage auf der Südinsel: Christchurch, West Coast, Haast Pass, Aoraki / Mount Cook, Lake Tekapo, Kaikōura und Banks Peninsula.</p>
           <div class="hero-actions">
@@ -82,6 +87,95 @@
           <span><i class="legend-dot return"></i>Rückgabe & Abflug</span>
         </div>
         <div class="route-track" id="route-track" aria-label="Tagesfolge der Reise"></div>
+      </div>
+    </section>
+
+    <section class="section map-section" id="karte">
+      <div class="page-shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow">Orientierung</p>
+            <h2>Route auf der Südinsel</h2>
+          </div>
+          <p class="section-intro">Die Karte zeigt die Reiseabfolge von Christchurch über West Coast, Mackenzie Basin und Kaikōura bis Akaroa. Die Linien sind eine grobe Orientierung und ersetzen keine Navigation oder tagesaktuelle Routenprüfung.</p>
+        </div>
+        <div class="map-layout">
+          <div class="route-map-frame">
+            <div id="route-map" class="route-map" role="application" aria-label="Interaktive Übersichtskarte der Südinsel-Rundreise">
+              <div class="route-map-fallback">
+                <p><strong>Karte wird geladen.</strong></p>
+                <p>Für die interaktive Kartenansicht ist eine Internetverbindung nötig. Die Reiseroute bleibt darunter in der Tagesübersicht vollständig verfügbar.</p>
+              </div>
+            </div>
+          </div>
+          <aside class="map-aside">
+            <p class="map-aside-kicker">Lesart der Karte</p>
+            <dl class="map-legend">
+              <div><dt><i class="map-line map-line-rail"></i></dt><dd>TranzAlpine und Übergang an die Westküste</dd></div>
+              <div><dt><i class="map-line map-line-road"></i></dt><dd>Roadtrip-Etappen mit Mietwagen</dd></div>
+              <div><dt><i class="map-line map-line-local"></i></dt><dd>Lokale Tage in Kaikōura und Akaroa</dd></div>
+              <div><dt><i class="map-line map-line-return"></i></dt><dd>Rückfahrt zum Christchurch Airport</dd></div>
+            </dl>
+            <p class="map-note">Kartenhintergrund: © OpenStreetMap-Mitwirkende. Einen Abschnitt auf der Karte anklicken, um die zugehörige Tagesetappe zu öffnen.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section gallery-section" id="bilder">
+      <div class="page-shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow">Unterwegs sehen</p>
+            <h2>Bilder der Route</h2>
+          </div>
+          <p class="section-intro">Diese Bildauswahl verortet die prägenden Landschaftsräume der Reise: Zugstrecke, Regenwald und Gletscherregion, Seen, Hochgebirge sowie die Pazifikküste. Die Bilder sind lokal im Projekt gespeichert.</p>
+        </div>
+        <div class="photo-grid">
+          <figure class="photo-card photo-card-feature">
+            <img src="assets/images/tranzalpine.jpg" width="960" height="640" alt="TranzAlpine-Zug an einem Bahnhof vor bewaldeten Bergen" fetchpriority="high">
+            <figcaption><span>Tag 2 · Zugstrecke</span><h3>TranzAlpine durch die Südalpen</h3><p>Der Bahnabschnitt von Christchurch nach Greymouth setzt den Auftakt der Westküstenroute.</p></figcaption>
+          </figure>
+          <figure class="photo-card photo-card-tall">
+            <img src="assets/images/hokitika-gorge.jpg" width="960" height="640" alt="Türkisfarbener Fluss der Hokitika Gorge zwischen Regenwald und Felsen" loading="lazy">
+            <figcaption><span>Tag 3 · West Coast</span><h3>Hokitika Gorge</h3><p>Regenwald, heller Fels und Gletscherwasser.</p></figcaption>
+          </figure>
+          <figure class="photo-card">
+            <img src="assets/images/wanaka.jpg" width="960" height="523" alt="Lake Wānaka mit Booten und schneebedeckten Bergen im Hintergrund" loading="lazy">
+            <figcaption><span>Tag 4 · Central Otago</span><h3>Lake Wānaka</h3><p>Der Übergang von der West Coast in die Seenlandschaft.</p></figcaption>
+          </figure>
+          <figure class="photo-card photo-card-wide">
+            <img src="assets/images/aoraki-mount-cook.jpg" width="960" height="1280" alt="Aoraki Mount Cook und weitere schneebedeckte Gipfel spiegeln sich in einem See" loading="lazy">
+            <figcaption><span>Tag 5 · Aoraki / Mount Cook</span><h3>Die Südalpen</h3><p>Der alpine Höhepunkt der Route und Ausgangspunkt für die kurze Etappe nach Lake Tekapo.</p></figcaption>
+          </figure>
+          <figure class="photo-card">
+            <img src="assets/images/lake-tekapo.jpg" width="960" height="623" alt="Lake Tekapo vor schneebedeckten Bergen" loading="lazy">
+            <figcaption><span>Tag 6 · Mackenzie Basin</span><h3>Lake Tekapo</h3><p>See, Bergkulisse und ein offenes Zeitfenster für die Nacht.</p></figcaption>
+          </figure>
+          <figure class="photo-card photo-card-wide">
+            <img src="assets/images/kaikoura.jpg" width="960" height="720" alt="Luftbild der Kaikōura Peninsula mit Küste und türkisfarbenem Meer" loading="lazy">
+            <figcaption><span>Tag 7–8 · Pazifikküste</span><h3>Kaikōura Peninsula</h3><p>Der Küstenabschnitt für Walbeobachtung, Robben und Peninsula Walkway.</p></figcaption>
+          </figure>
+          <figure class="photo-card">
+            <img src="assets/images/akaroa-harbour.jpg" width="960" height="560" alt="Boote im Akaroa Harbour bei dunklen Wolken und Licht über dem Wasser" loading="lazy">
+            <figcaption><span>Tag 9–10 · Banks Peninsula</span><h3>Akaroa Harbour</h3><p>Ein ruhiger Schlussblock vor der Rückfahrt zum Flughafen.</p></figcaption>
+          </figure>
+        </div>
+        <details class="photo-credits" id="bildnachweise">
+          <summary>Bildnachweise und Lizenzen</summary>
+          <div class="photo-credits-content">
+            <p>Die Dateien sind in <code>assets/images/</code> enthalten. Die Bilddaten wurden für die Webansicht verkleinert; Urheber und Lizenz bleiben nachstehend nachvollziehbar.</p>
+            <ol>
+              <li><a href="https://commons.wikimedia.org/wiki/File:TranzAlpine_train_-_panoramio.jpg" target="_blank" rel="noopener noreferrer">TranzAlpine</a> · Maksym Kozlenko · CC BY-SA 3.0.</li>
+              <li><a href="https://commons.wikimedia.org/wiki/File:Hokitika_Gorge,_West_Coast,_New_Zealand_06.jpg" target="_blank" rel="noopener noreferrer">Hokitika Gorge</a> · Michal Klajban · CC BY-SA 4.0.</li>
+              <li><a href="https://commons.wikimedia.org/wiki/File:Lake_Wanaka_02.jpg" target="_blank" rel="noopener noreferrer">Lake Wānaka</a> · Krzysztof Golik · CC BY-SA 4.0.</li>
+              <li><a href="https://commons.wikimedia.org/wiki/File:Aoraki_Mount_Cook.JPG" target="_blank" rel="noopener noreferrer">Aoraki / Mount Cook</a> · C. M. Lynch · CC BY-SA 3.0.</li>
+              <li><a href="https://commons.wikimedia.org/wiki/File:Lake_Tekapo_%26_Mountains.jpg" target="_blank" rel="noopener noreferrer">Lake Tekapo</a> · Jun · CC BY 2.0.</li>
+              <li><a href="https://commons.wikimedia.org/wiki/File:Kaikoura_NZ_aerial.jpg" target="_blank" rel="noopener noreferrer">Kaikōura</a> · Andrew Cooper · CC BY-SA 4.0.</li>
+              <li><a href="https://commons.wikimedia.org/wiki/File:Akaroa_Harbour_NZ._(49671627386).jpg" target="_blank" rel="noopener noreferrer">Akaroa Harbour</a> · Bernard Spragg. NZ · CC0 1.0.</li>
+            </ol>
+          </div>
+        </details>
       </div>
     </section>
 
@@ -351,7 +445,7 @@
   <footer class="site-footer">
     <div class="page-shell footer-inner">
       <p><strong>Neuseeland 2026</strong> · Südinsel-Roadtrip</p>
-      <p>Arbeitsstand <span id="updated-date"></span> · v4.9</p>
+      <p>Arbeitsstand <span id="updated-date"></span> · v5.0</p>
     </div>
   </footer>
 

@@ -9,7 +9,7 @@ window.tripData = {
     "totalDays": 11,
     "totalNights": 10,
     "totalDistance": "ca. 1.700 km mit Mietwagen",
-    "version": "4.9"
+    "version": "5.0"
   },
   "days": [
     {
@@ -823,6 +823,86 @@ window.tripData = {
       "id": "reserve",
       "title": "Reserve",
       "note": "Puffer für Wetterverschiebungen, Umbuchungen, medizinische Ausgaben oder Unerwartetes."
+    }
+  ]
+};
+
+
+window.tripData.routeMap = {
+  "center": [-43.55, 171.65],
+  "zoom": 6,
+  "stops": [
+    { "label": "1", "name": "Christchurch", "detail": "Tag 1 · Ankunft", "point": [-43.5321, 172.6362] },
+    { "label": "2", "name": "Greymouth", "detail": "Tag 2 · Ende der Zugfahrt", "point": [-42.4506, 171.2104] },
+    { "label": "3", "name": "Hokitika", "detail": "Tag 2 · erste Westküsten-Nacht", "point": [-42.7167, 170.9667] },
+    { "label": "4", "name": "Franz Josef", "detail": "Tag 3 · Gletscherregion", "point": [-43.3869, 170.1830] },
+    { "label": "5", "name": "Wānaka", "detail": "Tag 4 · Seen von Central Otago", "point": [-44.6980, 169.1380] },
+    { "label": "6", "name": "Aoraki / Mount Cook", "detail": "Tag 5 · Nationalpark", "point": [-43.7350, 170.0960] },
+    { "label": "7", "name": "Lake Tekapo", "detail": "Tag 6 · Mackenzie Basin", "point": [-44.0045, 170.4760] },
+    { "label": "8", "name": "Kaikōura", "detail": "Tag 7 · Pazifikküste", "point": [-42.4010, 173.6810] },
+    { "label": "9", "name": "Akaroa", "detail": "Tag 9 · Banks Peninsula", "point": [-43.8060, 172.9680] },
+    { "label": "10", "name": "Christchurch Airport", "detail": "Tag 11 · Rückgabe & Abflug", "point": [-43.4894, 172.5320] }
+  ],
+  "segments": [
+    {
+      "day": 2,
+      "kind": "rail",
+      "title": "TranzAlpine und Weiterfahrt nach Hokitika",
+      "points": [[-43.5321,172.6362],[-43.0020,171.5630],[-42.9460,171.5630],[-42.4506,171.2104],[-42.7167,170.9667]]
+    },
+    {
+      "day": 3,
+      "kind": "road",
+      "title": "Hokitika Gorge und Franz Josef",
+      "points": [[-42.7167,170.9667],[-42.9551,171.0159],[-43.3869,170.1830]]
+    },
+    {
+      "day": 4,
+      "kind": "road",
+      "title": "Franz Josef über Haast Pass nach Wānaka",
+      "points": [[-43.3869,170.1830],[-43.8930,169.0450],[-44.2160,169.2260],[-44.6980,169.1380]]
+    },
+    {
+      "day": 5,
+      "kind": "road",
+      "title": "Wānaka, Lindis Pass und Aoraki / Mount Cook",
+      "points": [[-44.6980,169.1380],[-44.6570,169.7440],[-44.2600,170.0980],[-43.7350,170.0960]]
+    },
+    {
+      "day": 6,
+      "kind": "road",
+      "title": "Aoraki / Mount Cook nach Lake Tekapo",
+      "points": [[-43.7350,170.0960],[-43.8950,170.1790],[-44.0045,170.4760]]
+    },
+    {
+      "day": 7,
+      "kind": "road",
+      "title": "Lake Tekapo nach Kaikōura",
+      "points": [[-44.0045,170.4760],[-44.0970,171.2490],[-43.3010,172.5960],[-42.4010,173.6810]]
+    },
+    {
+      "day": 8,
+      "kind": "local",
+      "title": "Kaikōura Peninsula Walkway",
+      "points": [[-42.4010,173.6810],[-42.3930,173.7040],[-42.4200,173.6880]]
+    },
+    {
+      "day": 9,
+      "kind": "road",
+      "title": "Kaikōura nach Akaroa",
+      "points": [[-42.4010,173.6810],[-43.3010,172.5960],[-43.5321,172.6362],[-43.8060,172.9680]]
+    },
+    {
+      "day": 10,
+      "kind": "local",
+      "title": "Akaroa und Banks Peninsula",
+      "points": [[-43.8060,172.9680],[-43.8500,172.9400],[-43.7900,172.9900]]
+    },
+    {
+      "day": 11,
+      "kind": "return",
+      "title": "Akaroa nach Christchurch Airport",
+      "points": [[-43.8060,172.9680],[-43.5321,172.6362],[-43.4894,172.5320]]
     }
   ]
 };
