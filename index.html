@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Persönlicher Reiseführer für den Neuseeland-Roadtrip auf der Südinsel im September 2026.">
+  <meta name="theme-color" content="#0e2d2c">
+  <title>Neuseeland 2026 · Südinsel-Roadtrip</title>
+  <link rel="icon" href="assets/icons/fern.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="assets/data/trip-data.js" defer></script>
+  <script src="assets/js/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
+
+  <header class="site-header" id="top">
+    <div class="header-inner page-shell">
+      <a class="brand" href="#top" aria-label="Zum Anfang">
+        <img src="assets/icons/fern.svg" alt="" width="34" height="34">
+        <span>Neuseeland <strong>2026</strong></span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="visually-hidden">Navigation öffnen</span>
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Hauptnavigation">
+        <a href="#route">Route</a>
+        <a href="#etappen">Etappen</a>
+        <a href="#wissen">Unterwegs</a>
+        <a href="#packliste">Packliste</a>
+        <button class="print-button" type="button" data-print>Übersicht drucken</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="hero-contour contour-one" aria-hidden="true"></div>
+      <div class="hero-contour contour-two" aria-hidden="true"></div>
+      <div class="page-shell hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Persönlicher Reiseführer · Version 4.1a</p>
+          <h1>Von den Marlborough Sounds bis zum Arthur’s Pass.</h1>
+          <p class="hero-lead">Ein Roadtrip über die Südinsel – Küste, Hochland, Fiordland, West Coast und die Südalpen in dreizehn Tagen.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#etappen">Etappen ansehen</a>
+            <a class="button button-ghost" href="#packliste">Packliste</a>
+          </div>
+        </div>
+        <aside class="trip-card" aria-label="Reiseüberblick">
+          <p class="trip-card-label">Reiseüberblick</p>
+          <dl id="trip-facts" class="trip-facts"></dl>
+          <div class="trip-card-line"></div>
+          <p class="trip-card-note">Arbeitsstand für die weitere Detailplanung. Unterkünfte, Buchungen und Wetterfenster werden in den nächsten Versionen ergänzt.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section route-section" id="route">
+      <div class="page-shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow">Die Linie der Reise</p>
+            <h2>13 Tage Südinsel</h2>
+          </div>
+          <p class="section-intro">Die Tagesetappen bleiben bewusst realistisch: An reinen Fahrtagen zählt nicht nur die Kilometerzahl, sondern auch Zeit für Stopps, Wetter und kurze Wanderungen.</p>
+        </div>
+        <div class="route-legend" aria-label="Legende zur Route">
+          <span><i class="legend-dot ferry"></i>Fähre & Ankunft</span>
+          <span><i class="legend-dot road"></i>Roadtrip</span>
+          <span><i class="legend-dot return"></i>Rückgabe & Abflug</span>
+        </div>
+        <div class="route-track" id="route-track" aria-label="Tagesfolge der Reise"></div>
+      </div>
+    </section>
+
+    <section class="section stages-section" id="etappen">
+      <div class="page-shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow">Tagesplanung</p>
+            <h2>Etappen im Detail</h2>
+          </div>
+          <p class="section-intro">Öffne eine Etappe für Fahrzeit, Übernachtungsort, Prioritäten und eine kompakte Tagesnotiz.</p>
+        </div>
+        <div class="stage-controls">
+          <p id="stage-count" aria-live="polite"></p>
+        </div>
+        <div class="stages-grid" id="stages-grid"></div>
+      </div>
+    </section>
+
+    <section class="section travel-section" id="wissen">
+      <div class="page-shell">
+        <div class="section-heading">
+          <p class="eyebrow">Unterwegs</p>
+          <h2>Was für diese Route zählt</h2>
+        </div>
+        <div class="advice-grid">
+          <article class="advice-card">
+            <span class="advice-number">01</span>
+            <h3>Fahrzeit ist nicht Tageszeit</h3>
+            <p>Die angegebenen Zeiten sind reine Richtwerte. Für Fotostopps, schmale Straßen, Baustellen, Wetterwechsel und kurze Wanderungen immer einen deutlichen Puffer vorsehen.</p>
+          </article>
+          <article class="advice-card">
+            <span class="advice-number">02</span>
+            <h3>Wetter täglich neu bewerten</h3>
+            <p>Milford Sound, Aoraki / Mount Cook, Franz Josef und Arthur’s Pass sind wetterabhängige Schlüsselstellen. Die Tagesreihenfolge muss dort flexibel bleiben.</p>
+          </article>
+          <article class="advice-card">
+            <span class="advice-number">03</span>
+            <h3>Für lange Abschnitte vorsorgen</h3>
+            <p>Bei jeder Berg- oder Westküstenetappe: tanken, Wasser auffüllen, Snacks einpacken und Offline-Karten verfügbar halten. Empfang ist nicht überall verlässlich.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section checklist-section" id="packliste">
+      <div class="page-shell checklist-layout">
+        <div>
+          <p class="eyebrow">Abreisevorbereitung</p>
+          <h2>Packliste</h2>
+          <p class="section-intro">Die Häkchen werden nur im Browser dieses Geräts gespeichert. Die Liste kann in der Datenquelle erweitert oder angepasst werden.</p>
+          <button class="text-button" type="button" data-reset-checklist>Liste zurücksetzen</button>
+        </div>
+        <ul class="checklist" id="checklist"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="page-shell footer-inner">
+      <p><strong>Neuseeland 2026</strong> · Südinsel-Roadtrip</p>
+      <p>Arbeitsstand <span id="updated-date"></span> · v4.1a</p>
+    </div>
+  </footer>
+
+  <dialog class="stage-dialog" id="stage-dialog" aria-labelledby="dialog-title">
+    <button class="dialog-close" type="button" aria-label="Detailansicht schließen" data-close-dialog>×</button>
+    <div id="dialog-content"></div>
+  </dialog>
+</body>
+</html>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title desc">
+  <title id="title">Stilisierter Farn</title>
+  <desc id="desc">Linienzeichnung eines neuseeländischen Silberfarns.</desc>
+  <path d="M36 138C76 120 105 88 123 30" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+  <path d="M54 125C49 105 54 92 72 84M62 111C80 111 91 101 91 86M73 96C69 80 76 69 92 63M84 79C100 81 111 72 111 58M95 62C91 49 97 38 111 33" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+  <path d="M50 126C40 119 32 110 29 99M66 110C52 102 46 91 47 78M79 94C65 87 59 75 62 62M91 78C79 71 75 60 79 48M102 61C94 54 92 44 95 35" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+</svg>
