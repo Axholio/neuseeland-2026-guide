@@ -9,6 +9,7 @@
   const stageDialog = $("#stage-dialog");
   const checklistStorageKey = "nz-2026-checklist-v41b";
   const plannerStorageKey = "nz-2026-planner-v41b";
+  const bookingStorageKey = "nz-2026-bookings-v41c";
   let activeStageFilter = "all";
 
   function escapeHtml(value) {
@@ -22,6 +23,20 @@
 
   function mapUrl(query) {
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+  }
+
+  function formatNzd(amount) {
+    return new Intl.NumberFormat("de-DE", {
+      style: "currency",
+      currency: "NZD",
+      maximumFractionDigits: 0
+    }).format(amount);
+  }
+
+  function amountValue(value) {
+    const normalized = String(value || "").trim().replace(",", ".");
+    const amount = Number(normalized);
+    return Number.isFinite(amount) && amount > 0 ? amount : 0;
   }
 
   function loadState(storageKey, fallback) {
@@ -277,6 +292,7 @@
     state.taskStatus[taskId] = status;
     saveState(plannerStorageKey, state);
     renderPlanning();
+    renderBookings();
   }
 
   function updateDayStatus(number, status) {
@@ -290,6 +306,98 @@
     const state = getPlannerState();
     state.notes[number] = note;
     saveState(plannerStorageKey, state);
+  }
+
+  function getBookingState() {
+    return loadState(bookingStorageKey, {});
+  }
+
+  function getBooking(taskId) {
+    const state = getBookingState();
+    return state[taskId] || {};
+  }
+
+  function bookingIsFilled(booking) {
+    return Boolean(booking.provider || booking.reference || booking.amount || booking.note);
+  }
+
+  function renderBookingSummary() {
+    const state = getBookingState();
+    const records = data.planning.map((task) => state[task.id] || {});
+    const filled = records.filter(bookingIsFilled).length;
+    const amount = records.reduce((sum, booking) => sum + amountValue(booking.amount), 0);
+    const confirmed = data.planning.filter((task) => {
+      const status = getTaskStatus(task);
+      return status === "gebucht" || status === "erledigt";
+    }).length;
+
+    $("#booking-summary").innerHTML = `
+      <article class="booking-stat"><strong>${filled}/${data.planning.length}</strong><span>Dokumentiert</span></article>
+      <article class="booking-stat"><strong>${confirmed}</strong><span>Gebucht / erledigt</span></article>
+      <article class="booking-stat"><strong>${amount ? formatNzd(amount) : "—"}</strong><span>Eingetragene Beträge</span></article>
+    `;
+  }
+
+  function bookingField(task, field, label, type, value, extra = "") {
+    const safeValue = escapeHtml(value || "");
+    const common = `data-booking-id="${escapeHtml(task.id)}" data-booking-field="${escapeHtml(field)}"`;
+    if (type === "textarea") {
+      return `
+        <label class="booking-field booking-field-wide">
+          <span>${escapeHtml(label)}</span>
+          <textarea ${common} rows="3" placeholder="Wichtige Hinweise, Uhrzeit, Treffpunkt …">${safeValue}</textarea>
+        </label>
+      `;
+    }
+    return `
+      <label class="booking-field">
+        <span>${escapeHtml(label)}</span>
+        <input ${common} type="${type}" value="${safeValue}" ${extra}>
+      </label>
+    `;
+  }
+
+  function renderBookings() {
+    renderBookingSummary();
+    $("#booking-board").innerHTML = data.planning.map((task) => {
+      const booking = getBooking(task.id);
+      const status = getTaskStatus(task);
+      const documentation = bookingIsFilled(booking) ? "Buchungsdaten gespeichert" : "Noch keine Buchungsdaten";
+      return `
+        <article class="booking-card" data-booking-card="${escapeHtml(task.id)}">
+          <div class="booking-card-top">
+            <div>
+              <span class="booking-category">${escapeHtml(task.category)}</span>
+              <h3>${escapeHtml(task.title)}</h3>
+            </div>
+            <div class="booking-card-meta">
+              <span class="planning-day">Tag ${task.day}</span>
+              <span class="status status-${escapeHtml(status)}">${escapeHtml(statusLabel(status))}</span>
+            </div>
+          </div>
+          <p class="booking-card-note">${escapeHtml(task.note)}</p>
+          <div class="booking-fields">
+            ${bookingField(task, "provider", "Anbieter / Unterkunft", "text", booking.provider, 'autocomplete="organization"')}
+            ${bookingField(task, "reference", "Bestätigungsnummer", "text", booking.reference, 'autocomplete="off"')}
+            ${bookingField(task, "amount", "Betrag in NZD", "number", booking.amount, 'inputmode="decimal" min="0" step="0.01"')}
+            ${bookingField(task, "note", "Persönliche Notiz", "textarea", booking.note)}
+          </div>
+          <footer class="booking-card-footer">
+            <span class="booking-save-hint" data-booking-hint="${escapeHtml(task.id)}">${documentation}</span>
+            <button class="booking-jump" type="button" data-jump-stage="${task.day}">Zur Etappe <span aria-hidden="true">→</span></button>
+          </footer>
+        </article>
+      `;
+    }).join("");
+  }
+
+  function updateBookingField(taskId, field, value) {
+    const state = getBookingState();
+    state[taskId] = { ...(state[taskId] || {}), [field]: value };
+    saveState(bookingStorageKey, state);
+    renderBookingSummary();
+    const hint = document.querySelector(`[data-booking-hint="${taskId}"]`);
+    if (hint) hint.textContent = bookingIsFilled(state[taskId]) ? "Buchungsdaten gespeichert" : "Noch keine Buchungsdaten";
   }
 
   function bindEvents() {
@@ -342,7 +450,9 @@
 
     document.addEventListener("input", (event) => {
       const note = event.target.closest("[data-day-note]");
+      const bookingField = event.target.closest("[data-booking-field]");
       if (note) updateDayNote(note.dataset.dayNote, note.value);
+      if (bookingField) updateBookingField(bookingField.dataset.bookingId, bookingField.dataset.bookingField, bookingField.value);
     });
 
     stageDialog?.addEventListener("click", (event) => {
@@ -357,6 +467,7 @@
   renderTripFacts();
   renderRoute();
   renderPlanning();
+  renderBookings();
   renderStages();
   renderChecklist();
   bindEvents();

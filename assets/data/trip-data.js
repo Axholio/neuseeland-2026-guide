@@ -7,7 +7,7 @@ window.tripData = {
     "totalDays": 13,
     "totalNights": 12,
     "totalDistance": "ca. 2.300 km",
-    "version": "4.1b"
+    "version": "4.1c"
   },
   "days": [
     {
