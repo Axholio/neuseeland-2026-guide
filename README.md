@@ -1,6 +1,6 @@
 # Neuseeland 2026 – Reiseführer
 
-**Version 5.4** – statischer HTML-Reiseführer für die Südinsel-Rundreise vom **7. bis 17. September 2026**.
+**Version 5.5** – statischer HTML-Reiseführer für die Südinsel-Rundreise vom **7. bis 17. September 2026**.
 
 ## Route
 
@@ -16,42 +16,36 @@
 10. Akaroa und Banks Peninsula
 11. Akaroa nach Christchurch Airport
 
-Die Rückgabe des Mietwagens ist am **17. September bis 17:00 Uhr** am Christchurch Airport vorgesehen; der Abflug ist für **20:00 Uhr** eingeplant.
+Mietwagenrückgabe: **17. September bis 17:00 Uhr** am Christchurch Airport. Abflug: **20:00 Uhr**.
 
-## Version 5.4 – Reisemodus, Kalender-Export und Offline-Betrieb
+## Version 5.5 – Direktlinks und Quellen
 
-- automatischer Reisemodus nach dem Tagesdatum in Neuseeland
-- manuelle Tagesvorschau für die gesamte Reise, lokal auf dem jeweiligen Gerät gespeichert
-- direkter Zugriff aus dem Reisemodus auf Tagesbriefing, Etappendetails und Karten-Suche
-- Kalender-Export für die komplette Rundreise oder einzelne Tagesetappen als `.ics`-Datei
-- Kalenderdateien enthalten nur Route, Datum, Übernachtungsort und Planungsnotizen – keine lokalen Buchungs- oder persönlichen Eingabedaten
-- sieben lokal gespeicherte Routenbilder inklusive Lizenznachweisen
-- interaktive OpenStreetMap-Übersicht mit anklickbaren Tagesetappen
-- Bildansicht im Vollbildmodus mit Tastatursteuerung
-- Tagesbriefing, Übernachtungs-, Wetter-, Mietwagen-, Unterlagen-, Buchungs-, Kosten- und Fahrtag-Boards
-- lokales Speichern persönlicher Eingaben sowie Export und Import als JSON-Sicherung
-- installierbare Web-App über `manifest.webmanifest` und `service-worker.js`
-- App-Grundgerüst, Reisedaten, Bilder und persönliche Eingaben nach dem ersten vollständigen Laden offline verwendbar
-- Offline-Status und Installationshinweise direkt im Guide
+- neuer Bereich **„Links für unterwegs“** mit zentralen Quellen für Straßenlage, Wetter, DOC-Wanderwege, Einreise und Flughafen
+- jede Tagesetappe enthält direkte Links zu Karte, Wetter, Straßenlage und den passenden offiziellen Informationsseiten
+- Wetterfenster enthalten direkte Prüflinks zu MetService, NZTA und den jeweiligen Aktivitäts- oder Trackseiten
+- TranzAlpine, Mietwagenübernahme/-rückgabe, Whale Watch Kaikōura, Dark Sky Project, DOC-Tracks sowie Christchurch Airport sind direkt verlinkt
+- Unterkunftseinträge öffnen den jeweiligen Ort unmittelbar in Google Maps
+- Planung, Buchungen und Unterlagen verweisen – wo sinnvoll – direkt auf die passende offizielle Quelle
+- externe Quellen öffnen bewusst in einem neuen Browser-Tab; aktuelle Hinweise beim jeweiligen Betreiber oder bei der Behörde sind maßgeblich
 
 ## Lokal öffnen
 
-`index.html` direkt im Browser öffnen. Ein Build-Schritt oder lokaler Server ist nicht erforderlich.
+`index.html` direkt im Browser öffnen. Ein Build-Schritt ist nicht nötig.
 
-Für die installierbare Web-App und den Offline-Cache muss der Guide über HTTPS ausgeliefert werden, also beispielsweise über GitHub Pages. Beim direkten Öffnen einer lokalen Datei im Browser steht die Service-Worker-Funktion nicht zur Verfügung.
+Für die installierbare Web-App und den Offline-Cache muss der Guide über HTTPS ausgeliefert werden, zum Beispiel über GitHub Pages. Beim direkten Öffnen einer lokalen Datei stehen Service Worker und Offline-Cache nicht zur Verfügung.
 
-Die interaktive Karte und externe Links benötigen eine Internetverbindung. Die Bilder, Reisedaten, Formulare und persönlichen Einträge liegen im Projekt beziehungsweise im lokalen Browser-Speicher.
+Die interaktive Karte sowie externe Links benötigen Internet. Bilder, Reisedaten, Formulare und persönliche Eingaben liegen im Projekt beziehungsweise im lokalen Browser-Speicher.
 
 ## GitHub Pages
 
 1. Den **Inhalt** dieses Ordners in das Repository `Axholio/neuseeland-2026-guide` hochladen und gleichnamige Dateien ersetzen.
 2. In **Settings → Pages** die Quelle `main` / `/(root)` aktivieren.
-3. Die veröffentlichte Seite einmal vollständig öffnen, bevor sie unterwegs offline verwendet werden soll.
-4. Anschließend auf dem jeweiligen Gerät über die Browserfunktion zum Startbildschirm hinzufügen oder – sofern angeboten – den Installationsknopf im Guide nutzen.
+3. Die veröffentlichte Seite einmal vollständig öffnen, bevor sie offline verwendet wird.
+4. Auf dem jeweiligen Gerät die Browserfunktion zum Startbildschirm hinzufügen oder den Installationsknopf im Guide verwenden.
 
 ## Inhalt bearbeiten
 
-Die Reiseetappen, Übernachtungen, Routenpunkte, Planungspunkte, Wetterfenster und Checklisten stehen in:
+Reiseetappen, Übernachtungen, Routenpunkte, Planungspunkte, Wetterfenster, Checklisten und die Linklisten stehen in:
 
 ```text
 assets/data/trip-data.js
@@ -74,4 +68,17 @@ assets/js/calendar-export.js
 assets/js/travel-mode.js
 ```
 
-Persönliche Daten werden ausschließlich im lokalen Browser-Speicher abgelegt. Sie werden nicht zurück nach GitHub synchronisiert. Vor dem Wechsel des Geräts oder dem Löschen von Browserdaten die Sicherungsfunktion des Guides verwenden. Keine Passwörter, Kreditkartendaten oder Ausweiskopien in Feldern der Buchungsübersicht speichern.
+## Linkquellen (Stand: 7. Juli 2026)
+
+Die folgenden Seiten sind im Guide als externe Quellen hinterlegt:
+
+- Great Journeys NZ – TranzAlpine: `greatjourneysnz.com/scenic-trains/tranzalpine-train/`
+- NZ Transport Agency / NZTA Journey Planner: `journeys.nzta.govt.nz`
+- MetService: `metservice.com`
+- Department of Conservation / DOC: `doc.govt.nz`
+- Immigration New Zealand / NZeTA: `immigration.govt.nz`
+- Whale Watch Kaikōura: `whalewatch.co.nz`
+- Dark Sky Project Takapō: `darkskyproject.co.nz`
+- Christchurch Airport: `christchurchairport.co.nz`
+
+Persönliche Daten werden ausschließlich im lokalen Browser-Speicher abgelegt. Sie werden nicht nach GitHub synchronisiert. Vor dem Wechsel des Geräts oder dem Löschen von Browserdaten die Sicherungsfunktion des Guides verwenden. Keine Passwörter, Kreditkartendaten oder Ausweiskopien in Feldern der Buchungsübersicht speichern.

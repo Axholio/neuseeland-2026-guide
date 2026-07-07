@@ -35,6 +35,88 @@
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
   }
 
+  function safeExternalUrl(value) {
+    const raw = String(value || "").trim();
+    if (raw.startsWith("#")) return raw;
+    try {
+      const url = new URL(raw, window.location.href);
+      return ["http:", "https:"].includes(url.protocol) ? url.href : "";
+    } catch (_) {
+      return "";
+    }
+  }
+
+  function resourceLinksFor(collection, key) {
+    const source = data.externalLinks && data.externalLinks[collection];
+    if (!source) return [];
+    if (Array.isArray(source)) return source;
+    if (!key) return [];
+    const links = source[key] || source[String(key)] || [];
+    return Array.isArray(links) ? links : [];
+  }
+
+  function linkIcon(type) {
+    const icons = {
+      map: "⌖",
+      road: "↗",
+      weather: "☁",
+      track: "⌁",
+      rail: "↹",
+      airport: "✈",
+      activity: "◌",
+      document: "▣",
+      internal: "→"
+    };
+    return icons[type] || "↗";
+  }
+
+  function resourceLinksMarkup(links, options = {}) {
+    const validLinks = (Array.isArray(links) ? links : [])
+      .map((link) => ({ ...link, safeUrl: safeExternalUrl(link && link.url) }))
+      .filter((link) => link.safeUrl);
+    if (!validLinks.length) return "";
+
+    const title = options.title ? `<p class="resource-links-title">${escapeHtml(options.title)}</p>` : "";
+    const modifier = options.compact ? " resource-links-compact" : "";
+    const className = options.className ? ` ${escapeHtml(options.className)}` : "";
+    return `
+      <section class="resource-links${modifier}${className}" aria-label="${escapeHtml(options.ariaLabel || options.title || "Weiterführende Links")}">
+        ${title}
+        <div class="resource-link-list">
+          ${validLinks.map((link) => {
+            const internal = link.safeUrl.startsWith("#");
+            const target = internal ? "" : ' target="_blank" rel="noopener noreferrer"';
+            const openMark = internal ? "→" : "↗";
+            return `
+              <a class="resource-link resource-link-${escapeHtml(link.type || "default")}" href="${escapeHtml(link.safeUrl)}"${target}>
+                <span class="resource-link-icon" aria-hidden="true">${linkIcon(link.type)}</span>
+                <span class="resource-link-copy"><strong>${escapeHtml(link.label || "Link öffnen")}</strong>${link.note ? `<small>${escapeHtml(link.note)}</small>` : ""}</span>
+                <span class="resource-link-open" aria-hidden="true">${openMark}</span>
+              </a>
+            `;
+          }).join("")}
+        </div>
+      </section>
+    `;
+  }
+
+  function dayLinks(day) {
+    if (!day) return [];
+    return [
+      { label: "Route in Google Maps", note: "Navigation und Übersicht der Tagesetappe", url: mapUrl(day.mapQuery), type: "map" },
+      ...resourceLinksFor("days", day.number)
+    ];
+  }
+
+  function dayResourceLinks(day, options = {}) {
+    return resourceLinksMarkup(dayLinks(day), {
+      title: options.title || "Direkt öffnen",
+      compact: Boolean(options.compact),
+      className: options.className || "",
+      ariaLabel: options.ariaLabel || `Links für Tag ${day && day.number ? day.number : ""}`
+    });
+  }
+
   function formatNzd(amount) {
     return new Intl.NumberFormat("de-DE", {
       style: "currency",
@@ -286,8 +368,8 @@
           </label>
         </div>
       </section>
+      ${dayResourceLinks(activeDay, { title: "Direkt für diesen Tag", compact: true, className: "resource-links-briefing" })}
       <footer class="briefing-card-footer">
-        <a href="${mapUrl(activeDay.mapQuery)}" target="_blank" rel="noopener noreferrer">Route öffnen <span aria-hidden="true">↗</span></a>
         <button type="button" data-jump-stage="${activeDay.number}">Etappe öffnen <span aria-hidden="true">→</span></button>
       </footer>
     `;
@@ -424,8 +506,10 @@
               <textarea rows="2" placeholder="Check-in, Parkplatz, Besonderheiten …" data-stay-field="note" data-stay-id="${escapeHtml(stay.id)}">${escapeHtml(record.note)}</textarea>
             </label>
           </div>
+          <div class="stay-links">
+            <a class="stay-map-link" href="${mapUrl(stay.mapQuery)}" target="_blank" rel="noopener noreferrer">${escapeHtml(stay.city)} in Google Maps öffnen <span aria-hidden="true">↗</span></a>
+          </div>
           <footer class="stay-card-footer">
-            <a href="${mapUrl(stay.mapQuery)}" target="_blank" rel="noopener noreferrer">Ort öffnen <span aria-hidden="true">↗</span></a>
             <button type="button" data-jump-stage="${stay.day}">Zur Etappe <span aria-hidden="true">→</span></button>
           </footer>
         </article>
@@ -608,8 +692,11 @@
         <div class="rental-fields">
           ${detailFields}
         </div>
+        ${resourceLinksMarkup([
+          { label: "Ort in Google Maps", note: "Übergabe- oder Rückgabeort öffnen", url: mapUrl(info.mapQuery || location), type: "map" },
+          ...resourceLinksFor("rental", isPickup ? "pickup" : "return")
+        ], { title: "Mietwagen-Links", compact: true, className: "resource-links-rental" })}
         <footer class="rental-card-footer">
-          <a href="${mapUrl(info.mapQuery || location)}" target="_blank" rel="noopener noreferrer">Ort öffnen <span aria-hidden="true">↗</span></a>
           ${day ? `<button type="button" data-jump-stage="${day.number}">Zur Etappe${route ? ` · ${escapeHtml(route)}` : ""} <span aria-hidden="true">→</span></button>` : ""}
         </footer>
       </article>
@@ -759,6 +846,7 @@
             <textarea rows="3" placeholder="Nur organisatorische Hinweise – keine sensiblen Daten" data-document-field="note" data-document-id="${escapeHtml(item.id)}">${escapeHtml(record.note)}</textarea>
           </label>
         </div>
+        ${resourceLinksMarkup(resourceLinksFor("documents", item.id), { title: "Offizielle Quelle", compact: true, className: "resource-links-document" })}
         <footer class="document-card-footer">
           <span>${documentCheckCount(item)}/${checks.length || "—"} Checks erledigt</span>
           <span>${escapeHtml(documentStatusLabel(record.status))}</span>
@@ -1041,6 +1129,11 @@
               <textarea rows="2" placeholder="Quelle, Uhrzeit, Ersatzplan oder Buchungsentscheidung …" data-weather-id="${escapeHtml(window.id)}" data-weather-field="note">${escapeHtml(record.note)}</textarea>
             </label>
           </div>
+          ${resourceLinksMarkup([
+            { label: "Wetter · MetService", note: "Aktuelle Ortsprognose und Warnungen", url: "https://www.metservice.com/towns-cities", type: "weather" },
+            { label: "Straßenlage · NZTA", note: "Vor Fahrt oder Transfer prüfen", url: "https://www.journeys.nzta.govt.nz/highway-conditions", type: "road" },
+            ...resourceLinksFor("weather", window.id)
+          ], { title: "Jetzt prüfen", compact: true, className: "resource-links-weather" })}
           <footer class="weather-card-footer">
             <span class="weather-save-hint">Wird automatisch lokal gespeichert.</span>
             <button class="weather-jump" type="button" data-jump-stage="${escapeHtml(window.day)}">Zur Etappe <span aria-hidden="true">→</span></button>
@@ -1117,6 +1210,32 @@
     }).join("");
   }
 
+  function renderLinkHub() {
+    const global = $("#link-hub-global");
+    const days = $("#link-hub-days");
+    if (global) {
+      global.innerHTML = resourceLinksMarkup(resourceLinksFor("global", "global"), {
+        title: "Immer aktuell prüfen",
+        className: "resource-links-global",
+        ariaLabel: "Wichtige Reisequellen"
+      });
+    }
+    if (days) {
+      days.innerHTML = data.days.map((day) => `
+        <article class="day-link-card">
+          <div class="day-link-card-top">
+            <div>
+              <span>Tag ${day.number} · ${escapeHtml(day.date)}</span>
+              <h3>${escapeHtml(day.route)}</h3>
+            </div>
+            <a href="#etappen" data-jump-stage="${day.number}">Etappe <span aria-hidden="true">→</span></a>
+          </div>
+          ${dayResourceLinks(day, { title: "Links dieser Etappe", compact: true, className: "resource-links-day" })}
+        </article>
+      `).join("");
+    }
+  }
+
   function planningStats() {
     const taskStatuses = data.planning.map((task) => getTaskStatus(task));
     return {
@@ -1146,6 +1265,7 @@
           </div>
           <h3>${escapeHtml(task.title)}</h3>
           <p>${escapeHtml(task.note)}</p>
+          ${resourceLinksMarkup(resourceLinksFor("planning", task.id), { title: "Direkt öffnen", compact: true, className: "resource-links-planning" })}
           <div class="planning-item-bottom">
             <label>
               <span class="visually-hidden">Status für ${escapeHtml(task.title)}</span>
@@ -1199,7 +1319,7 @@
         <textarea data-day-note="${day.number}" rows="4" placeholder="Zum Beispiel: Unterkunft, Buchungsnummer, Abfahrtszeit …">${escapeHtml(note)}</textarea>
         <p class="note-save-hint">Wird automatisch in diesem Browser gespeichert.</p>
       </section>
-      <a class="dialog-map-link" href="${mapUrl(day.mapQuery)}" target="_blank" rel="noopener noreferrer">In Google Maps anzeigen <span aria-hidden="true">↗</span></a>
+      ${dayResourceLinks(day, { title: "Direkt für diese Etappe", className: "resource-links-dialog" })}
     `;
   }
 
@@ -1337,6 +1457,7 @@
             </div>
           </div>
           <p class="booking-card-note">${escapeHtml(task.note)}</p>
+          ${resourceLinksMarkup(resourceLinksFor("planning", task.id), { title: "Zum Anbieter / zur Quelle", compact: true, className: "resource-links-booking" })}
           <div class="booking-fields">
             ${bookingField(task, "provider", "Anbieter / Unterkunft", "text", booking.provider, 'autocomplete="organization"')}
             ${bookingField(task, "reference", "Bestätigungsnummer", "text", booking.reference, 'autocomplete="off"')}
@@ -1578,6 +1699,7 @@
     renderStays();
     renderDrive();
     renderWeather();
+    renderLinkHub();
     renderBriefing();
     renderRental();
     renderDocuments();
@@ -1771,6 +1893,7 @@
   renderStays();
   renderDrive();
   renderWeather();
+  renderLinkHub();
   renderBriefing();
   renderRental();
   renderDocuments();

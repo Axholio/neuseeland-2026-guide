@@ -1079,3 +1079,54 @@ h3 { margin: 0; font-size: 1.46rem; letter-spacing: -0.02em; }
 @media print {
   .travel-mode-section { display: none !important; }
 }
+
+
+/* Version 5.5: direkt nutzbare externe Links und Quellen */
+.links-section { background: #eef4ec; }
+.link-hub-notice { margin: 22px 0 16px; padding: 15px 17px; border: 1px solid rgba(37, 86, 69, 0.18); border-radius: 12px; color: #355a4b; background: rgba(255,255,255,0.74); font-size: 0.9rem; line-height: 1.48; }
+.link-hub-global { margin-top: 18px; }
+.link-hub-days { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; margin-top: 18px; }
+.day-link-card { padding: 20px; border: 1px solid rgba(37, 86, 69, 0.15); border-radius: 14px; background: rgba(255,255,255,0.9); box-shadow: 0 8px 20px rgba(36, 77, 63, 0.045); }
+.day-link-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 15px; }
+.day-link-card-top > div > span { display: block; margin-bottom: 5px; color: #5a7e6c; font-size: 0.68rem; font-weight: 850; letter-spacing: 0.09em; text-transform: uppercase; }
+.day-link-card h3 { margin: 0; color: #1b4739; font-size: 1rem; line-height: 1.25; }
+.day-link-card-top > a { flex: 0 0 auto; color: #286451; font-size: 0.79rem; font-weight: 850; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.day-link-card-top > a:hover, .day-link-card-top > a:focus-visible { color: #123a31; outline: none; }
+.resource-links { margin-top: 22px; }
+.resource-links-title { margin: 0 0 10px; color: #527565; font-size: 0.68rem; font-weight: 850; letter-spacing: 0.11em; text-transform: uppercase; }
+.resource-link-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.resource-link { display: grid; grid-template-columns: 30px minmax(0, 1fr) 14px; gap: 10px; align-items: center; min-height: 64px; padding: 10px 11px; border: 1px solid rgba(38, 93, 73, 0.18); border-radius: 11px; color: #204b3d; background: #f9fcf8; text-decoration: none; transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease; }
+.resource-link:hover, .resource-link:focus-visible { border-color: rgba(32, 102, 79, 0.52); color: #113f32; background: #eff7ed; box-shadow: 0 7px 16px rgba(32, 83, 64, 0.1); outline: none; transform: translateY(-1px); }
+.resource-link-icon { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; color: #2d6d5a; background: #e3f0df; font-size: 0.92rem; font-weight: 900; }
+.resource-link-copy { min-width: 0; }
+.resource-link-copy strong { display: block; overflow: hidden; color: inherit; font-size: 0.78rem; line-height: 1.24; text-overflow: ellipsis; white-space: nowrap; }
+.resource-link-copy small { display: -webkit-box; overflow: hidden; margin-top: 3px; color: #61736a; font-size: 0.69rem; line-height: 1.25; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.resource-link-open { color: #5a7e6b; font-size: 0.78rem; font-weight: 900; }
+.resource-links-compact { margin-top: 16px; }
+.resource-links-compact .resource-link-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.resource-links-compact .resource-link { min-height: 52px; padding: 8px 9px; }
+.resource-links-compact .resource-link-icon { width: 26px; height: 26px; border-radius: 8px; font-size: 0.82rem; }
+.resource-links-compact .resource-link { grid-template-columns: 26px minmax(0, 1fr) 12px; gap: 8px; }
+.resource-links-compact .resource-link-copy strong { font-size: 0.74rem; }
+.resource-links-compact .resource-link-copy small { font-size: 0.66rem; }
+.resource-links-briefing { padding-top: 2px; }
+.resource-links-dialog { margin: 21px 0 0; padding-top: 19px; border-top: 1px solid rgba(42, 93, 74, 0.16); }
+.resource-links-dialog .resource-link-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.stay-links { margin-top: 14px; }
+.stay-map-link { display: inline-flex; align-items: center; gap: 7px; color: #286451; font-size: 0.8rem; font-weight: 850; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.stay-map-link:hover, .stay-map-link:focus-visible { color: #123a31; outline: none; }
+.resource-links-rental, .resource-links-document, .resource-links-weather, .resource-links-planning, .resource-links-booking { margin-top: 16px; }
+@media (max-width: 900px) {
+  .link-hub-days { grid-template-columns: 1fr; }
+  .resource-link-list, .resource-links-dialog .resource-link-list { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .day-link-card { padding: 17px; }
+  .day-link-card-top { gap: 11px; }
+  .day-link-card-top > a { font-size: 0.75rem; }
+  .resource-links-compact .resource-link-list { grid-template-columns: 1fr; }
+  .resource-link-copy strong { white-space: normal; }
+}
+@media print {
+  .links-section, .resource-links, .stay-links { display: none !important; }
+}

@@ -5,11 +5,11 @@ window.tripData = {
     "dateRange": "7.–17. Sept. 2026",
     "returnInfo": "17. Sept. · 20:00 Uhr Abflug",
     "traveller": "Axel",
-    "updated": "7. Juli 2026",
+    "updated": "7. Juli 2026 · Linkstand",
     "totalDays": 11,
     "totalNights": 10,
     "totalDistance": "ca. 1.700 km mit Mietwagen",
-    "version": "5.4"
+    "version": "5.5"
   },
   "days": [
     {
@@ -825,6 +825,448 @@ window.tripData = {
       "note": "Puffer für Wetterverschiebungen, Umbuchungen, medizinische Ausgaben oder Unerwartetes."
     }
   ]
+};
+
+
+window.tripData.externalLinks = {
+  "global": [
+    {
+      "label": "Straßenlage · NZTA",
+      "note": "Sperrungen, Verkehr, Kameras und aktuelle Hinweise",
+      "url": "https://www.journeys.nzta.govt.nz/highway-conditions",
+      "type": "road"
+    },
+    {
+      "label": "Wetter · MetService",
+      "note": "Ortsprognosen, Warnungen und Radar",
+      "url": "https://www.metservice.com/towns-cities",
+      "type": "weather"
+    },
+    {
+      "label": "Wanderwege · DOC",
+      "note": "Öffnungen, Hinweise und Sicherheit auf Tracks",
+      "url": "https://www.doc.govt.nz/parks-and-recreation/",
+      "type": "track"
+    },
+    {
+      "label": "Einreise · Immigration NZ",
+      "note": "Visum- und NZeTA-Prüfung vor Abflug",
+      "url": "https://www.immigration.govt.nz/visit/what-you-need-to-visit-new-zealand/visa-tool-test/",
+      "type": "document"
+    },
+    {
+      "label": "Christchurch Airport",
+      "note": "Flugstatus, Anreise und Flughafeninfos",
+      "url": "https://www.christchurchairport.co.nz/",
+      "type": "airport"
+    }
+  ],
+  "days": {
+    "1": [
+      {
+        "label": "Flugstatus Christchurch Airport",
+        "note": "Ankünfte, Abflüge und Flughafeninfos",
+        "url": "https://www.christchurchairport.co.nz/travellers/flights/arrivals-and-departures/",
+        "type": "airport"
+      },
+      {
+        "label": "TranzAlpine Fahrplan",
+        "note": "Abfahrtszeiten und Check-in vor dem Zugtag",
+        "url": "https://www.greatjourneysnz.com/scenic-trains/tranzalpine-train/timetable/",
+        "type": "rail"
+      },
+      {
+        "label": "Wetter Christchurch",
+        "note": "Aktuelle Ortsprognose über MetService",
+        "url": "https://www.metservice.com/towns-cities",
+        "type": "weather"
+      }
+    ],
+    "2": [
+      {
+        "label": "TranzAlpine: Fahrplan",
+        "note": "Verbindliche Zeiten und Hinweise zur Zugfahrt",
+        "url": "https://www.greatjourneysnz.com/scenic-trains/tranzalpine-train/timetable/",
+        "type": "rail"
+      },
+      {
+        "label": "TranzAlpine: Reiseinfos",
+        "note": "Zugstrecke, Buchung und allgemeine Informationen",
+        "url": "https://www.greatjourneysnz.com/scenic-trains/tranzalpine-train/",
+        "type": "rail"
+      },
+      {
+        "label": "Mietwagen in Greymouth suchen",
+        "note": "Übergabeort auf der Karte öffnen",
+        "url": "https://www.google.com/maps/search/?api=1&query=car+rental+Greymouth+New+Zealand",
+        "type": "map"
+      },
+      {
+        "label": "Straßenlage West Coast",
+        "note": "NZTA vor der Weiterfahrt nach Hokitika öffnen",
+        "url": "https://www.journeys.nzta.govt.nz/highway-conditions",
+        "type": "road"
+      }
+    ],
+    "3": [
+      {
+        "label": "Hokitika Gorge Walk · DOC",
+        "note": "Track-Informationen und Hinweise",
+        "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/hokitika-gorge-scenic-reserve/things-to-do/tracks/hokitika-gorge-walk/",
+        "type": "track"
+      },
+      {
+        "label": "Straßenlage West Coast",
+        "note": "NZTA vor der Fahrt nach Franz Josef öffnen",
+        "url": "https://www.journeys.nzta.govt.nz/highway-conditions",
+        "type": "road"
+      },
+      {
+        "label": "Wetter · MetService",
+        "note": "Gorge und Gletscherregion am selben Morgen prüfen",
+        "url": "https://www.metservice.com/towns-cities",
+        "type": "weather"
+      }
+    ],
+    "4": [
+      {
+        "label": "Straßenlage Haast Pass · NZTA",
+        "note": "Sperrungen und Verkehr vor der langen Etappe prüfen",
+        "url": "https://www.journeys.nzta.govt.nz/highway-conditions",
+        "type": "road"
+      },
+      {
+        "label": "West Coast Tracks · DOC",
+        "note": "Hinweise zu kurzen Stopps und Wanderwegen",
+        "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/",
+        "type": "track"
+      },
+      {
+        "label": "Wetter · MetService",
+        "note": "Passstraße, Regen und Wind vor Abfahrt prüfen",
+        "url": "https://www.metservice.com/towns-cities",
+        "type": "weather"
+      }
+    ],
+    "5": [
+      {
+        "label": "Hooker Valley Track · DOC",
+        "note": "Wegzustand und Sicherheitsinfos für Aoraki prüfen",
+        "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/aoraki-mount-cook-national-park/things-to-do/tracks/hooker-valley-track/",
+        "type": "track"
+      },
+      {
+        "label": "Straßenlage · NZTA",
+        "note": "Lindis Pass und Zufahrt zum Nationalpark prüfen",
+        "url": "https://www.journeys.nzta.govt.nz/highway-conditions",
+        "type": "road"
+      },
+      {
+        "label": "Wetter · MetService",
+        "note": "Sicht, Wind und Temperatur für die Südalpen prüfen",
+        "url": "https://www.metservice.com/towns-cities",
+        "type": "weather"
+      }
+    ],
+    "6": [
+      {
+        "label": "Hooker Valley Track · DOC",
+        "note": "Aktuelle Track-Infos vor dem Vormittag im Nationalpark",
+        "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/aoraki-mount-cook-national-park/things-to-do/tracks/hooker-valley-track/",
+        "type": "track"
+      },
+      {
+        "label": "Dark Sky Project · Takapō",
+        "note": "Sternenangebote und aktuelle Buchungsinformationen",
+        "url": "https://www.darkskyproject.co.nz/",
+        "type": "activity"
+      },
+      {
+        "label": "Wetter · MetService",
+        "note": "Wolken, Wind und Abendfenster prüfen",
+        "url": "https://www.metservice.com/towns-cities",
+        "type": "weather"
+      }
+    ],
+    "7": [
+      {
+        "label": "Straßenlage · NZTA",
+        "note": "Lange Transferetappe nach Kaikōura vor Abfahrt prüfen",
+        "url": "https://www.journeys.nzta.govt.nz/highway-conditions",
+        "type": "road"
+      },
+      {
+        "label": "Kaikōura: Ortsinfos",
+        "note": "Aktuelle Besucherinformationen für die Küste",
+        "url": "https://www.kaikoura.co.nz/",
+        "type": "activity"
+      },
+      {
+        "label": "Wetter · MetService",
+        "note": "Fahrtag und Küste am Nachmittag prüfen",
+        "url": "https://www.metservice.com/towns-cities",
+        "type": "weather"
+      }
+    ],
+    "8": [
+      {
+        "label": "Whale Watch Kaikōura",
+        "note": "Touren, Check-in und Buchung beim Betreiber",
+        "url": "https://whalewatch.co.nz/your-experience/",
+        "type": "activity"
+      },
+      {
+        "label": "Whale Watch: Durchführung",
+        "note": "Zeitfenster und betriebliche Hinweise prüfen",
+        "url": "https://whalewatch.co.nz/your-experience/how-we-operate/",
+        "type": "activity"
+      },
+      {
+        "label": "Kaikōura Peninsula Walkway · DOC",
+        "note": "Track-Infos, Alternativen und Sicherheit",
+        "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/marlborough/places/kaikoura-area/things-to-do/tracks/kaikoura-peninsula-walkway/",
+        "type": "track"
+      },
+      {
+        "label": "Wetter · MetService",
+        "note": "Wind und Bedingungen für Meer und Küste prüfen",
+        "url": "https://www.metservice.com/towns-cities",
+        "type": "weather"
+      }
+    ],
+    "9": [
+      {
+        "label": "Straßenlage · NZTA",
+        "note": "Lange Transferetappe und Zufahrt nach Akaroa prüfen",
+        "url": "https://www.journeys.nzta.govt.nz/highway-conditions",
+        "type": "road"
+      },
+      {
+        "label": "Wetter · MetService",
+        "note": "Küste und Banks Peninsula am Fahrtag prüfen",
+        "url": "https://www.metservice.com/towns-cities",
+        "type": "weather"
+      }
+    ],
+    "10": [
+      {
+        "label": "Wetter · MetService",
+        "note": "Wind, Nebel und Sicht für die Banks Peninsula prüfen",
+        "url": "https://www.metservice.com/towns-cities",
+        "type": "weather"
+      },
+      {
+        "label": "Akaroa in Google Maps",
+        "note": "Hafen, Parken und Buchten auf der Karte öffnen",
+        "url": "https://www.google.com/maps/search/?api=1&query=Akaroa+New+Zealand",
+        "type": "map"
+      }
+    ],
+    "11": [
+      {
+        "label": "Mietwagenrückgabe · Christchurch Airport",
+        "note": "Standorte und Hinweise der Mietwagenanbieter am Flughafen",
+        "url": "https://www.christchurchairport.co.nz/travellers/parking-and-transport/rental-cars/",
+        "type": "airport"
+      },
+      {
+        "label": "Flugstatus · Christchurch Airport",
+        "note": "Aktuelle Abflugzeiten und Terminalinformationen",
+        "url": "https://www.christchurchairport.co.nz/travellers/flights/arrivals-and-departures/",
+        "type": "airport"
+      },
+      {
+        "label": "Straßenlage · NZTA",
+        "note": "Vor der Fahrt von Akaroa zum Flughafen prüfen",
+        "url": "https://www.journeys.nzta.govt.nz/highway-conditions",
+        "type": "road"
+      }
+    ]
+  },
+  "planning": {
+    "christchurch-stay": [
+      {
+        "label": "Christchurch in Google Maps",
+        "note": "Unterkunftsumfeld und Bahnhofweg öffnen",
+        "url": "https://www.google.com/maps/search/?api=1&query=Christchurch+New+Zealand",
+        "type": "map"
+      }
+    ],
+    "tranzalpine": [
+      {
+        "label": "TranzAlpine: Fahrplan",
+        "note": "Zeiten, Check-in und Reisestatus prüfen",
+        "url": "https://www.greatjourneysnz.com/scenic-trains/tranzalpine-train/timetable/",
+        "type": "rail"
+      }
+    ],
+    "rental-car": [
+      {
+        "label": "Mietwagen Greymouth suchen",
+        "note": "Übergabeort auf der Karte öffnen",
+        "url": "https://www.google.com/maps/search/?api=1&query=car+rental+Greymouth+New+Zealand",
+        "type": "map"
+      },
+      {
+        "label": "Rückgabe Christchurch Airport",
+        "note": "Mietwagenanbieter und Lage am Flughafen",
+        "url": "https://www.christchurchairport.co.nz/travellers/parking-and-transport/rental-cars/",
+        "type": "airport"
+      }
+    ],
+    "stays": [
+      {
+        "label": "Übernachtungsorte öffnen",
+        "note": "Kartenlinks direkt in jedem Unterkunftseintrag",
+        "url": "#unterkuenfte",
+        "type": "internal"
+      }
+    ],
+    "kaikoura-whales": [
+      {
+        "label": "Whale Watch Kaikōura",
+        "note": "Touren und Buchung beim Betreiber",
+        "url": "https://whalewatch.co.nz/your-experience/",
+        "type": "activity"
+      }
+    ],
+    "return": [
+      {
+        "label": "Christchurch Airport: Mietwagen",
+        "note": "Rückgabeorte und Anbieterinformationen",
+        "url": "https://www.christchurchairport.co.nz/travellers/parking-and-transport/rental-cars/",
+        "type": "airport"
+      },
+      {
+        "label": "Flugstatus Christchurch Airport",
+        "note": "Abflüge und Flughafeninformationen",
+        "url": "https://www.christchurchairport.co.nz/travellers/flights/arrivals-and-departures/",
+        "type": "airport"
+      }
+    ]
+  },
+  "documents": {
+    "passport-nzeta": [
+      {
+        "label": "Visum oder NZeTA prüfen",
+        "note": "Offizieller Einreise-Check von Immigration New Zealand",
+        "url": "https://www.immigration.govt.nz/visit/what-you-need-to-visit-new-zealand/visa-tool-test/",
+        "type": "document"
+      },
+      {
+        "label": "NZeTA-Status prüfen",
+        "note": "Nur mit eigener Referenznummer verwenden",
+        "url": "https://nzeta.immigration.govt.nz/check-status",
+        "type": "document"
+      }
+    ],
+    "flights": [
+      {
+        "label": "Flugstatus Christchurch Airport",
+        "note": "Aktuelle Abflug- und Ankunftsinformationen",
+        "url": "https://www.christchurchairport.co.nz/travellers/flights/arrivals-and-departures/",
+        "type": "airport"
+      }
+    ],
+    "tranzalpine": [
+      {
+        "label": "TranzAlpine: Fahrplan",
+        "note": "Verbindliche Zeiten und Check-in-Hinweise",
+        "url": "https://www.greatjourneysnz.com/scenic-trains/tranzalpine-train/timetable/",
+        "type": "rail"
+      }
+    ],
+    "rental-docs": [
+      {
+        "label": "Christchurch Airport: Mietwagen",
+        "note": "Rückgabeorte und Anbieterübersicht",
+        "url": "https://www.christchurchairport.co.nz/travellers/parking-and-transport/rental-cars/",
+        "type": "airport"
+      }
+    ],
+    "payment": [
+      {
+        "label": "NZTA Journey Planner",
+        "note": "Routen und Straßenlage für die Offline-Planung kontrollieren",
+        "url": "https://www.journeys.nzta.govt.nz/journey-planner",
+        "type": "road"
+      }
+    ]
+  },
+  "weather": {
+    "hokitika-franz": [
+      {
+        "label": "Hokitika Gorge Walk · DOC",
+        "note": "Trackzustand prüfen",
+        "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/hokitika-gorge-scenic-reserve/things-to-do/tracks/hokitika-gorge-walk/",
+        "type": "track"
+      }
+    ],
+    "haast-pass": [
+      {
+        "label": "Straßenlage Haast Pass · NZTA",
+        "note": "Sperrungen und Fahrbedingungen prüfen",
+        "url": "https://www.journeys.nzta.govt.nz/highway-conditions",
+        "type": "road"
+      }
+    ],
+    "aoraki": [
+      {
+        "label": "Hooker Valley Track · DOC",
+        "note": "Wegzustand und Sicherheit prüfen",
+        "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/aoraki-mount-cook-national-park/things-to-do/tracks/hooker-valley-track/",
+        "type": "track"
+      }
+    ],
+    "tekapo": [
+      {
+        "label": "Dark Sky Project · Takapō",
+        "note": "Sternenangebote und allwettertaugliche Alternativen",
+        "url": "https://www.darkskyproject.co.nz/",
+        "type": "activity"
+      }
+    ],
+    "kaikoura": [
+      {
+        "label": "Whale Watch: Durchführung",
+        "note": "Wetterabhängige Hinweise beim Betreiber",
+        "url": "https://whalewatch.co.nz/your-experience/how-we-operate/",
+        "type": "activity"
+      },
+      {
+        "label": "Kaikōura Peninsula Walkway · DOC",
+        "note": "Küstenwanderung als Land-Alternative",
+        "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/marlborough/places/kaikoura-area/things-to-do/tracks/kaikoura-peninsula-walkway/",
+        "type": "track"
+      }
+    ],
+    "banks-peninsula": [
+      {
+        "label": "Akaroa in Google Maps",
+        "note": "Hafen, Parken und Ortslage öffnen",
+        "url": "https://www.google.com/maps/search/?api=1&query=Akaroa+New+Zealand",
+        "type": "map"
+      }
+    ]
+  },
+  "rental": {
+    "pickup": [
+      {
+        "label": "Mietwagen Greymouth suchen",
+        "note": "Übergabeorte und Anbieter auf der Karte",
+        "url": "https://www.google.com/maps/search/?api=1&query=car+rental+Greymouth+New+Zealand",
+        "type": "map"
+      }
+    ],
+    "return": [
+      {
+        "label": "Christchurch Airport: Mietwagen",
+        "note": "Rückgabeorte und Anbieterübersicht",
+        "url": "https://www.christchurchairport.co.nz/travellers/parking-and-transport/rental-cars/",
+        "type": "airport"
+      }
+    ]
+  }
 };
 
 
