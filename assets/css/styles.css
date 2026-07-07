@@ -1130,3 +1130,33 @@ h3 { margin: 0; font-size: 1.46rem; letter-spacing: -0.02em; }
 @media print {
   .links-section, .resource-links, .stay-links { display: none !important; }
 }
+
+/* Version 5.6: Link-Audit und sichtbare Direktaktionen */
+.link-audit-panel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(420px, 0.94fr); gap: 26px; align-items: center; margin: 18px 0 20px; padding: 22px 24px; border: 1px solid rgba(34, 92, 70, 0.2); border-radius: 15px; color: #eef9ef; background: linear-gradient(135deg, #18483e, #2d6c57); box-shadow: 0 12px 28px rgba(25, 72, 61, 0.12); }
+.link-audit-copy > span { display: block; margin-bottom: 7px; color: #bedcbc; font-size: 0.7rem; font-weight: 850; letter-spacing: 0.1em; text-transform: uppercase; }
+.link-audit-copy h3 { margin: 0; color: #fff; font-size: 1.62rem; }
+.link-audit-copy p { max-width: 650px; margin: 10px 0 0; color: rgba(244, 253, 245, 0.78); font-size: 0.88rem; line-height: 1.5; }
+.link-audit-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; margin: 0; }
+.link-audit-stats div { min-height: 87px; padding: 13px 10px; border: 1px solid rgba(237, 251, 240, 0.18); border-radius: 11px; background: rgba(255,255,255,0.09); }
+.link-audit-stats dt { margin: 0; color: #fff; font-family: var(--serif); font-size: 1.75rem; line-height: 1; }
+.link-audit-stats dd { margin: 8px 0 0; color: rgba(239, 251, 241, 0.75); font-size: 0.66rem; font-weight: 780; line-height: 1.2; }
+.stage-quick-links { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(30, 73, 60, 0.12); }
+.stage-quick-link { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 35px; padding: 7px 8px; border: 1px solid rgba(37, 91, 82, 0.18); border-radius: 9px; color: #275c4c; background: #f3f8f1; font-size: 0.7rem; font-weight: 850; line-height: 1; text-decoration: none; white-space: nowrap; }
+.stage-quick-link:hover, .stage-quick-link:focus-visible { border-color: #255b52; color: #fff; background: #255b52; outline: none; }
+.stage-quick-link span { color: #36745e; font-size: 0.82rem; line-height: 1; }
+.stage-quick-link:hover span, .stage-quick-link:focus-visible span { color: #dcefd7; }
+@media (max-width: 900px) {
+  .link-audit-panel { grid-template-columns: 1fr; gap: 18px; }
+}
+@media (max-width: 640px) {
+  .link-audit-panel { margin: 16px 0; padding: 19px 17px; border-radius: 13px; }
+  .link-audit-copy h3 { font-size: 1.42rem; }
+  .link-audit-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .link-audit-stats div { min-height: 72px; }
+  .stage-quick-links { grid-template-columns: 1fr; }
+  .stage-quick-link { justify-content: flex-start; padding-left: 12px; }
+}
+@media print {
+  .link-audit-panel, .stage-quick-links { display: none !important; }
+}
+

@@ -5,11 +5,11 @@ window.tripData = {
     "dateRange": "7.–17. Sept. 2026",
     "returnInfo": "17. Sept. · 20:00 Uhr Abflug",
     "traveller": "Axel",
-    "updated": "7. Juli 2026 · Linkstand",
+    "updated": "7. Juli 2026 · Link-Audit",
     "totalDays": 11,
     "totalNights": 10,
     "totalDistance": "ca. 1.700 km mit Mietwagen",
-    "version": "5.5"
+    "version": "5.6"
   },
   "days": [
     {
@@ -843,6 +843,18 @@ window.tripData.externalLinks = {
       "type": "weather"
     },
     {
+      "label": "Wetterwarnungen · MetService",
+      "note": "Watches, Warnungen und die Severe Weather Outlook",
+      "url": "https://www.metservice.com/warnings/home",
+      "type": "weather"
+    },
+    {
+      "label": "Verkehrsmeldungen · NZTA",
+      "note": "Aktuelle Hinweise zu Sperrungen, Unfällen und Baustellen",
+      "url": "https://www.journeys.nzta.govt.nz/traffic-bulletins",
+      "type": "road"
+    },
+    {
       "label": "Wanderwege · DOC",
       "note": "Öffnungen, Hinweise und Sicherheit auf Tracks",
       "url": "https://www.doc.govt.nz/parks-and-recreation/",
@@ -876,6 +888,12 @@ window.tripData.externalLinks = {
         "type": "rail"
       },
       {
+        "label": "Christchurch Railway Station",
+        "note": "Bahnhof, Anreise und Check-in für den Zugtag",
+        "url": "https://www.greatjourneysnz.com/destinations/christchurch/christchurch-railway-station/",
+        "type": "rail"
+      },
+      {
         "label": "Wetter Christchurch",
         "note": "Aktuelle Ortsprognose über MetService",
         "url": "https://www.metservice.com/towns-cities",
@@ -893,6 +911,12 @@ window.tripData.externalLinks = {
         "label": "TranzAlpine: Reiseinfos",
         "note": "Zugstrecke, Buchung und allgemeine Informationen",
         "url": "https://www.greatjourneysnz.com/scenic-trains/tranzalpine-train/",
+        "type": "rail"
+      },
+      {
+        "label": "Greymouth & Stationsinfos",
+        "note": "Bahnhof und Anschlüsse nach der Ankunft prüfen",
+        "url": "https://www.greatjourneysnz.com/scenic-trains/tranzalpine-train/railway-stations/",
         "type": "rail"
       },
       {
@@ -952,7 +976,13 @@ window.tripData.externalLinks = {
       {
         "label": "Hooker Valley Track · DOC",
         "note": "Wegzustand und Sicherheitsinfos für Aoraki prüfen",
-        "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/aoraki-mount-cook-national-park/things-to-do/tracks/hooker-valley-track/",
+        "url": "https://www.doc.govt.nz/hooker-valley-track",
+        "type": "track"
+      },
+      {
+        "label": "Aoraki Visitor Centre · DOC",
+        "note": "Öffnungszeiten, lokale Hinweise und Nationalpark-Informationen",
+        "url": "https://www.doc.govt.nz/footer-links/contact-us/visitor-centres/aoraki-mount-cook-national-park-visitor-centre/",
         "type": "track"
       },
       {
@@ -972,7 +1002,13 @@ window.tripData.externalLinks = {
       {
         "label": "Hooker Valley Track · DOC",
         "note": "Aktuelle Track-Infos vor dem Vormittag im Nationalpark",
-        "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/aoraki-mount-cook-national-park/things-to-do/tracks/hooker-valley-track/",
+        "url": "https://www.doc.govt.nz/hooker-valley-track",
+        "type": "track"
+      },
+      {
+        "label": "Aoraki Visitor Centre · DOC",
+        "note": "Öffnungszeiten und lokale Hinweise vor dem Vormittag prüfen",
+        "url": "https://www.doc.govt.nz/footer-links/contact-us/visitor-centres/aoraki-mount-cook-national-park-visitor-centre/",
         "type": "track"
       },
       {
@@ -1010,15 +1046,21 @@ window.tripData.externalLinks = {
     ],
     "8": [
       {
-        "label": "Whale Watch Kaikōura",
-        "note": "Touren, Check-in und Buchung beim Betreiber",
-        "url": "https://whalewatch.co.nz/your-experience/",
+        "label": "Whale Watch Kaikōura · buchen",
+        "note": "Verfügbarkeit und Buchung direkt beim Betreiber",
+        "url": "https://whalewatch.co.nz/book-now-customlinc/",
         "type": "activity"
       },
       {
         "label": "Whale Watch: Durchführung",
-        "note": "Zeitfenster und betriebliche Hinweise prüfen",
+        "note": "Zeitfenster, Check-in und betriebliche Hinweise prüfen",
         "url": "https://whalewatch.co.nz/your-experience/how-we-operate/",
+        "type": "activity"
+      },
+      {
+        "label": "Whale Watch: aktueller Tourstatus",
+        "note": "Heutige Durchführung vor der Fahrt zum Check-in prüfen",
+        "url": "https://whalewatch.co.nz/kia-ora/",
         "type": "activity"
       },
       {
@@ -1124,9 +1166,9 @@ window.tripData.externalLinks = {
     ],
     "kaikoura-whales": [
       {
-        "label": "Whale Watch Kaikōura",
-        "note": "Touren und Buchung beim Betreiber",
-        "url": "https://whalewatch.co.nz/your-experience/",
+        "label": "Whale Watch Kaikōura · buchen",
+        "note": "Verfügbarkeit und Buchung direkt beim Betreiber",
+        "url": "https://whalewatch.co.nz/book-now-customlinc/",
         "type": "activity"
       }
     ],
@@ -1214,7 +1256,7 @@ window.tripData.externalLinks = {
       {
         "label": "Hooker Valley Track · DOC",
         "note": "Wegzustand und Sicherheit prüfen",
-        "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/aoraki-mount-cook-national-park/things-to-do/tracks/hooker-valley-track/",
+        "url": "https://www.doc.govt.nz/hooker-valley-track",
         "type": "track"
       }
     ],
@@ -1267,6 +1309,13 @@ window.tripData.externalLinks = {
       }
     ]
   }
+};
+
+
+window.tripData.linkAudit = {
+  "checked": "7. Juli 2026",
+  "scope": "Offizielle Quellen, Karten und operative Tageslinks",
+  "note": "Der Projekt-Check prüft sichere HTTP(S)-Ziele und die Zuordnung zu den Reisetagen. Live-Informationen sind ausschließlich auf der jeweiligen externen Quelle verbindlich."
 };
 
 

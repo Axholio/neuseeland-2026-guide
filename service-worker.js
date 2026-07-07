@@ -1,4 +1,4 @@
-const CACHE_NAME = "nz-2026-guide-v5-5";
+const CACHE_NAME = "nz-2026-guide-v5-6";
 const APP_SHELL = [
   "./",
   "./index.html",

@@ -1,6 +1,6 @@
 # Neuseeland 2026 – Reiseführer
 
-**Version 5.5** – statischer HTML-Reiseführer für die Südinsel-Rundreise vom **7. bis 17. September 2026**.
+**Version 5.6** – statischer HTML-Reiseführer für die Südinsel-Rundreise vom **7. bis 17. September 2026**.
 
 ## Route
 
@@ -17,6 +17,15 @@
 11. Akaroa nach Christchurch Airport
 
 Mietwagenrückgabe: **17. September bis 17:00 Uhr** am Christchurch Airport. Abflug: **20:00 Uhr**.
+
+## Version 5.6 – Link-Audit und Direktzugriff
+
+- Link-Audit für alle operativen Quellen im Guide: sichere HTTP(S)-Ziele, Zuordnung zu Reisetagen und sichtbare Direktaktionen
+- jede Etappenkarte enthält jetzt bis zu drei direkt klickbare Schnellaktionen, etwa Karte, Wetter, Straßenlage, Bahn, DOC oder Aktivität
+- erweitert um MetService-Warnungen, NZTA-Verkehrsmeldungen, Christchurch Railway Station, Aoraki Visitor Centre und den aktuellen Whale-Watch-Tourstatus
+- Hooker Valley Track auf die aktuelle, kurze DOC-Adresse umgestellt; Whale Watch verlinkt direkt auf die Buchung
+- auf Smartphone und iPad werden die Direktaktionen einspaltig und mit großer Touch-Fläche dargestellt
+- der integrierte Link-Audit-Bereich prüft die Projektstruktur; aktuelle Bedingungen und Verfügbarkeiten sind weiter ausschließlich auf den externen Betreiberseiten verbindlich
 
 ## Version 5.5 – Direktlinks und Quellen
 
@@ -68,7 +77,7 @@ assets/js/calendar-export.js
 assets/js/travel-mode.js
 ```
 
-## Linkquellen (Stand: 7. Juli 2026)
+## Linkquellen (Audit: 7. Juli 2026)
 
 Die folgenden Seiten sind im Guide als externe Quellen hinterlegt:
 

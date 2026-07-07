@@ -71,9 +71,14 @@
   }
 
   function resourceLinksMarkup(links, options = {}) {
+    const seenUrls = new Set();
     const validLinks = (Array.isArray(links) ? links : [])
       .map((link) => ({ ...link, safeUrl: safeExternalUrl(link && link.url) }))
-      .filter((link) => link.safeUrl);
+      .filter((link) => {
+        if (!link.safeUrl || seenUrls.has(link.safeUrl)) return false;
+        seenUrls.add(link.safeUrl);
+        return true;
+      });
     if (!validLinks.length) return "";
 
     const title = options.title ? `<p class="resource-links-title">${escapeHtml(options.title)}</p>` : "";
@@ -115,6 +120,110 @@
       className: options.className || "",
       ariaLabel: options.ariaLabel || `Links für Tag ${day && day.number ? day.number : ""}`
     });
+  }
+
+  function uniqueLinks(links) {
+    const seen = new Set();
+    return (Array.isArray(links) ? links : []).filter((link) => {
+      const safeUrl = safeExternalUrl(link && link.url);
+      if (!safeUrl || seen.has(safeUrl)) return false;
+      seen.add(safeUrl);
+      return true;
+    });
+  }
+
+  function stageLinkLabel(link) {
+    const labels = {
+      map: "Karte",
+      road: "Straße",
+      weather: "Wetter",
+      track: "DOC",
+      rail: "Zug",
+      airport: "Flughafen",
+      activity: "Aktivität",
+      document: "Unterlagen",
+      internal: "Öffnen"
+    };
+    return labels[link && link.type] || "Link";
+  }
+
+  function stageQuickLinks(day) {
+    const links = uniqueLinks(dayLinks(day)).slice(0, 3);
+    if (!links.length) return "";
+    return `
+      <nav class="stage-quick-links" aria-label="Direktlinks für Tag ${escapeHtml(day.number)}">
+        ${links.map((link) => {
+          const url = safeExternalUrl(link.url);
+          const internal = url.startsWith("#");
+          const target = internal ? "" : ' target="_blank" rel="noopener noreferrer"';
+          return `<a class="stage-quick-link stage-quick-link-${escapeHtml(link.type || "default")}" href="${escapeHtml(url)}"${target} title="${escapeHtml(link.label || "Link öffnen")}"><span aria-hidden="true">${linkIcon(link.type)}</span>${escapeHtml(stageLinkLabel(link))}</a>`;
+        }).join("")}
+      </nav>
+    `;
+  }
+
+  function collectExternalLinks(source) {
+    const links = [];
+    const visit = (value) => {
+      if (Array.isArray(value)) {
+        value.forEach(visit);
+        return;
+      }
+      if (!value || typeof value !== "object") return;
+      if (Object.prototype.hasOwnProperty.call(value, "url")) {
+        links.push(value);
+        return;
+      }
+      Object.values(value).forEach(visit);
+    };
+    visit(source);
+    return links;
+  }
+
+  function linkAudit() {
+    const configured = collectExternalLinks(data.externalLinks || {});
+    const mapLinks = (Array.isArray(data.days) ? data.days : []).map((day) => ({
+      label: `Route in Google Maps · Tag ${day.number}`,
+      url: mapUrl(day.mapQuery),
+      type: "map"
+    }));
+    const links = [...configured, ...mapLinks];
+    const valid = links.filter((link) => Boolean(safeExternalUrl(link.url)));
+    const external = valid.filter((link) => !safeExternalUrl(link.url).startsWith("#"));
+    const domains = new Set(external.map((link) => {
+      try { return new URL(safeExternalUrl(link.url)).hostname; } catch (_) { return ""; }
+    }).filter(Boolean));
+    const dayCoverage = (Array.isArray(data.days) ? data.days : []).filter((day) => dayLinks(day).length >= 2).length;
+    return {
+      total: valid.length,
+      invalid: links.length - valid.length,
+      sources: domains.size,
+      dayCoverage,
+      totalDays: Array.isArray(data.days) ? data.days.length : 0
+    };
+  }
+
+  function renderLinkAudit() {
+    const target = $("#link-audit-panel");
+    if (!target) return;
+    const audit = linkAudit();
+    const details = data.linkAudit || {};
+    const safeChecked = escapeHtml(details.checked || data.meta.updated || "Projektstand");
+    const safeScope = escapeHtml(details.scope || "Operative Reise-Links");
+    const safeNote = escapeHtml(details.note || "Aktuelle Bedingungen sind auf den externen Quellen verbindlich.");
+    target.innerHTML = `
+      <div class="link-audit-copy">
+        <span>Link-Audit · ${safeChecked}</span>
+        <h3>Direktzugriff vollständig hinterlegt</h3>
+        <p>${safeScope}. ${safeNote}</p>
+      </div>
+      <dl class="link-audit-stats">
+        <div><dt>${audit.total}</dt><dd>operative Links</dd></div>
+        <div><dt>${audit.sources}</dt><dd>externe Quellen</dd></div>
+        <div><dt>${audit.dayCoverage}/${audit.totalDays}</dt><dd>Tage mit Direktlinks</dd></div>
+        <div><dt>${audit.invalid ? audit.invalid : "0"}</dt><dd>ungültige Ziele</dd></div>
+      </dl>
+    `;
   }
 
   function formatNzd(amount) {
@@ -1201,6 +1310,7 @@
             <span>${escapeHtml(day.distance)}</span>
           </div>
           <p class="stage-priority">${escapeHtml(day.priority)}</p>
+          ${stageQuickLinks(day)}
           <footer>
             <span class="stage-overnight">Übernachtung: ${escapeHtml(day.overnight)}</span>
             <button class="stage-detail-button" type="button" data-open-stage="${day.number}">Details</button>
@@ -1893,6 +2003,7 @@
   renderStays();
   renderDrive();
   renderWeather();
+  renderLinkAudit();
   renderLinkHub();
   renderBriefing();
   renderRental();
