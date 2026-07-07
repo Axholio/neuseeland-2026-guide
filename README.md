@@ -1,6 +1,6 @@
 # Neuseeland 2026 – Reiseführer
 
-**Version 4.5** – statischer, responsiver HTML-Reiseführer für die korrigierte Südinsel-Rundreise vom **7. bis 17. September 2026**.
+**Version 4.6** – statischer, responsiver HTML-Reiseführer für die korrigierte Südinsel-Rundreise vom **7. bis 17. September 2026**.
 
 ## Route dieser Version
 
@@ -20,11 +20,12 @@ Der TranzAlpine startet damit am **8. September morgens in Christchurch**. Die R
 
 ## Enthalten
 
-- Tagesetappen als editierbare Datenquelle (`assets/data/trip-data.js`)
+- Tagesetappen und Übernachtungsplan als editierbare Datenquelle (`assets/data/trip-data.js`)
 - Responsive Darstellung für Desktop und Mobilgeräte
 - Detailansicht zu jeder Etappe inklusive Link zu Google Maps
 - Filter für Wetterfenster, Buchungspunkte und lange Fahrtage
 - Planungsboard für zentrale Buchungs- und Organisationspunkte
+- Übernachtungsplan für alle zehn Nächte mit separater lokaler Unterkunftsnotiz je Ort
 - Buchungsübersicht für Anbieter, Bestätigungsnummern, Beträge und persönliche Hinweise
 - Kostenübersicht mit eigenem Planbudget und laufender Ausgabenerfassung je Kategorie
 - Fahrtag-Check mit Tagesstart, Kilometerstand, Abfahrtscheck und Tagesnotiz
@@ -52,4 +53,4 @@ Alle Reisetage, Fahrtstrecken, Hinweise, Statuswerte und Planungspunkte stehen g
 assets/data/trip-data.js
 ```
 
-Die Version 4.5 verwendet bewusst neue lokale Browser-Schlüssel, damit persönliche Eingaben aus der verworfenen Route nicht in die korrigierte Tour übernommen werden. Planungsstatus, persönliche Tagesnotizen, Buchungsdaten, Kostenwerte, Fahrtag-Einträge, Wetterbewertungen und Packlisten-Häkchen werden nur im Browser dieses Geräts gespeichert. Sie werden nicht automatisch in GitHub zurückgeschrieben. Über den Bereich **„Planung sichern“** lässt sich eine lokale Sicherungsdatei exportieren und später wieder importieren. Sicherungsdateien nicht in GitHub veröffentlichen. Keine Passwörter, Kreditkartendaten oder Ausweiskopien in die Buchungsübersicht eintragen.
+Die Routenbereinigung in Version 4.5 verwendet bewusst neue lokale Browser-Schlüssel, damit persönliche Eingaben aus der verworfenen Route nicht in die korrigierte Tour übernommen werden. Version 4.6 führt diese Datenbasis fort und ergänzt dafür einen separaten Schlüssel für Unterkunftseinträge. Planungsstatus, persönliche Tagesnotizen, Unterkunftseinträge, Buchungsdaten, Kostenwerte, Fahrtag-Einträge, Wetterbewertungen und Packlisten-Häkchen werden nur im Browser dieses Geräts gespeichert. Sie werden nicht automatisch in GitHub zurückgeschrieben. Über den Bereich **„Planung sichern“** lässt sich eine lokale Sicherungsdatei exportieren und später wieder importieren. Sicherungsdateien nicht in GitHub veröffentlichen. Keine Passwörter, Kreditkartendaten oder Ausweiskopien in die Buchungsübersicht eintragen.

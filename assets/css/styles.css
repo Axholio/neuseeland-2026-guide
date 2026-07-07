@@ -546,3 +546,52 @@ h3 { margin: 0; font-size: 1.46rem; letter-spacing: -0.02em; }
 
 
 /* Version 4.5: korrigierte Christchurch–West Coast–Kaikōura–Akaroa Route */
+
+/* Version 4.6: Übernachtungsplan mit lokalen Unterkunftseinträgen */
+.stays-section { background: #f6f2ea; }
+.stay-summary { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stay-stat { display: flex; flex-direction: column; justify-content: space-between; min-height: 116px; padding: 20px; border: 1px solid rgba(104, 77, 42, 0.16); border-radius: var(--radius-md); background: rgba(255,255,255,0.78); }
+.stay-stat strong { color: #5d4526; font-family: var(--serif); font-size: clamp(1.62rem, 2.8vw, 2.14rem); font-weight: 400; line-height: 1.05; }
+.stay-stat span { color: #7a6c58; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.045em; text-transform: uppercase; }
+.stay-board { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.stay-card { display: flex; flex-direction: column; min-height: 474px; padding: 24px; border: 1px solid rgba(104, 77, 42, 0.16); border-radius: var(--radius-md); background: var(--white); box-shadow: 0 12px 30px rgba(63, 48, 30, 0.045); }
+.stay-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.stay-date { display: block; color: #80633b; font-size: 0.7rem; font-weight: 850; letter-spacing: 0.095em; text-transform: uppercase; }
+.stay-card h3 { margin: 5px 0 0; font-size: 1.52rem; }
+.stay-region { margin: 4px 0 0; color: #756d60; font-size: 0.86rem; }
+.stay-status-control { flex: 0 0 auto; }
+.stay-status-control select { min-height: 35px; padding: 7px 29px 7px 10px; border: 1px solid rgba(104,77,42,0.17); border-radius: 999px; color: #675338; background-color: #fbf8f2; background-image: linear-gradient(45deg, transparent 50%, #80633b 50%), linear-gradient(135deg, #80633b 50%, transparent 50%); background-position: calc(100% - 13px) 14px, calc(100% - 8px) 14px; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; font-size: 0.76rem; font-weight: 800; }
+.stay-status-control select:focus { outline: 3px solid rgba(151,119,64,0.20); outline-offset: 2px; border-color: rgba(117,97,58,0.48); }
+.stay-context { display: grid; gap: 8px; margin: 17px 0 18px; }
+.stay-context p { display: grid; gap: 3px; margin: 0; padding: 10px 11px; border-radius: 10px; color: #625e55; background: #faf8f3; font-size: 0.83rem; line-height: 1.45; }
+.stay-context p + p { background: #f2f5ef; }
+.stay-context strong { color: #7a603b; font-size: 0.65rem; font-weight: 850; letter-spacing: 0.08em; text-transform: uppercase; }
+.stay-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.stay-field { display: grid; gap: 6px; color: #695f4f; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
+.stay-field-wide { grid-column: 1 / -1; }
+.stay-field input, .stay-field textarea { width: 100%; min-width: 0; border: 1px solid rgba(104,77,42,0.17); border-radius: 9px; color: var(--ink); background: #fdfcf9; font: inherit; font-size: 0.9rem; font-weight: 500; letter-spacing: normal; text-transform: none; }
+.stay-field input { min-height: 40px; padding: 8px 10px; }
+.stay-field textarea { padding: 10px; resize: vertical; line-height: 1.45; }
+.stay-field input:focus, .stay-field textarea:focus { outline: 3px solid rgba(151,119,64,0.20); outline-offset: 2px; border-color: rgba(117,97,58,0.48); }
+.stay-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: auto; padding-top: 18px; }
+.stay-card-footer a, .stay-card-footer button { padding: 0; border: 0; color: #68512d; background: transparent; font-size: 0.82rem; font-weight: 800; text-decoration: none; }
+.stay-card-footer a:hover, .stay-card-footer a:focus-visible, .stay-card-footer button:hover, .stay-card-footer button:focus-visible { text-decoration: underline; text-underline-offset: 4px; }
+.stay-footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 20px; color: #786e5e; font-size: 0.82rem; }
+.stay-footer p { max-width: 720px; margin: 0; }
+
+@media (max-width: 1000px) {
+  .stay-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 850px) {
+  .stay-board { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 560px) {
+  .stay-summary { grid-template-columns: 1fr; }
+  .stay-stat { min-height: 96px; padding: 18px; }
+  .stay-card { min-height: 0; padding: 20px; }
+  .stay-card-top, .stay-card-footer, .stay-footer { align-items: flex-start; flex-direction: column; }
+  .stay-fields { grid-template-columns: 1fr; }
+  .stay-field-wide { grid-column: auto; }
+}

@@ -13,9 +13,10 @@
   const budgetStorageKey = "nz-2026-budget-v45";
   const driveStorageKey = "nz-2026-drive-v45";
   const weatherStorageKey = "nz-2026-weather-v45";
+  const stayStorageKey = "nz-2026-stays-v46";
   const backupSchema = "nz-2026-guide-backup";
   const backupVersion = 1;
-  const localStorageKeys = [checklistStorageKey, plannerStorageKey, bookingStorageKey, budgetStorageKey, driveStorageKey, weatherStorageKey];
+  const localStorageKeys = [checklistStorageKey, plannerStorageKey, bookingStorageKey, budgetStorageKey, driveStorageKey, weatherStorageKey, stayStorageKey];
   let activeStageFilter = "all";
 
   function escapeHtml(value) {
@@ -119,6 +120,124 @@
         <span class="route-place">${escapeHtml(day.end)}</span>
       </button>
     `).join("");
+  }
+
+  function getStayState() {
+    return loadState(stayStorageKey, {});
+  }
+
+  function getStayRecord(stay) {
+    const state = getStayState();
+    const record = state[stay.id] && typeof state[stay.id] === "object" && !Array.isArray(state[stay.id]) ? state[stay.id] : {};
+    return {
+      status: record.status || stay.status || "offen",
+      property: record.property || "",
+      reference: record.reference || "",
+      contact: record.contact || "",
+      arrivalTime: record.arrivalTime || "",
+      note: record.note || ""
+    };
+  }
+
+  function stayRecordHasEntry(record) {
+    return Boolean(
+      record.property || record.reference || record.contact || record.arrivalTime || record.note || (record.status && record.status !== "offen")
+    );
+  }
+
+  function stayStats() {
+    const stays = Array.isArray(data.stays) ? data.stays : [];
+    const records = stays.map((stay) => ({ stay, record: getStayRecord(stay) }));
+    const secured = records.filter(({ record }) => record.status === "gebucht" || record.status === "erledigt");
+    const documented = records.filter(({ record }) => stayRecordHasEntry(record));
+    const nights = secured.reduce((sum, { stay }) => sum + Number(stay.nights || 0), 0);
+    return { total: stays.length, secured: secured.length, documented: documented.length, nights };
+  }
+
+  function renderStaySummary() {
+    const target = $("#stay-summary");
+    if (!target) return;
+    const stats = stayStats();
+    target.innerHTML = `
+      <article class="stay-stat"><strong>${stats.total}</strong><span>Übernachtungsorte</span></article>
+      <article class="stay-stat"><strong>${data.meta.totalNights}</strong><span>Nächte auf der Route</span></article>
+      <article class="stay-stat"><strong>${stats.secured}</strong><span>Orte gebucht</span></article>
+      <article class="stay-stat"><strong>${stats.nights}</strong><span>Nächte gesichert</span></article>
+      <article class="stay-stat"><strong>${stats.documented}</strong><span>Einträge ergänzt</span></article>
+    `;
+  }
+
+  function renderStays() {
+    const target = $("#stay-board");
+    if (!target || !Array.isArray(data.stays)) return;
+    renderStaySummary();
+    target.innerHTML = data.stays.map((stay) => {
+      const record = getStayRecord(stay);
+      return `
+        <article class="stay-card" data-stay="${escapeHtml(stay.id)}">
+          <div class="stay-card-top">
+            <div>
+              <span class="stay-date">${escapeHtml(stay.dates)}</span>
+              <h3>${escapeHtml(stay.city)}</h3>
+              <p class="stay-region">${escapeHtml(stay.region)}</p>
+            </div>
+            <label class="stay-status-control">
+              <span class="visually-hidden">Status für ${escapeHtml(stay.city)}</span>
+              <select data-stay-status="${escapeHtml(stay.id)}">
+                ${statusOptions(record.status, false)}
+              </select>
+            </label>
+          </div>
+          <div class="stay-context">
+            <p><strong>Ankunft</strong>${escapeHtml(stay.arrival)}</p>
+            <p><strong>Danach</strong>${escapeHtml(stay.next)}</p>
+          </div>
+          <div class="stay-fields">
+            <label class="stay-field stay-field-wide">
+              <span>Unterkunft / Adresse</span>
+              <input type="text" autocomplete="organization" placeholder="Name der Unterkunft" value="${escapeHtml(record.property)}" data-stay-field="property" data-stay-id="${escapeHtml(stay.id)}">
+            </label>
+            <label class="stay-field">
+              <span>Bestätigung</span>
+              <input type="text" autocomplete="off" placeholder="Buchungsnummer" value="${escapeHtml(record.reference)}" data-stay-field="reference" data-stay-id="${escapeHtml(stay.id)}">
+            </label>
+            <label class="stay-field">
+              <span>Kontakt</span>
+              <input type="text" autocomplete="off" placeholder="Telefon oder E-Mail" value="${escapeHtml(record.contact)}" data-stay-field="contact" data-stay-id="${escapeHtml(stay.id)}">
+            </label>
+            <label class="stay-field">
+              <span>Geplante Ankunft</span>
+              <input type="time" value="${escapeHtml(record.arrivalTime)}" data-stay-field="arrivalTime" data-stay-id="${escapeHtml(stay.id)}">
+            </label>
+            <label class="stay-field stay-field-wide">
+              <span>Eigene Notiz</span>
+              <textarea rows="2" placeholder="Check-in, Parkplatz, Besonderheiten …" data-stay-field="note" data-stay-id="${escapeHtml(stay.id)}">${escapeHtml(record.note)}</textarea>
+            </label>
+          </div>
+          <footer class="stay-card-footer">
+            <a href="${mapUrl(stay.mapQuery)}" target="_blank" rel="noopener noreferrer">Ort öffnen <span aria-hidden="true">↗</span></a>
+            <button type="button" data-jump-stage="${stay.day}">Zur Etappe <span aria-hidden="true">→</span></button>
+          </footer>
+        </article>
+      `;
+    }).join("");
+  }
+
+  function updateStayField(stayId, field, value) {
+    const state = getStayState();
+    const record = state[stayId] && typeof state[stayId] === "object" && !Array.isArray(state[stayId]) ? state[stayId] : {};
+    record[field] = value;
+    state[stayId] = record;
+    saveState(stayStorageKey, state);
+    renderStaySummary();
+    renderBackupSummary();
+  }
+
+  function resetStays() {
+    if (!window.confirm("Alle Unterkunftseinträge in diesem Browser löschen?")) return;
+    saveState(stayStorageKey, {});
+    renderStays();
+    renderBackupSummary();
   }
 
 
@@ -817,7 +936,8 @@
       note: record && record.note
     })).length;
     const weatherCount = Array.isArray(data.weatherWindows) ? data.weatherWindows.filter((window) => weatherWindowHasEntry(weatherRecord(window.id))).length : 0;
-    return { planner: plannerCount, booking: bookingCount, budget: budgetCount, checklist: checklistCount, drive: driveCount, weather: weatherCount };
+    const stayCount = Array.isArray(data.stays) ? data.stays.filter((stay) => stayRecordHasEntry(getStayRecord(stay))).length : 0;
+    return { planner: plannerCount, booking: bookingCount, budget: budgetCount, checklist: checklistCount, drive: driveCount, weather: weatherCount, stays: stayCount };
   }
 
   function renderBackupSummary() {
@@ -826,7 +946,7 @@
     const count = savedEntryCount();
     target.innerHTML = `
       <article class="backup-stat"><strong>${count.planner}</strong><span>Planungseinträge</span></article>
-      <article class="backup-stat"><strong>${count.booking + count.budget}</strong><span>Buchungs- & Kosteneinträge</span></article>
+      <article class="backup-stat"><strong>${count.booking + count.budget + count.stays}</strong><span>Buchungs-, Unterkunfts- & Kosteneinträge</span></article>
       <article class="backup-stat"><strong>${count.drive}</strong><span>Fahrtage erfasst</span></article>
       <article class="backup-stat"><strong>${count.weather}</strong><span>Wetterfenster bewertet</span></article>
       <article class="backup-stat"><strong>${count.checklist}</strong><span>Packliste erledigt</span></article>
@@ -852,7 +972,8 @@
         bookings: getBookingState(),
         budget: getBudgetState(),
         drive: getDriveState(),
-        weather: getWeatherState()
+        weather: getWeatherState(),
+        stays: getStayState()
       }
     };
   }
@@ -884,6 +1005,7 @@
     renderPlanning();
     renderBookings();
     renderBudget();
+    renderStays();
     renderDrive();
     renderWeather();
     renderStages();
@@ -907,6 +1029,7 @@
         saveState(budgetStorageKey, plainObject(state.budget));
         saveState(driveStorageKey, plainObject(state.drive));
         saveState(weatherStorageKey, plainObject(state.weather));
+        saveState(stayStorageKey, plainObject(state.stays));
         closeStage();
         refreshLocalViews();
         setBackupStatus("Sicherungsdatei wurde eingespielt. Vorherige lokale Eingaben wurden ersetzt.", "success");
@@ -973,6 +1096,7 @@
       }
       if (event.target.closest("[data-reset-drive]")) resetDrive();
       if (event.target.closest("[data-reset-weather]")) resetWeather();
+      if (event.target.closest("[data-reset-stays]")) resetStays();
       if (event.target.closest("[data-export-state]")) downloadBackup();
       if (event.target.closest("[data-select-import]")) $("#backup-import")?.click();
       if (event.target.closest("[data-clear-local]")) clearLocalData();
@@ -985,6 +1109,7 @@
       const backupImport = event.target.closest("[data-backup-import]");
       const driveCheck = event.target.closest("[data-drive-check]");
       const weatherField = event.target.closest("[data-weather-field]");
+      const stayStatus = event.target.closest("[data-stay-status]");
       if (checkbox) {
         const state = getChecklistState();
         state[checkbox.dataset.checkIndex] = checkbox.checked;
@@ -1005,6 +1130,7 @@
       }
       if (driveCheck) updateDriveCheck(driveCheck.dataset.driveDayNumber, driveCheck.dataset.driveCheck, driveCheck.checked);
       if (weatherField) updateWeatherField(weatherField.dataset.weatherId, weatherField.dataset.weatherField, weatherField.value);
+      if (stayStatus) updateStayField(stayStatus.dataset.stayStatus, "status", stayStatus.value);
     });
 
     document.addEventListener("input", (event) => {
@@ -1013,6 +1139,7 @@
       const budgetField = event.target.closest("[data-budget-field]");
       const driveField = event.target.closest("[data-drive-field]");
       const weatherField = event.target.closest("[data-weather-field]");
+      const stayField = event.target.closest("[data-stay-field]");
       if (note) {
         updateDayNote(note.dataset.dayNote, note.value);
         renderBackupSummary();
@@ -1027,6 +1154,7 @@
       }
       if (driveField) updateDriveField(driveField.dataset.driveDayNumber, driveField.dataset.driveField, driveField.value);
       if (weatherField) updateWeatherField(weatherField.dataset.weatherId, weatherField.dataset.weatherField, weatherField.value);
+      if (stayField) updateStayField(stayField.dataset.stayId, stayField.dataset.stayField, stayField.value);
     });
 
     stageDialog?.addEventListener("click", (event) => {
@@ -1043,6 +1171,7 @@
   renderPlanning();
   renderBookings();
   renderBudget();
+  renderStays();
   renderDrive();
   renderWeather();
   renderStages();

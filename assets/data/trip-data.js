@@ -9,7 +9,7 @@ window.tripData = {
     "totalDays": 11,
     "totalNights": 10,
     "totalDistance": "ca. 1.700 km mit Mietwagen",
-    "version": "4.5"
+    "version": "4.6"
   },
   "days": [
     {
@@ -465,6 +465,104 @@ window.tripData = {
       "priority": "Wind, Nebel und nasse Straßen verändern Reichweite und Auswahl der Buchten.",
       "planA": "Bei guter Sicht eine kurze Rundfahrt zu ausgewählten Buchten und Aussichtspunkten machen; Wasseraktivität nur bei bestätigter Durchführung.",
       "planB": "Bei ungünstiger Lage im Ort bleiben, Hafen und kurze Wege nutzen und die lange Halbinsel-Rundfahrt vermeiden."
+    }
+  ],
+  "stays": [
+    {
+      "id": "christchurch",
+      "day": 1,
+      "city": "Christchurch",
+      "region": "Canterbury",
+      "dates": "7. September · 1 Nacht",
+      "nights": 1,
+      "arrival": "Nach der Ankunft: Transfer, spätes Check-in und Weg zum Bahnhof für den nächsten Morgen mitdenken.",
+      "next": "Am 8. September morgens: Christchurch Railway Station für den TranzAlpine.",
+      "mapQuery": "Christchurch New Zealand",
+      "status": "offen"
+    },
+    {
+      "id": "hokitika",
+      "day": 2,
+      "city": "Hokitika",
+      "region": "West Coast",
+      "dates": "8. September · 1 Nacht",
+      "nights": 1,
+      "arrival": "Nach TranzAlpine-Ankunft in Greymouth und kurzer Weiterfahrt. Ankunft am Nachmittag oder frühen Abend einplanen.",
+      "next": "Am 9. September: Hokitika Gorge und Weiterfahrt nach Franz Josef.",
+      "mapQuery": "Hokitika New Zealand",
+      "status": "offen"
+    },
+    {
+      "id": "franz-josef",
+      "day": 3,
+      "city": "Franz Josef",
+      "region": "West Coast · Gletscherregion",
+      "dates": "9. September · 1 Nacht",
+      "nights": 1,
+      "arrival": "Nach Gorge-Stopp und West-Coast-Fahrt; bei Regen und Fotostopps mit späterer Ankunft rechnen.",
+      "next": "Am 10. September: früh über Haast Pass nach Wānaka starten.",
+      "mapQuery": "Franz Josef New Zealand",
+      "status": "offen"
+    },
+    {
+      "id": "wanaka",
+      "day": 4,
+      "city": "Wānaka",
+      "region": "Otago",
+      "dates": "10. September · 1 Nacht",
+      "nights": 1,
+      "arrival": "Nach der langen Haast-Pass-Etappe. Parkplatz und spätes Check-in vorab abstimmen.",
+      "next": "Am 11. September: Wānaka, Lindis Pass und Aoraki / Mount Cook.",
+      "mapQuery": "Wanaka New Zealand",
+      "status": "offen"
+    },
+    {
+      "id": "aoraki",
+      "day": 5,
+      "city": "Aoraki / Mount Cook Village",
+      "region": "Mackenzie District",
+      "dates": "11. September · 1 Nacht",
+      "nights": 1,
+      "arrival": "Nach Lindis Pass und Lake Pukaki. Für die Bergregion warme Kleidung und Ankunft im Hellen anstreben.",
+      "next": "Am 12. September: Vormittag im Nationalpark, danach Lake Tekapo.",
+      "mapQuery": "Aoraki Mount Cook Village New Zealand",
+      "status": "offen"
+    },
+    {
+      "id": "lake-tekapo",
+      "day": 6,
+      "city": "Lake Tekapo",
+      "region": "Mackenzie Basin",
+      "dates": "12. September · 1 Nacht",
+      "nights": 1,
+      "arrival": "Nach kurzer Fahrt von Aoraki / Mount Cook; der Abend bleibt für See, Dorf oder Sternenhimmel offen.",
+      "next": "Am 13. September: lange Etappe nach Kaikōura.",
+      "mapQuery": "Lake Tekapo New Zealand",
+      "status": "offen"
+    },
+    {
+      "id": "kaikoura",
+      "day": 7,
+      "city": "Kaikōura",
+      "region": "Canterbury · Pazifikküste",
+      "dates": "13.–14. September · 2 Nächte",
+      "nights": 2,
+      "arrival": "Nach der längsten Fahrt der Reise. Unterkunft, Parkplatz und Abendessen vorab sichern.",
+      "next": "Am 14. September: Wale, Robben und Peninsula Walkway; am 15. September weiter nach Akaroa.",
+      "mapQuery": "Kaikoura New Zealand",
+      "status": "offen"
+    },
+    {
+      "id": "akaroa",
+      "day": 9,
+      "city": "Akaroa",
+      "region": "Banks Peninsula",
+      "dates": "15.–16. September · 2 Nächte",
+      "nights": 2,
+      "arrival": "Nach der Küstenetappe und den letzten kurvigen Kilometern auf der Banks Peninsula. Ankunftszeit kommunizieren.",
+      "next": "Am 17. September: Abfahrt zum Christchurch Airport, Mietwagenrückgabe bis 17:00 Uhr.",
+      "mapQuery": "Akaroa New Zealand",
+      "status": "offen"
     }
   ],
   "checklist": [
