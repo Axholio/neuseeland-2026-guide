@@ -1,6 +1,22 @@
 # Neuseeland 2026 – Reiseführer
 
-**Version 4.4** – statischer, responsiver HTML-Reiseführer für den persönlichen Südinsel-Roadtrip vom **5. bis 17. September 2026**.
+**Version 4.5** – statischer, responsiver HTML-Reiseführer für die korrigierte Südinsel-Rundreise vom **7. bis 17. September 2026**.
+
+## Route dieser Version
+
+1. Christchurch
+2. TranzAlpine nach Greymouth, weiter nach Hokitika
+3. Hokitika Gorge und Franz Josef
+4. Franz Josef über Haast Pass nach Wānaka
+5. Wānaka, Lindis Pass und Aoraki / Mount Cook
+6. Lake Tekapo und Mackenzie Basin
+7. Lake Tekapo nach Kaikōura
+8. Wale, Robben und Peninsula Walkway
+9. Kaikōura nach Akaroa
+10. Akaroa und die Buchten der Banks Peninsula
+11. Akaroa nach Christchurch Airport
+
+Der TranzAlpine startet damit am **8. September morgens in Christchurch**. Die Rückgabe des Mietwagens erfolgt am **17. September bis 17:00 Uhr** am Christchurch Airport; der Abflug ist um **20:00 Uhr** vorgesehen.
 
 ## Enthalten
 
@@ -12,7 +28,7 @@
 - Buchungsübersicht für Anbieter, Bestätigungsnummern, Beträge und persönliche Hinweise
 - Kostenübersicht mit eigenem Planbudget und laufender Ausgabenerfassung je Kategorie
 - Fahrtag-Check mit Tagesstart, Kilometerstand, Abfahrtscheck und Tagesnotiz
-- Wetterfenster-Board für die sechs wetterkritischen Schlüsselstellen inklusive Plan A / Plan B und lokaler Entscheidungsnotiz
+- Wetterfenster-Board für sechs wetterkritische Schlüsselstellen inklusive Plan A / Plan B und lokaler Entscheidungsnotiz
 - Persönliche Tagesnotizen, Planungsstatus und Buchungsdaten mit lokaler Speicherung im Browser
 - Packliste mit lokaler Speicherung im Browser
 - Druckansicht für eine kompakte Reiseübersicht
@@ -24,7 +40,7 @@
 
 ## In GitHub veröffentlichen
 
-1. Den Inhalt dieses Ordners in das Repository `Axholio/neuseeland-2026-guide` hochladen.
+1. Den **Inhalt** dieses Ordners in das Repository `Axholio/neuseeland-2026-guide` hochladen und gleichnamige Dateien ersetzen.
 2. In **Settings → Pages** die Bereitstellung von `main` / Root aktivieren.
 3. Nach der Veröffentlichung ist der Guide über GitHub Pages erreichbar.
 
@@ -36,4 +52,4 @@ Alle Reisetage, Fahrtstrecken, Hinweise, Statuswerte und Planungspunkte stehen g
 assets/data/trip-data.js
 ```
 
-Planungsstatus, persönliche Tagesnotizen, Buchungsdaten, Kostenwerte, Fahrtag-Einträge, Wetterbewertungen und Packlisten-Häkchen werden nur im Browser dieses Geräts gespeichert. Sie werden nicht automatisch in GitHub zurückgeschrieben. Über den Bereich **„Planung sichern“** lässt sich eine lokale Sicherungsdatei exportieren und später wieder importieren. Sicherungsdateien nicht in GitHub veröffentlichen. Keine Passwörter, Kreditkartendaten oder Ausweiskopien in die Buchungsübersicht eintragen.
+Die Version 4.5 verwendet bewusst neue lokale Browser-Schlüssel, damit persönliche Eingaben aus der verworfenen Route nicht in die korrigierte Tour übernommen werden. Planungsstatus, persönliche Tagesnotizen, Buchungsdaten, Kostenwerte, Fahrtag-Einträge, Wetterbewertungen und Packlisten-Häkchen werden nur im Browser dieses Geräts gespeichert. Sie werden nicht automatisch in GitHub zurückgeschrieben. Über den Bereich **„Planung sichern“** lässt sich eine lokale Sicherungsdatei exportieren und später wieder importieren. Sicherungsdateien nicht in GitHub veröffentlichen. Keine Passwörter, Kreditkartendaten oder Ausweiskopien in die Buchungsübersicht eintragen.

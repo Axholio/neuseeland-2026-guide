@@ -7,12 +7,12 @@
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
   const stageDialog = $("#stage-dialog");
-  const checklistStorageKey = "nz-2026-checklist-v41b";
-  const plannerStorageKey = "nz-2026-planner-v41b";
-  const bookingStorageKey = "nz-2026-bookings-v41c";
-  const budgetStorageKey = "nz-2026-budget-v41d";
-  const driveStorageKey = "nz-2026-drive-v43";
-  const weatherStorageKey = "nz-2026-weather-v44";
+  const checklistStorageKey = "nz-2026-checklist-v45";
+  const plannerStorageKey = "nz-2026-planner-v45";
+  const bookingStorageKey = "nz-2026-bookings-v45";
+  const budgetStorageKey = "nz-2026-budget-v45";
+  const driveStorageKey = "nz-2026-drive-v45";
+  const weatherStorageKey = "nz-2026-weather-v45";
   const backupSchema = "nz-2026-guide-backup";
   const backupVersion = 1;
   const localStorageKeys = [checklistStorageKey, plannerStorageKey, bookingStorageKey, budgetStorageKey, driveStorageKey, weatherStorageKey];
@@ -95,23 +95,24 @@
 
   function renderTripFacts() {
     const facts = [
-      ["Zeitraum", "5.–17. Sept. 2026"],
+      ["Zeitraum", data.meta.dateRange || data.meta.subtitle],
       ["Dauer", `${data.meta.totalDays} Tage · ${data.meta.totalNights} Nächte`],
       ["Fahrstrecke", data.meta.totalDistance],
-      ["Abschluss", "17. Sept. · 20:00 Uhr Abflug"]
+      ["Abschluss", data.meta.returnInfo || "Rückgabe & Abflug"]
     ];
     $("#trip-facts").innerHTML = facts.map(([term, value]) => `<div><dt>${escapeHtml(term)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("");
     $("#updated-date").textContent = data.meta.updated;
   }
 
   function routeClass(day) {
-    if (day.number === 1) return "ferry";
+    if (day.routeKind) return day.routeKind;
     if (day.number === data.days.length) return "return";
     return "road";
   }
 
   function renderRoute() {
     const track = $("#route-track");
+    track.style.setProperty("--route-days", data.days.length);
     track.innerHTML = data.days.map((day) => `
       <button class="route-stop ${routeClass(day)}" type="button" data-route-day="${day.number}" title="Tag ${day.number}: ${escapeHtml(day.route)}">
         <span class="route-day">Tag ${day.number}</span>

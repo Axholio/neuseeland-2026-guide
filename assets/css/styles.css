@@ -103,13 +103,15 @@ h3 { margin: 0; font-size: 1.46rem; letter-spacing: -0.02em; }
 .route-legend { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 26px; color: #596764; font-size: 0.84rem; }
 .route-legend span { display: inline-flex; align-items: center; gap: 7px; }
 .legend-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--pine); }
-.legend-dot.ferry { background: #8b7048; }
+.legend-dot.arrival { background: #8b7048; }
+.legend-dot.rail { background: #47747c; }
 .legend-dot.return { background: var(--stone); }
-.route-track { position: relative; display: grid; grid-template-columns: repeat(13, minmax(76px, 1fr)); gap: 4px; overflow-x: auto; padding: 8px 0 16px; }
+.route-track { position: relative; display: grid; grid-template-columns: repeat(var(--route-days, 11), minmax(76px, 1fr)); gap: 4px; overflow-x: auto; padding: 8px 0 16px; }
 .route-track::before { content: ""; position: absolute; left: 42px; right: 42px; top: 37px; height: 2px; background: rgba(37,91,82,0.35); }
 .route-stop { position: relative; min-width: 76px; padding-top: 50px; text-align: center; }
 .route-stop::before { content: ""; position: absolute; z-index: 1; top: 26px; left: 50%; width: 22px; height: 22px; border: 5px solid var(--mist); border-radius: 50%; background: var(--pine); transform: translateX(-50%); box-shadow: 0 0 0 1px rgba(37,91,82,0.35); }
-.route-stop.ferry::before { background: #8b7048; }
+.route-stop.arrival::before { background: #8b7048; }
+.route-stop.rail::before { background: #47747c; }
 .route-stop.return::before { background: var(--stone); }
 .route-day { display: block; color: var(--fern); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
 .route-place { display: block; margin-top: 4px; color: var(--ink); font-size: 0.78rem; line-height: 1.25; }
@@ -213,7 +215,7 @@ h3 { margin: 0; font-size: 1.46rem; letter-spacing: -0.02em; }
   .advice-card { min-height: 0; }
   .stages-grid { grid-template-columns: 1fr; }
   .checklist { grid-template-columns: 1fr; }
-  .route-track { grid-template-columns: repeat(13, 94px); }
+  .route-track { grid-template-columns: repeat(var(--route-days, 11), 94px); }
   .site-nav { position: absolute; top: 70px; left: 0; right: 0; display: none; flex-direction: column; align-items: stretch; gap: 0; padding: 10px 20px 18px; border-bottom: 1px solid rgba(255,255,255,0.13); background: var(--deep); }
   .site-nav.is-open { display: flex; }
   .site-nav a, .print-button { padding: 12px 0; border-radius: 0; text-align: left; }
@@ -252,7 +254,7 @@ h3 { margin: 0; font-size: 1.46rem; letter-spacing: -0.02em; }
   .trip-card { display: none; }
   .section { padding: 22px 0; }
   .route-section, .stages-section { background: #fff; }
-  .route-track { grid-template-columns: repeat(13, 1fr); overflow: visible; }
+  .route-track { grid-template-columns: repeat(var(--route-days, 11), 1fr); overflow: visible; }
   .route-track::before { top: 28px; }
   .route-stop { min-width: 0; padding-top: 42px; }
   .route-stop::before { top: 18px; border-color: #fff; }
@@ -541,3 +543,6 @@ h3 { margin: 0; font-size: 1.46rem; letter-spacing: -0.02em; }
 @media print {
   .weather-section { display: none !important; }
 }
+
+
+/* Version 4.5: korrigierte Christchurch–West Coast–Kaikōura–Akaroa Route */
