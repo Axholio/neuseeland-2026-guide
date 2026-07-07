@@ -1,4 +1,4 @@
-# Bildnachweise · Version 5.0
+# Bildnachweise · Version 5.2
 
 Die folgenden Bilder liegen lokal im Projektordner `assets/images/`. Sie wurden für den persönlichen Reiseführer in verkleinerter Webauflösung übernommen. Die Quellen- und Lizenzangaben sind zusätzlich im Bereich **Bildnachweise** der Website verlinkt.
 
@@ -14,4 +14,4 @@ Die folgenden Bilder liegen lokal im Projektordner `assets/images/`. Sie wurden 
 
 Kartenhintergrund in der interaktiven Übersicht: © OpenStreetMap-Mitwirkende. Die eingezeichneten Linien zeigen die Reiseabfolge nur annähernd und sind keine Navigations- oder Straßendarstellung.
 
-Projektversion 5.1: Bilddateien unverändert gegenüber Version 5.0; ergänzt wurde ausschließlich die Anzeige im Vollbildmodus.
+Projektversion 5.2: Bilddateien unverändert gegenüber Version 5.0. Ergänzt wurden Web-App- und Offline-Funktionen; Bildanzeige und Lizenznachweise bleiben unverändert.

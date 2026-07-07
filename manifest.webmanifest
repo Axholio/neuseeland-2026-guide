@@ -1,0 +1,26 @@
+{
+  "id": "./",
+  "name": "Neuseeland 2026 – Südinsel-Rundreise",
+  "short_name": "NZ 2026",
+  "description": "Persönlicher Reiseführer für die Südinsel-Rundreise im September 2026.",
+  "lang": "de-DE",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#edf4ed",
+  "theme_color": "#0e2d2c",
+  "icons": [
+    {
+      "src": "assets/icons/app-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/app-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

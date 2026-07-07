@@ -1,6 +1,6 @@
 # Neuseeland 2026 – Reiseführer
 
-**Version 5.1** – finaler statischer HTML-Reiseführer für die Südinsel-Rundreise vom **7. bis 17. September 2026**.
+**Version 5.2** – statischer HTML-Reiseführer für die Südinsel-Rundreise vom **7. bis 17. September 2026**.
 
 ## Route
 
@@ -18,29 +18,32 @@
 
 Die Rückgabe des Mietwagens ist am **17. September bis 17:00 Uhr** am Christchurch Airport vorgesehen; der Abflug ist für **20:00 Uhr** eingeplant.
 
-## Version 5.1 – Abschlussstand
+## Version 5.2 – Web-App und Offline-Betrieb
 
 - vollständige, korrigierte Tagesroute mit TranzAlpine am 8. September
 - sieben lokal gespeicherte Routenbilder inklusive Lizenznachweisen
 - interaktive OpenStreetMap-Übersicht mit anklickbaren Tagesetappen
-- Bildansicht im Vollbildmodus mit Tastatursteuerung (Pfeiltasten, Escape)
-- Schnellzugriff für Tagesbriefing, Übernachtungen, Wetterfenster und Etappen
-- mobil optimierte Darstellung, reduzierte Animationen bei entsprechender Systemeinstellung
-- bereinigte Druckansicht mit Route und Etappen, ohne interaktive Planungsfelder
-- Buchungs-, Kosten-, Unterkunfts-, Wetter-, Mietwagen-, Unterlagen- und Fahrtag-Boards
+- Bildansicht im Vollbildmodus mit Tastatursteuerung
+- Tagesbriefing, Übernachtungs-, Wetter-, Mietwagen-, Unterlagen-, Buchungs-, Kosten- und Fahrtag-Boards
 - lokales Speichern persönlicher Eingaben sowie Export und Import als JSON-Sicherung
+- installierbare Web-App über `manifest.webmanifest` und `service-worker.js`
+- App-Grundgerüst, Reisedaten, Bilder und persönliche Eingaben nach dem ersten vollständigen Laden offline verwendbar
+- Offline-Status und Installationshinweise direkt im Guide
 
 ## Lokal öffnen
 
 `index.html` direkt im Browser öffnen. Ein Build-Schritt oder lokaler Server ist nicht erforderlich.
 
-Die Karte benötigt eine Internetverbindung, da sie Kartenkacheln von OpenStreetMap lädt. Die Bilder, Reisedaten und alle übrigen Planungsfunktionen liegen im Projekt.
+Für die installierbare Web-App und den Offline-Cache muss der Guide über HTTPS ausgeliefert werden, also beispielsweise über GitHub Pages. Beim direkten Öffnen einer lokalen Datei im Browser steht die Service-Worker-Funktion nicht zur Verfügung.
+
+Die interaktive Karte und externe Links benötigen eine Internetverbindung. Die Bilder, Reisedaten, Formulare und persönlichen Einträge liegen im Projekt beziehungsweise im lokalen Browser-Speicher.
 
 ## GitHub Pages
 
 1. Den **Inhalt** dieses Ordners in das Repository `Axholio/neuseeland-2026-guide` hochladen und gleichnamige Dateien ersetzen.
 2. In **Settings → Pages** die Quelle `main` / `/(root)` aktivieren.
-3. Nach der Veröffentlichung ist der Guide über GitHub Pages erreichbar.
+3. Die veröffentlichte Seite einmal vollständig öffnen, bevor sie unterwegs offline verwendet werden soll.
+4. Anschließend auf dem jeweiligen Gerät über die Browserfunktion zum Startbildschirm hinzufügen oder – sofern angeboten – den Installationsknopf im Guide nutzen.
 
 ## Inhalt bearbeiten
 
@@ -55,6 +58,14 @@ Bilder und Bildnachweise liegen hier:
 ```text
 assets/images/
 assets/images/ATTRIBUTIONS.md
+```
+
+Die Web-App-Konfiguration liegt in:
+
+```text
+manifest.webmanifest
+service-worker.js
+assets/js/pwa.js
 ```
 
 Persönliche Daten werden ausschließlich im lokalen Browser-Speicher abgelegt. Sie werden nicht zurück nach GitHub synchronisiert. Vor dem Wechsel des Geräts oder dem Löschen von Browserdaten die Sicherungsfunktion des Guides verwenden. Keine Passwörter, Kreditkartendaten oder Ausweiskopien in Feldern der Buchungsübersicht speichern.

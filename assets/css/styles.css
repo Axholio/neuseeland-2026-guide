@@ -942,3 +942,40 @@ h3 { margin: 0; font-size: 1.46rem; letter-spacing: -0.02em; }
   .stage-card { border-color: #cbd2ce; }
   .status, .stage-signal { box-shadow: none !important; }
 }
+
+/* Version 5.2: Web-App, Offline-Hinweise und Installation */
+.install-button { border: 1px solid rgba(207, 224, 201, 0.7); border-radius: 999px; padding: 7px 12px; color: #12312d; background: #dce8d8; font-weight: 850; font-size: 0.78rem; white-space: nowrap; }
+.install-button:hover, .install-button:focus-visible { color: #0e2d2c; background: #fff; outline: none; }
+.offline-section { background: #dbe6da; }
+.offline-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.offline-card { display: flex; flex-direction: column; min-height: 252px; padding: 27px; border: 1px solid rgba(27, 74, 61, 0.16); border-radius: var(--radius-md); background: rgba(255,255,255,0.86); }
+.offline-card-status { color: #f3fbf4; border-color: rgba(255,255,255,0.12); background: linear-gradient(145deg, #173f38, #2c6556); }
+.offline-kicker { color: #527b65; font-size: 0.7rem; font-weight: 850; letter-spacing: 0.11em; text-transform: uppercase; }
+.offline-card-status .offline-kicker { color: #bcd5ba; }
+.offline-card h3 { margin: 18px 0 0; }
+.offline-card p { margin: 13px 0 0; color: #596a63; font-size: 0.9rem; line-height: 1.52; }
+.offline-card-status h3 { color: #fff; }
+.offline-card-status p { color: rgba(241, 251, 244, 0.76); }
+.offline-status { font-family: var(--serif); font-size: 1.45rem !important; line-height: 1.17 !important; }
+.offline-status[data-state="offline"] { color: #e4f3db; }
+.offline-status[data-state="error"] { color: #f3d9c7; }
+.offline-status[data-state="installed"] { color: #d7eccd; }
+.offline-detail { font-size: 0.8rem !important; }
+.offline-install-button { align-self: flex-start; margin-top: auto; padding: 11px 16px; border: 1px solid #2b6d5b; border-radius: 999px; color: #fff; background: #2d705e; font-size: 0.88rem; font-weight: 850; }
+.offline-install-button:hover, .offline-install-button:focus-visible { color: #1d5145; background: #e7f2e2; outline: none; }
+.offline-checklist { display: grid; gap: 10px; margin: 17px 0 0; padding: 0; color: #586a62; font-size: 0.88rem; line-height: 1.45; list-style: none; }
+.offline-checklist li { position: relative; padding-left: 20px; }
+.offline-checklist li::before { position: absolute; left: 0; top: 0.3em; width: 10px; height: 10px; border: 2px solid #579076; border-radius: 50%; content: ""; }
+@media (max-width: 960px) {
+  .offline-grid { grid-template-columns: 1fr 1fr; }
+  .offline-card:last-child { grid-column: span 2; min-height: 0; }
+}
+@media (max-width: 760px) {
+  .install-button { width: 100%; margin-top: 4px; }
+  .offline-grid { grid-template-columns: 1fr; }
+  .offline-card, .offline-card:last-child { grid-column: auto; min-height: 0; }
+  .offline-card { padding: 22px; }
+}
+@media print {
+  .offline-section { display: none !important; }
+}

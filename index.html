@@ -5,14 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Persönlicher Reiseführer für die Südinsel-Rundreise mit TranzAlpine, West Coast, Aoraki / Mount Cook, Kaikōura und Akaroa im September 2026.">
   <meta name="theme-color" content="#0e2d2c">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="NZ 2026">
   <title>Neuseeland 2026 · Südinsel-Rundreise</title>
   <link rel="icon" href="assets/icons/fern.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icons/app-icon-180.png">
+  <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="assets/css/styles.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <script src="assets/data/trip-data.js" defer></script>
   <script src="assets/js/app.js" defer></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer crossorigin=""></script>
   <script src="assets/js/route-map.js" defer></script>
+  <script src="assets/js/pwa.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Zum Inhalt springen</a>
@@ -43,6 +50,8 @@
         <a href="#wissen">Unterwegs</a>
         <a href="#packliste">Packliste</a>
         <a href="#sicherung">Sicherung</a>
+        <a href="#offline">Offline</a>
+        <button class="install-button" type="button" data-install-guide hidden>Auf Gerät speichern</button>
         <button class="print-button" type="button" data-print>Übersicht drucken</button>
       </nav>
     </div>
@@ -430,6 +439,42 @@
       </div>
     </section>
 
+
+    <section class="section offline-section" id="offline">
+      <div class="page-shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow">Für unterwegs</p>
+            <h2>Auf diesem Gerät bereithalten</h2>
+          </div>
+          <p class="section-intro">Nach dem ersten vollständigen Öffnen kann der Guide als Web-App auf dem Gerät verfügbar bleiben. Inhalte, Bilder und persönliche Einträge funktionieren dann auch ohne ständige Verbindung. Die interaktive Karte und externe Links benötigen weiterhin Internet.</p>
+        </div>
+        <div class="offline-grid">
+          <article class="offline-card offline-card-status">
+            <span class="offline-kicker">Verfügbarkeit</span>
+            <h3>Offline-Status</h3>
+            <p class="offline-status" id="pwa-status" role="status" aria-live="polite">Prüfe die Offline-Verfügbarkeit …</p>
+            <p class="offline-detail" id="pwa-detail">Öffne den Guide vor der Fahrt einmal vollständig, solange eine stabile Verbindung besteht.</p>
+          </article>
+          <article class="offline-card">
+            <span class="offline-kicker">Startbildschirm</span>
+            <h3>Wie eine App öffnen</h3>
+            <p>Auf unterstützten Geräten erscheint ein Installationsknopf. Andernfalls im Browser die Funktion „Zum Home-Bildschirm“ oder „App installieren“ verwenden.</p>
+            <button class="offline-install-button" type="button" data-install-guide hidden>Auf diesem Gerät speichern</button>
+          </article>
+          <article class="offline-card">
+            <span class="offline-kicker">Vor dem Fahrtag</span>
+            <h3>Offline-Check</h3>
+            <ul class="offline-checklist">
+              <li>Guide einmal öffnen und kurz durch die Bildseite scrollen.</li>
+              <li>Persönliche Eingaben zusätzlich über „Planung sichern“ exportieren.</li>
+              <li>Offline-Karten und Buchungsunterlagen separat im Telefon speichern.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section class="section backup-section" id="sicherung">
       <div class="page-shell">
         <div class="section-heading split-heading">
@@ -471,7 +516,7 @@
   <footer class="site-footer">
     <div class="page-shell footer-inner">
       <p><strong>Neuseeland 2026</strong> · Südinsel-Roadtrip</p>
-      <p>Arbeitsstand <span id="updated-date"></span> · v5.1</p>
+      <p>Arbeitsstand <span id="updated-date"></span> · v5.2</p>
     </div>
   </footer>
 
