@@ -880,3 +880,65 @@ h3 { margin: 0; font-size: 1.46rem; letter-spacing: -0.02em; }
 @media print {
   .map-section, .gallery-section { display: none !important; }
 }
+
+/* Version 5.1: Abschluss – schneller Zugriff, Bildansicht, mobile und Druck-Finishing */
+.quick-nav-section { position: relative; z-index: 2; margin-top: -28px; padding: 0 0 20px; }
+.quick-nav-shell { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 20px; align-items: center; padding: 16px 20px; border: 1px solid rgba(32, 76, 63, 0.18); border-radius: 16px; background: rgba(255, 255, 255, 0.94); box-shadow: 0 12px 32px rgba(20, 55, 45, 0.12); }
+.quick-nav-label { margin: 0; color: #4f765e; font-size: 0.72rem; font-weight: 850; letter-spacing: 0.11em; text-transform: uppercase; }
+.quick-nav { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.quick-nav a { display: flex; align-items: center; gap: 9px; min-height: 42px; padding: 8px 10px; border-radius: 9px; color: #38584d; background: #f1f6f0; font-size: 0.8rem; font-weight: 800; text-decoration: none; }
+.quick-nav a:hover, .quick-nav a:focus-visible { color: #fff; background: #2d705e; outline: none; }
+.quick-nav a span { display: grid; place-items: center; width: 22px; height: 22px; flex: 0 0 22px; border-radius: 50%; color: #477461; background: #dcebd8; font-size: 0.64rem; letter-spacing: 0.02em; }
+.quick-nav a:hover span, .quick-nav a:focus-visible span { color: #2f6757; background: #fff; }
+
+.photo-open { position: absolute; inset: 0; z-index: 2; width: 100%; padding: 0; border: 0; background: transparent; cursor: zoom-in; }
+.photo-open:focus-visible { outline: 3px solid #ecf8e9; outline-offset: -7px; }
+.photo-open:focus-visible + figcaption { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 5px; }
+.photo-card figcaption { z-index: 3; pointer-events: none; }
+.photo-dialog { width: min(1120px, calc(100% - 28px)); max-width: none; max-height: calc(100dvh - 28px); padding: 0; overflow: hidden; border: 0; border-radius: 18px; color: #f5faf6; background: #09201f; box-shadow: 0 28px 84px rgba(0,0,0,0.46); }
+.photo-dialog::backdrop { background: rgba(4, 18, 16, 0.82); backdrop-filter: blur(4px); }
+.photo-dialog-shell { position: relative; min-height: min(730px, calc(100dvh - 28px)); }
+.photo-dialog-figure { display: grid; grid-template-rows: minmax(0, 1fr) auto; height: min(730px, calc(100dvh - 28px)); margin: 0; }
+.photo-dialog-figure img { width: 100%; min-height: 0; height: 100%; object-fit: contain; background: #061715; }
+.photo-dialog-figure figcaption { display: grid; gap: 5px; padding: 17px 78px 19px; border-top: 1px solid rgba(255,255,255,0.12); background: #10332e; }
+.photo-dialog-kicker { margin: 0; color: #b9d5b8; font-size: 0.68rem; font-weight: 850; letter-spacing: 0.1em; text-transform: uppercase; }
+.photo-dialog-figure h2 { margin: 0; color: #fff; font-size: clamp(1.65rem, 3vw, 2.35rem); }
+.photo-dialog-figure figcaption > p:last-child { margin: 0; color: rgba(240, 249, 242, 0.75); font-size: 0.88rem; line-height: 1.45; }
+.photo-dialog-close, .photo-dialog-step { position: absolute; z-index: 2; display: grid; place-items: center; border: 1px solid rgba(255,255,255,0.28); color: #fff; background: rgba(8, 37, 32, 0.78); box-shadow: 0 8px 20px rgba(0,0,0,0.18); }
+.photo-dialog-close { top: 16px; right: 16px; width: 40px; height: 40px; border-radius: 50%; font-size: 1.8rem; line-height: 1; }
+.photo-dialog-step { top: calc(50% - 28px); width: 48px; height: 56px; border-radius: 12px; font-size: 2.6rem; line-height: 0.8; }
+.photo-dialog-prev { left: 16px; }
+.photo-dialog-next { right: 16px; }
+.photo-dialog-close:hover, .photo-dialog-close:focus-visible, .photo-dialog-step:hover, .photo-dialog-step:focus-visible { border-color: #fff; color: #0f302b; background: #f0f8ef; outline: none; }
+
+@media (max-width: 860px) {
+  .quick-nav-section { margin-top: 0; padding: 16px 0 0; background: #edf4ed; }
+  .quick-nav-shell { grid-template-columns: 1fr; gap: 10px; padding: 16px; border-radius: 13px; box-shadow: none; }
+  .quick-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+  .quick-nav { grid-template-columns: 1fr; }
+  .quick-nav a { min-height: 40px; }
+  .photo-dialog { width: min(100% - 14px, 1120px); max-height: calc(100dvh - 14px); }
+  .photo-dialog-shell, .photo-dialog-figure { min-height: calc(100dvh - 14px); height: calc(100dvh - 14px); }
+  .photo-dialog-figure figcaption { padding: 15px 57px 17px 18px; }
+  .photo-dialog-step { top: auto; bottom: 18px; width: 38px; height: 38px; border-radius: 50%; font-size: 2rem; }
+  .photo-dialog-prev { left: auto; right: 66px; }
+  .photo-dialog-next { right: 18px; }
+  .photo-dialog-close { top: 10px; right: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}
+
+@media print {
+  .quick-nav-section, .map-section, .gallery-section, .briefing-section, .stays-section, .rental-section, .drive-section, .weather-section, .planning-section, .bookings-section, .documents-section, .budget-section, .travel-section, .checklist-section, .backup-section, .stage-dialog, .photo-dialog { display: none !important; }
+  .hero { margin: 0; }
+  .route-section { padding-top: 10px; }
+  .stages-section { padding-top: 18px; }
+  .stage-card { border-color: #cbd2ce; }
+  .status, .stage-signal { box-shadow: none !important; }
+}

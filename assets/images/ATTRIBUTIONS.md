@@ -13,3 +13,5 @@ Die folgenden Bilder liegen lokal im Projektordner `assets/images/`. Sie wurden 
 | `akaroa-harbour.jpg` | Akaroa Harbour | Bernard Spragg. NZ | CC0 1.0 | https://commons.wikimedia.org/wiki/File:Akaroa_Harbour_NZ._(49671627386).jpg |
 
 Kartenhintergrund in der interaktiven Übersicht: © OpenStreetMap-Mitwirkende. Die eingezeichneten Linien zeigen die Reiseabfolge nur annähernd und sind keine Navigations- oder Straßendarstellung.
+
+Projektversion 5.1: Bilddateien unverändert gegenüber Version 5.0; ergänzt wurde ausschließlich die Anzeige im Vollbildmodus.

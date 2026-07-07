@@ -54,7 +54,7 @@
       <div class="hero-contour contour-two" aria-hidden="true"></div>
       <div class="page-shell hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow">Persönlicher Reiseführer · Version 5.0</p>
+          <p class="eyebrow">Persönlicher Reiseführer · Version 5.1 · Abschlussstand</p>
           <h1>Mit dem TranzAlpine zur Westküste. Zurück über Kaikōura und Akaroa.</h1>
           <p class="hero-lead">Elf Reisetage auf der Südinsel: Christchurch, West Coast, Haast Pass, Aoraki / Mount Cook, Lake Tekapo, Kaikōura und Banks Peninsula.</p>
           <div class="hero-actions">
@@ -68,6 +68,18 @@
           <div class="trip-card-line"></div>
           <p class="trip-card-note">Planungsstand, Tagesnotizen und Checkliste bleiben auf diesem Gerät im Browser gespeichert.</p>
         </aside>
+      </div>
+    </section>
+
+    <section class="quick-nav-section" aria-label="Schnellzugriff">
+      <div class="page-shell quick-nav-shell">
+        <p class="quick-nav-label">Schnellzugriff</p>
+        <nav class="quick-nav" aria-label="Direkt zu wichtigen Bereichen">
+          <a href="#tagesbriefing"><span>01</span>Tagesbriefing</a>
+          <a href="#unterkuenfte"><span>02</span>Übernachtungen</a>
+          <a href="#wetter"><span>03</span>Wetterfenster</a>
+          <a href="#etappen"><span>04</span>Etappen</a>
+        </nav>
       </div>
     </section>
 
@@ -129,35 +141,49 @@
             <p class="eyebrow">Unterwegs sehen</p>
             <h2>Bilder der Route</h2>
           </div>
-          <p class="section-intro">Diese Bildauswahl verortet die prägenden Landschaftsräume der Reise: Zugstrecke, Regenwald und Gletscherregion, Seen, Hochgebirge sowie die Pazifikküste. Die Bilder sind lokal im Projekt gespeichert.</p>
+          <p class="section-intro">Diese Bildauswahl verortet die prägenden Landschaftsräume der Reise: Zugstrecke, Regenwald und Gletscherregion, Seen, Hochgebirge sowie die Pazifikküste. Die Bilder sind lokal im Projekt gespeichert. Ein Bild antippen oder anklicken, um es groß zu öffnen.</p>
         </div>
         <div class="photo-grid">
           <figure class="photo-card photo-card-feature">
-            <img src="assets/images/tranzalpine.jpg" width="960" height="640" alt="TranzAlpine-Zug an einem Bahnhof vor bewaldeten Bergen" fetchpriority="high">
+            <button class="photo-open" type="button" data-open-photo="0" aria-label="TranzAlpine-Bild groß anzeigen">
+              <img src="assets/images/tranzalpine.jpg" width="960" height="640" alt="TranzAlpine-Zug an einem Bahnhof vor bewaldeten Bergen" fetchpriority="high">
+            </button>
             <figcaption><span>Tag 2 · Zugstrecke</span><h3>TranzAlpine durch die Südalpen</h3><p>Der Bahnabschnitt von Christchurch nach Greymouth setzt den Auftakt der Westküstenroute.</p></figcaption>
           </figure>
           <figure class="photo-card photo-card-tall">
-            <img src="assets/images/hokitika-gorge.jpg" width="960" height="640" alt="Türkisfarbener Fluss der Hokitika Gorge zwischen Regenwald und Felsen" loading="lazy">
+            <button class="photo-open" type="button" data-open-photo="1" aria-label="Hokitika-Gorge-Bild groß anzeigen">
+              <img src="assets/images/hokitika-gorge.jpg" width="960" height="640" alt="Türkisfarbener Fluss der Hokitika Gorge zwischen Regenwald und Felsen" loading="lazy">
+            </button>
             <figcaption><span>Tag 3 · West Coast</span><h3>Hokitika Gorge</h3><p>Regenwald, heller Fels und Gletscherwasser.</p></figcaption>
           </figure>
           <figure class="photo-card">
-            <img src="assets/images/wanaka.jpg" width="960" height="523" alt="Lake Wānaka mit Booten und schneebedeckten Bergen im Hintergrund" loading="lazy">
+            <button class="photo-open" type="button" data-open-photo="2" aria-label="Lake-Wānaka-Bild groß anzeigen">
+              <img src="assets/images/wanaka.jpg" width="960" height="523" alt="Lake Wānaka mit Booten und schneebedeckten Bergen im Hintergrund" loading="lazy">
+            </button>
             <figcaption><span>Tag 4 · Central Otago</span><h3>Lake Wānaka</h3><p>Der Übergang von der West Coast in die Seenlandschaft.</p></figcaption>
           </figure>
           <figure class="photo-card photo-card-wide">
-            <img src="assets/images/aoraki-mount-cook.jpg" width="960" height="1280" alt="Aoraki Mount Cook und weitere schneebedeckte Gipfel spiegeln sich in einem See" loading="lazy">
+            <button class="photo-open" type="button" data-open-photo="3" aria-label="Aoraki-Mount-Cook-Bild groß anzeigen">
+              <img src="assets/images/aoraki-mount-cook.jpg" width="960" height="1280" alt="Aoraki Mount Cook und weitere schneebedeckte Gipfel spiegeln sich in einem See" loading="lazy">
+            </button>
             <figcaption><span>Tag 5 · Aoraki / Mount Cook</span><h3>Die Südalpen</h3><p>Der alpine Höhepunkt der Route und Ausgangspunkt für die kurze Etappe nach Lake Tekapo.</p></figcaption>
           </figure>
           <figure class="photo-card">
-            <img src="assets/images/lake-tekapo.jpg" width="960" height="623" alt="Lake Tekapo vor schneebedeckten Bergen" loading="lazy">
+            <button class="photo-open" type="button" data-open-photo="4" aria-label="Lake-Tekapo-Bild groß anzeigen">
+              <img src="assets/images/lake-tekapo.jpg" width="960" height="623" alt="Lake Tekapo vor schneebedeckten Bergen" loading="lazy">
+            </button>
             <figcaption><span>Tag 6 · Mackenzie Basin</span><h3>Lake Tekapo</h3><p>See, Bergkulisse und ein offenes Zeitfenster für die Nacht.</p></figcaption>
           </figure>
           <figure class="photo-card photo-card-wide">
-            <img src="assets/images/kaikoura.jpg" width="960" height="720" alt="Luftbild der Kaikōura Peninsula mit Küste und türkisfarbenem Meer" loading="lazy">
+            <button class="photo-open" type="button" data-open-photo="5" aria-label="Kaikōura-Bild groß anzeigen">
+              <img src="assets/images/kaikoura.jpg" width="960" height="720" alt="Luftbild der Kaikōura Peninsula mit Küste und türkisfarbenem Meer" loading="lazy">
+            </button>
             <figcaption><span>Tag 7–8 · Pazifikküste</span><h3>Kaikōura Peninsula</h3><p>Der Küstenabschnitt für Walbeobachtung, Robben und Peninsula Walkway.</p></figcaption>
           </figure>
           <figure class="photo-card">
-            <img src="assets/images/akaroa-harbour.jpg" width="960" height="560" alt="Boote im Akaroa Harbour bei dunklen Wolken und Licht über dem Wasser" loading="lazy">
+            <button class="photo-open" type="button" data-open-photo="6" aria-label="Akaroa-Harbour-Bild groß anzeigen">
+              <img src="assets/images/akaroa-harbour.jpg" width="960" height="560" alt="Boote im Akaroa Harbour bei dunklen Wolken und Licht über dem Wasser" loading="lazy">
+            </button>
             <figcaption><span>Tag 9–10 · Banks Peninsula</span><h3>Akaroa Harbour</h3><p>Ein ruhiger Schlussblock vor der Rückfahrt zum Flughafen.</p></figcaption>
           </figure>
         </div>
@@ -445,7 +471,7 @@
   <footer class="site-footer">
     <div class="page-shell footer-inner">
       <p><strong>Neuseeland 2026</strong> · Südinsel-Roadtrip</p>
-      <p>Arbeitsstand <span id="updated-date"></span> · v5.0</p>
+      <p>Arbeitsstand <span id="updated-date"></span> · v5.1</p>
     </div>
   </footer>
 
@@ -453,5 +479,23 @@
     <button class="dialog-close" type="button" aria-label="Detailansicht schließen" data-close-dialog>×</button>
     <div class="dialog-content" id="dialog-content"></div>
   </dialog>
+
+  <dialog class="photo-dialog" id="photo-dialog" aria-labelledby="photo-dialog-title" aria-describedby="photo-dialog-caption">
+    <div class="photo-dialog-shell">
+      <button class="photo-dialog-close" type="button" aria-label="Bildansicht schließen" data-close-photo>×</button>
+      <button class="photo-dialog-step photo-dialog-prev" type="button" aria-label="Vorheriges Bild" data-photo-previous>‹</button>
+      <figure class="photo-dialog-figure">
+        <img id="photo-dialog-image" src="" alt="">
+        <figcaption>
+          <p class="photo-dialog-kicker" id="photo-dialog-kicker"></p>
+          <h2 id="photo-dialog-title"></h2>
+          <p id="photo-dialog-caption"></p>
+        </figcaption>
+      </figure>
+      <button class="photo-dialog-step photo-dialog-next" type="button" aria-label="Nächstes Bild" data-photo-next>›</button>
+    </div>
+  </dialog>
+
+  <script src="assets/js/photo-viewer.js" defer></script>
 </body>
 </html>
