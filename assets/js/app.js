@@ -10,6 +10,7 @@
   const checklistStorageKey = "nz-2026-checklist-v41b";
   const plannerStorageKey = "nz-2026-planner-v41b";
   const bookingStorageKey = "nz-2026-bookings-v41c";
+  const budgetStorageKey = "nz-2026-budget-v41d";
   let activeStageFilter = "all";
 
   function escapeHtml(value) {
@@ -400,6 +401,123 @@
     if (hint) hint.textContent = bookingIsFilled(state[taskId]) ? "Buchungsdaten gespeichert" : "Noch keine Buchungsdaten";
   }
 
+  function getBudgetState() {
+    return loadState(budgetStorageKey, {});
+  }
+
+  function getBudgetRecord(categoryId) {
+    const state = getBudgetState();
+    return state[categoryId] || {};
+  }
+
+  function budgetField(category, field, label, type, value, extra = "") {
+    const safeValue = escapeHtml(value || "");
+    const common = `data-budget-id="${escapeHtml(category.id)}" data-budget-field="${escapeHtml(field)}"`;
+    if (type === "textarea") {
+      return `
+        <label class="budget-field budget-field-wide">
+          <span>${escapeHtml(label)}</span>
+          <textarea ${common} rows="2" placeholder="Zum Beispiel: Anbieter, Datum, enthaltene Leistungen …">${safeValue}</textarea>
+        </label>
+      `;
+    }
+    return `
+      <label class="budget-field">
+        <span>${escapeHtml(label)}</span>
+        <input ${common} type="${type}" value="${safeValue}" ${extra}>
+      </label>
+    `;
+  }
+
+  function budgetTotals() {
+    const state = getBudgetState();
+    return data.budget.reduce((totals, category) => {
+      const record = state[category.id] || {};
+      totals.planned += amountValue(record.planned);
+      totals.actual += amountValue(record.actual);
+      return totals;
+    }, { planned: 0, actual: 0 });
+  }
+
+  function budgetValue(amount) {
+    return amount > 0 ? formatNzd(amount) : "—";
+  }
+
+  function renderBudgetSummary() {
+    const totals = budgetTotals();
+    const remaining = totals.planned - totals.actual;
+    const remainingLabel = totals.planned ? formatNzd(Math.abs(remaining)) : "—";
+    const remainingText = totals.planned ? (remaining >= 0 ? "noch im Rahmen" : "über Plan") : "Planbudget fehlt";
+
+    $("#budget-summary").innerHTML = `
+      <article class="budget-stat"><strong>${budgetValue(totals.planned)}</strong><span>Planbudget</span></article>
+      <article class="budget-stat"><strong>${budgetValue(totals.actual)}</strong><span>Erfasst</span></article>
+      <article class="budget-stat ${remaining < 0 ? "is-over" : ""}"><strong>${remainingLabel}</strong><span>${remainingText}</span></article>
+    `;
+  }
+
+  function renderBudget() {
+    const state = getBudgetState();
+    renderBudgetSummary();
+    $("#budget-board").innerHTML = data.budget.map((category) => {
+      const record = state[category.id] || {};
+      const planned = amountValue(record.planned);
+      const actual = amountValue(record.actual);
+      const ratio = planned > 0 ? (actual / planned) * 100 : 0;
+      const progress = Math.min(100, Math.round(ratio));
+      const progressLabel = planned > 0 ? `${Math.round(ratio)} % des Planbudgets` : "Planbudget eintragen";
+      const stateClass = planned > 0 && actual > planned ? "is-over" : "";
+      return `
+        <article class="budget-card ${stateClass}" data-budget-card="${escapeHtml(category.id)}">
+          <div class="budget-card-top">
+            <div>
+              <span class="budget-category">Kostenblock</span>
+              <h3>${escapeHtml(category.title)}</h3>
+            </div>
+            <span class="budget-progress-label">${escapeHtml(progressLabel)}</span>
+          </div>
+          <p class="budget-card-note">${escapeHtml(category.note)}</p>
+          <div class="budget-fields">
+            ${budgetField(category, "planned", "Planbudget in NZD", "number", record.planned, 'inputmode="decimal" min="0" step="0.01"')}
+            ${budgetField(category, "actual", "Erfasst in NZD", "number", record.actual, 'inputmode="decimal" min="0" step="0.01"')}
+            ${budgetField(category, "note", "Eigene Notiz", "textarea", record.note)}
+          </div>
+          <div class="budget-meter" aria-label="${escapeHtml(progressLabel)}">
+            <span style="width: ${progress}%"></span>
+          </div>
+        </article>
+      `;
+    }).join("");
+  }
+
+  function updateBudgetField(categoryId, field, value) {
+    const state = getBudgetState();
+    state[categoryId] = { ...(state[categoryId] || {}), [field]: value };
+    saveState(budgetStorageKey, state);
+    renderBudgetSummary();
+
+    if (field === "planned" || field === "actual") {
+      const category = data.budget.find((item) => item.id === categoryId);
+      const card = document.querySelector(`[data-budget-card="${categoryId}"]`);
+      if (!category || !card) return;
+      const record = state[categoryId] || {};
+      const planned = amountValue(record.planned);
+      const actual = amountValue(record.actual);
+      const ratio = planned > 0 ? (actual / planned) * 100 : 0;
+      const progress = Math.min(100, Math.round(ratio));
+      const label = planned > 0 ? `${Math.round(ratio)} % des Planbudgets` : "Planbudget eintragen";
+      card.classList.toggle("is-over", planned > 0 && actual > planned);
+      const progressLabel = $(".budget-progress-label", card);
+      const meter = $(".budget-meter", card);
+      if (progressLabel) progressLabel.textContent = label;
+      if (meter) {
+        meter.setAttribute("aria-label", label);
+        const bar = $("span", meter);
+        if (bar) bar.style.width = `${progress}%`;
+      }
+    }
+  }
+
   function bindEvents() {
     $(".menu-toggle").addEventListener("click", (event) => {
       const button = event.currentTarget;
@@ -433,6 +551,10 @@
         saveChecklistState({});
         renderChecklist();
       }
+      if (event.target.closest("[data-reset-budget]")) {
+        saveState(budgetStorageKey, {});
+        renderBudget();
+      }
     });
 
     document.addEventListener("change", (event) => {
@@ -451,8 +573,10 @@
     document.addEventListener("input", (event) => {
       const note = event.target.closest("[data-day-note]");
       const bookingField = event.target.closest("[data-booking-field]");
+      const budgetField = event.target.closest("[data-budget-field]");
       if (note) updateDayNote(note.dataset.dayNote, note.value);
       if (bookingField) updateBookingField(bookingField.dataset.bookingId, bookingField.dataset.bookingField, bookingField.value);
+      if (budgetField) updateBudgetField(budgetField.dataset.budgetId, budgetField.dataset.budgetField, budgetField.value);
     });
 
     stageDialog?.addEventListener("click", (event) => {
@@ -468,6 +592,7 @@
   renderRoute();
   renderPlanning();
   renderBookings();
+  renderBudget();
   renderStages();
   renderChecklist();
   bindEvents();

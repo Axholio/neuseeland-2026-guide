@@ -7,7 +7,7 @@ window.tripData = {
     "totalDays": 13,
     "totalNights": 12,
     "totalDistance": "ca. 2.300 km",
-    "version": "4.1c"
+    "version": "4.1d"
   },
   "days": [
     {
@@ -484,6 +484,48 @@ window.tripData = {
       "day": 13,
       "status": "offen",
       "note": "Tankregel, Abgabestelle und Zeitpuffer vor dem Abflug notieren."
+    }
+  ],
+  "budget": [
+    {
+      "id": "flights",
+      "title": "Flüge & Transfers",
+      "note": "Internationale und innerneuseeländische Flüge, Flughafentransfers sowie Gepäck- oder Sitzplatzkosten."
+    },
+    {
+      "id": "ferry",
+      "title": "Fähre & Mietwagen",
+      "note": "Fährpassage, Mietwagen, Zusatzfahrer, Versicherungen und mögliche Einweggebühren."
+    },
+    {
+      "id": "stays",
+      "title": "Unterkünfte",
+      "note": "Alle Übernachtungen, Parkgebühren der Unterkünfte und mögliche Zusatzleistungen."
+    },
+    {
+      "id": "activities",
+      "title": "Aktivitäten",
+      "note": "Bootsfahrt, Walbeobachtung, Gletschertour, Eintritte und optionale Touren."
+    },
+    {
+      "id": "fuel",
+      "title": "Tanken & Straße",
+      "note": "Kraftstoff, Maut, Parken, Straßen- oder Fahrzeugnebenkosten unterwegs."
+    },
+    {
+      "id": "food",
+      "title": "Verpflegung",
+      "note": "Supermarkt, Cafés, Restaurants und Getränke auf der gesamten Route."
+    },
+    {
+      "id": "equipment",
+      "title": "Ausrüstung & Einkäufe",
+      "note": "Adapter, Kleidung, Outdoorbedarf, SIM/eSIM und praktische Reiseanschaffungen."
+    },
+    {
+      "id": "reserve",
+      "title": "Reserve",
+      "note": "Puffer für Wetterverschiebungen, Umbuchungen, medizinische Ausgaben oder Unerwartetes."
     }
   ]
 };
