@@ -1,6 +1,6 @@
 # Neuseeland 2026 – Reiseführer
 
-**Version 4.6** – statischer, responsiver HTML-Reiseführer für die korrigierte Südinsel-Rundreise vom **7. bis 17. September 2026**.
+**Version 4.7** – statischer, responsiver HTML-Reiseführer für die korrigierte Südinsel-Rundreise vom **7. bis 17. September 2026**.
 
 ## Route dieser Version
 
@@ -16,13 +16,22 @@
 10. Akaroa und die Buchten der Banks Peninsula
 11. Akaroa nach Christchurch Airport
 
-Der TranzAlpine startet damit am **8. September morgens in Christchurch**. Die Rückgabe des Mietwagens erfolgt am **17. September bis 17:00 Uhr** am Christchurch Airport; der Abflug ist um **20:00 Uhr** vorgesehen.
+Der TranzAlpine startet am **8. September morgens in Christchurch**. Die Rückgabe des Mietwagens erfolgt am **17. September bis 17:00 Uhr** am Christchurch Airport; der Abflug ist um **20:00 Uhr** vorgesehen.
+
+## Neu in Version 4.7
+
+- Tagesbriefing mit Auswahl für jede der elf Etappen
+- Persönliche Abfahrtszeit, Ankunftsziel und Morgenfokus je Reisetag
+- Drei zentrale Tageschecks mit lokalem Vorbereitungsstatus
+- Tagesbriefings in Sicherung und Wiederherstellung integriert
+- Sicherungsdateien aus Version 4.6 bleiben importierbar
 
 ## Enthalten
 
 - Tagesetappen und Übernachtungsplan als editierbare Datenquelle (`assets/data/trip-data.js`)
 - Responsive Darstellung für Desktop und Mobilgeräte
 - Detailansicht zu jeder Etappe inklusive Link zu Google Maps
+- Tagesbriefing für die Vorbereitung am Abend davor oder am Morgen
 - Filter für Wetterfenster, Buchungspunkte und lange Fahrtage
 - Planungsboard für zentrale Buchungs- und Organisationspunkte
 - Übernachtungsplan für alle zehn Nächte mit separater lokaler Unterkunftsnotiz je Ort
@@ -53,4 +62,4 @@ Alle Reisetage, Fahrtstrecken, Hinweise, Statuswerte und Planungspunkte stehen g
 assets/data/trip-data.js
 ```
 
-Die Routenbereinigung in Version 4.5 verwendet bewusst neue lokale Browser-Schlüssel, damit persönliche Eingaben aus der verworfenen Route nicht in die korrigierte Tour übernommen werden. Version 4.6 führt diese Datenbasis fort und ergänzt dafür einen separaten Schlüssel für Unterkunftseinträge. Planungsstatus, persönliche Tagesnotizen, Unterkunftseinträge, Buchungsdaten, Kostenwerte, Fahrtag-Einträge, Wetterbewertungen und Packlisten-Häkchen werden nur im Browser dieses Geräts gespeichert. Sie werden nicht automatisch in GitHub zurückgeschrieben. Über den Bereich **„Planung sichern“** lässt sich eine lokale Sicherungsdatei exportieren und später wieder importieren. Sicherungsdateien nicht in GitHub veröffentlichen. Keine Passwörter, Kreditkartendaten oder Ausweiskopien in die Buchungsübersicht eintragen.
+Persönliche Tagesnotizen, Unterkunftseinträge, Buchungsdaten, Kostenwerte, Fahrtag-Einträge, Wetterbewertungen, Tagesbriefings und Packlisten-Häkchen werden nur im Browser dieses Geräts gespeichert. Sie werden nicht automatisch in GitHub zurückgeschrieben. Über den Bereich **„Planung sichern“** lässt sich eine lokale Sicherungsdatei exportieren und später wieder importieren. Sicherungsdateien nicht in GitHub veröffentlichen. Keine Passwörter, Kreditkartendaten oder Ausweiskopien in die Buchungsübersicht eintragen.

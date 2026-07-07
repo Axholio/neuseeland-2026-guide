@@ -14,9 +14,10 @@
   const driveStorageKey = "nz-2026-drive-v45";
   const weatherStorageKey = "nz-2026-weather-v45";
   const stayStorageKey = "nz-2026-stays-v46";
+  const briefingStorageKey = "nz-2026-briefing-v47";
   const backupSchema = "nz-2026-guide-backup";
-  const backupVersion = 1;
-  const localStorageKeys = [checklistStorageKey, plannerStorageKey, bookingStorageKey, budgetStorageKey, driveStorageKey, weatherStorageKey, stayStorageKey];
+  const backupVersion = 2;
+  const localStorageKeys = [checklistStorageKey, plannerStorageKey, bookingStorageKey, budgetStorageKey, driveStorageKey, weatherStorageKey, stayStorageKey, briefingStorageKey];
   let activeStageFilter = "all";
 
   function escapeHtml(value) {
@@ -120,6 +121,213 @@
         <span class="route-place">${escapeHtml(day.end)}</span>
       </button>
     `).join("");
+  }
+
+  function getBriefingState() {
+    const state = loadState(briefingStorageKey, { activeDay: 1, days: {} });
+    return {
+      activeDay: Number(state.activeDay) || 1,
+      days: state.days && typeof state.days === "object" && !Array.isArray(state.days) ? state.days : {}
+    };
+  }
+
+  function briefingRecord(dayNumber) {
+    const state = getBriefingState();
+    const record = state.days[dayNumber] && typeof state.days[dayNumber] === "object" && !Array.isArray(state.days[dayNumber]) ? state.days[dayNumber] : {};
+    return {
+      status: record.status || "offen",
+      departureTime: record.departureTime || "",
+      arrivalTarget: record.arrivalTarget || "",
+      focus: record.focus || "",
+      checks: record.checks && typeof record.checks === "object" && !Array.isArray(record.checks) ? record.checks : {}
+    };
+  }
+
+  function briefingRecordHasEntry(record) {
+    return Boolean(
+      record.departureTime || record.arrivalTarget || record.focus || (record.status && record.status !== "offen") || Object.values(record.checks || {}).some(Boolean)
+    );
+  }
+
+  function briefingStatusLabel(status) {
+    const labels = {
+      offen: "offen",
+      vorbereitet: "vorbereitet",
+      bereit: "bereit",
+      erledigt: "abgeschlossen"
+    };
+    return labels[status] || "offen";
+  }
+
+  function briefingStatusOptions(selected) {
+    return ["offen", "vorbereitet", "bereit", "erledigt"]
+      .map((value) => `<option value="${value}"${value === selected ? " selected" : ""}>${briefingStatusLabel(value)}</option>`)
+      .join("");
+  }
+
+  function briefingChecks(day) {
+    const driveRelevant = day.routeKind !== "arrival";
+    return [
+      { id: "priority", label: "Tagespriorität und Route angesehen" },
+      { id: "weather", label: "Wetter-, Straßen- und Betreiberhinweise geprüft" },
+      { id: "logistics", label: driveRelevant ? "Unterkunft, Ankunft und Ausrüstung geklärt" : "Unterkunft, Gepäck und Folgetag geklärt" }
+    ];
+  }
+
+  function briefingStats() {
+    const records = data.days.map((day) => briefingRecord(day.number));
+    const ready = records.filter((record) => record.status === "bereit" || record.status === "erledigt").length;
+    const prepared = records.filter(briefingRecordHasEntry).length;
+    const timed = records.filter((record) => record.departureTime).length;
+    const completed = data.days.filter((day) => briefingChecks(day).every((check) => briefingRecord(day.number).checks[check.id])).length;
+    return { ready, prepared, timed, completed };
+  }
+
+  function renderBriefingSummary() {
+    const target = $("#briefing-summary");
+    if (!target) return;
+    const stats = briefingStats();
+    target.innerHTML = `
+      <article class="briefing-stat"><strong>${stats.ready}</strong><span>startbereit</span></article>
+      <article class="briefing-stat"><strong>${stats.prepared}</strong><span>Briefings angelegt</span></article>
+      <article class="briefing-stat"><strong>${stats.timed}</strong><span>Abfahrtszeiten erfasst</span></article>
+      <article class="briefing-stat"><strong>${stats.completed}</strong><span>Checks vollständig</span></article>
+    `;
+  }
+
+  function renderBriefing() {
+    const picker = $("#briefing-day-picker");
+    const card = $("#briefing-card");
+    if (!picker || !card) return;
+    const state = getBriefingState();
+    const activeDay = data.days.find((day) => day.number === state.activeDay) || data.days[0];
+    const record = briefingRecord(activeDay.number);
+    const checks = briefingChecks(activeDay);
+    const allChecked = checks.every((item) => record.checks[item.id]);
+    renderBriefingSummary();
+
+    picker.innerHTML = data.days.map((day) => {
+      const item = briefingRecord(day.number);
+      const readiness = briefingStatusLabel(item.status);
+      const stateClass = item.status === "bereit" || item.status === "erledigt" ? " is-ready" : briefingRecordHasEntry(item) ? " is-prepared" : "";
+      return `
+        <button class="briefing-day-button${day.number === activeDay.number ? " is-active" : ""}${stateClass}" type="button" data-briefing-day="${day.number}" aria-pressed="${day.number === activeDay.number}">
+          <span>Tag ${day.number}</span>
+          <small>${escapeHtml(readiness)}</small>
+        </button>
+      `;
+    }).join("");
+
+    card.innerHTML = `
+      <div class="briefing-card-heading">
+        <div>
+          <span class="briefing-kicker">Tag ${activeDay.number} · ${escapeHtml(activeDay.date)}</span>
+          <h3>${escapeHtml(activeDay.route)}</h3>
+          <p>${escapeHtml(activeDay.type)}</p>
+        </div>
+        <label class="briefing-status-control">
+          <span>Vorbereitung</span>
+          <select data-briefing-status="${activeDay.number}">
+            ${briefingStatusOptions(record.status)}
+          </select>
+        </label>
+      </div>
+      <div class="briefing-facts">
+        <div><span>Fahrt</span><strong>${escapeHtml(activeDay.drive)}</strong></div>
+        <div><span>Distanz</span><strong>${escapeHtml(activeDay.distance)}</strong></div>
+        <div><span>Übernachtung</span><strong>${escapeHtml(activeDay.overnight)}</strong></div>
+      </div>
+      <div class="briefing-guidance">
+        <section class="briefing-priority">
+          <span>Heute priorisieren</span>
+          <p>${escapeHtml(activeDay.priority)}</p>
+        </section>
+        <div class="briefing-columns">
+          <section>
+            <h4>Orientierung für den Tag</h4>
+            <ul>${activeDay.highlights.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+          </section>
+          <section>
+            <h4>Praktischer Fokus</h4>
+            <ul>${activeDay.practical.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+          </section>
+        </div>
+      </div>
+      <section class="briefing-personal">
+        <div class="briefing-personal-heading">
+          <div>
+            <span>Eigene Vorbereitung</span>
+            <h4>Startklar machen</h4>
+          </div>
+          <small>${allChecked ? "Tageschecks vollständig" : "Tageschecks noch offen"}</small>
+        </div>
+        <div class="briefing-checks" role="group" aria-label="Tagesvorbereitung für Tag ${activeDay.number}">
+          ${checks.map((item) => `
+            <label class="briefing-check${record.checks[item.id] ? " is-checked" : ""}">
+              <input type="checkbox" data-briefing-check="${escapeHtml(item.id)}" data-briefing-day-number="${activeDay.number}"${record.checks[item.id] ? " checked" : ""}>
+              <span>${escapeHtml(item.label)}</span>
+            </label>
+          `).join("")}
+        </div>
+        <div class="briefing-fields">
+          <label class="briefing-field">
+            <span>Geplante Abfahrt</span>
+            <input type="time" value="${escapeHtml(record.departureTime)}" data-briefing-field="departureTime" data-briefing-day-number="${activeDay.number}">
+          </label>
+          <label class="briefing-field">
+            <span>Ankunftsziel / Check-in</span>
+            <input type="text" value="${escapeHtml(record.arrivalTarget)}" placeholder="Zum Beispiel: gegen 17:30 Uhr" data-briefing-field="arrivalTarget" data-briefing-day-number="${activeDay.number}">
+          </label>
+          <label class="briefing-field briefing-field-wide">
+            <span>Morgenfokus</span>
+            <textarea rows="3" placeholder="Was darf heute nicht untergehen?" data-briefing-field="focus" data-briefing-day-number="${activeDay.number}">${escapeHtml(record.focus)}</textarea>
+          </label>
+        </div>
+      </section>
+      <footer class="briefing-card-footer">
+        <a href="${mapUrl(activeDay.mapQuery)}" target="_blank" rel="noopener noreferrer">Route öffnen <span aria-hidden="true">↗</span></a>
+        <button type="button" data-jump-stage="${activeDay.number}">Etappe öffnen <span aria-hidden="true">→</span></button>
+      </footer>
+    `;
+  }
+
+  function setActiveBriefingDay(dayNumber) {
+    const state = getBriefingState();
+    state.activeDay = Number(dayNumber) || 1;
+    saveState(briefingStorageKey, state);
+    renderBriefing();
+  }
+
+  function updateBriefingField(dayNumber, field, value) {
+    const state = getBriefingState();
+    const record = state.days[dayNumber] && typeof state.days[dayNumber] === "object" && !Array.isArray(state.days[dayNumber]) ? state.days[dayNumber] : {};
+    record[field] = value;
+    state.days[dayNumber] = record;
+    saveState(briefingStorageKey, state);
+    if (field === "status") {
+      renderBriefing();
+    } else {
+      renderBriefingSummary();
+    }
+    renderBackupSummary();
+  }
+
+  function updateBriefingCheck(dayNumber, checkId, checked) {
+    const state = getBriefingState();
+    const record = state.days[dayNumber] && typeof state.days[dayNumber] === "object" && !Array.isArray(state.days[dayNumber]) ? state.days[dayNumber] : {};
+    record.checks = record.checks && typeof record.checks === "object" && !Array.isArray(record.checks) ? record.checks : {};
+    record.checks[checkId] = checked;
+    state.days[dayNumber] = record;
+    saveState(briefingStorageKey, state);
+    renderBriefing();
+    renderBackupSummary();
+  }
+
+  function resetBriefing() {
+    if (!window.confirm("Alle Tagesbriefings in diesem Browser löschen?")) return;
+    saveState(briefingStorageKey, {});
+    renderBriefing();
+    renderBackupSummary();
   }
 
   function getStayState() {
@@ -924,6 +1132,7 @@
     const checklist = getChecklistState();
     const drive = getDriveState();
     const weather = getWeatherState();
+    const briefing = getBriefingState();
     const plannerCount = Object.keys(planner.taskStatus || {}).length + Object.keys(planner.dayStatus || {}).length + Object.keys(planner.notes || {}).filter((key) => planner.notes[key]).length;
     const bookingCount = Object.values(booking).filter(bookingIsFilled).length;
     const budgetCount = Object.values(budget).filter((record) => record && (record.planned || record.actual || record.note)).length;
@@ -937,7 +1146,8 @@
     })).length;
     const weatherCount = Array.isArray(data.weatherWindows) ? data.weatherWindows.filter((window) => weatherWindowHasEntry(weatherRecord(window.id))).length : 0;
     const stayCount = Array.isArray(data.stays) ? data.stays.filter((stay) => stayRecordHasEntry(getStayRecord(stay))).length : 0;
-    return { planner: plannerCount, booking: bookingCount, budget: budgetCount, checklist: checklistCount, drive: driveCount, weather: weatherCount, stays: stayCount };
+    const briefingCount = data.days.filter((day) => briefingRecordHasEntry(briefingRecord(day.number))).length;
+    return { planner: plannerCount, booking: bookingCount, budget: budgetCount, checklist: checklistCount, drive: driveCount, weather: weatherCount, stays: stayCount, briefing: briefingCount };
   }
 
   function renderBackupSummary() {
@@ -949,6 +1159,7 @@
       <article class="backup-stat"><strong>${count.booking + count.budget + count.stays}</strong><span>Buchungs-, Unterkunfts- & Kosteneinträge</span></article>
       <article class="backup-stat"><strong>${count.drive}</strong><span>Fahrtage erfasst</span></article>
       <article class="backup-stat"><strong>${count.weather}</strong><span>Wetterfenster bewertet</span></article>
+      <article class="backup-stat"><strong>${count.briefing}</strong><span>Tagesbriefings erfasst</span></article>
       <article class="backup-stat"><strong>${count.checklist}</strong><span>Packliste erledigt</span></article>
     `;
   }
@@ -973,7 +1184,8 @@
         budget: getBudgetState(),
         drive: getDriveState(),
         weather: getWeatherState(),
-        stays: getStayState()
+        stays: getStayState(),
+        briefing: getBriefingState()
       }
     };
   }
@@ -1008,6 +1220,7 @@
     renderStays();
     renderDrive();
     renderWeather();
+    renderBriefing();
     renderStages();
     renderChecklist();
     renderBackupSummary();
@@ -1019,7 +1232,7 @@
     reader.onload = (event) => {
       try {
         const payload = JSON.parse(String(event.target?.result || ""));
-        if (!payload || payload.schema !== backupSchema || payload.version !== backupVersion || !plainObject(payload.state)) {
+        if (!payload || payload.schema !== backupSchema || ![1, 2].includes(Number(payload.version)) || !plainObject(payload.state)) {
           throw new Error("invalid-backup");
         }
         const state = payload.state;
@@ -1030,6 +1243,7 @@
         saveState(driveStorageKey, plainObject(state.drive));
         saveState(weatherStorageKey, plainObject(state.weather));
         saveState(stayStorageKey, plainObject(state.stays));
+        saveState(briefingStorageKey, plainObject(state.briefing));
         closeStage();
         refreshLocalViews();
         setBackupStatus("Sicherungsdatei wurde eingespielt. Vorherige lokale Eingaben wurden ersetzt.", "success");
@@ -1072,6 +1286,7 @@
       const jumpButton = event.target.closest("[data-jump-stage]");
       const filterButton = event.target.closest("[data-stage-filter]");
       const driveDayButton = event.target.closest("[data-drive-day]");
+      const briefingDayButton = event.target.closest("[data-briefing-day]");
 
       if (stageButton) openStage(stageButton.dataset.openStage);
       if (routeButton) focusStage(routeButton.dataset.routeDay, true);
@@ -1082,6 +1297,7 @@
         updateFilterButtons();
       }
       if (driveDayButton) setActiveDriveDay(driveDayButton.dataset.driveDay);
+      if (briefingDayButton) setActiveBriefingDay(briefingDayButton.dataset.briefingDay);
       if (event.target.closest("[data-close-dialog]")) closeStage();
       if (event.target.closest("[data-print]")) window.print();
       if (event.target.closest("[data-reset-checklist]")) {
@@ -1097,6 +1313,7 @@
       if (event.target.closest("[data-reset-drive]")) resetDrive();
       if (event.target.closest("[data-reset-weather]")) resetWeather();
       if (event.target.closest("[data-reset-stays]")) resetStays();
+      if (event.target.closest("[data-reset-briefing]")) resetBriefing();
       if (event.target.closest("[data-export-state]")) downloadBackup();
       if (event.target.closest("[data-select-import]")) $("#backup-import")?.click();
       if (event.target.closest("[data-clear-local]")) clearLocalData();
@@ -1110,6 +1327,8 @@
       const driveCheck = event.target.closest("[data-drive-check]");
       const weatherField = event.target.closest("[data-weather-field]");
       const stayStatus = event.target.closest("[data-stay-status]");
+      const briefingCheck = event.target.closest("[data-briefing-check]");
+      const briefingStatus = event.target.closest("[data-briefing-status]");
       if (checkbox) {
         const state = getChecklistState();
         state[checkbox.dataset.checkIndex] = checkbox.checked;
@@ -1131,6 +1350,8 @@
       if (driveCheck) updateDriveCheck(driveCheck.dataset.driveDayNumber, driveCheck.dataset.driveCheck, driveCheck.checked);
       if (weatherField) updateWeatherField(weatherField.dataset.weatherId, weatherField.dataset.weatherField, weatherField.value);
       if (stayStatus) updateStayField(stayStatus.dataset.stayStatus, "status", stayStatus.value);
+      if (briefingCheck) updateBriefingCheck(briefingCheck.dataset.briefingDayNumber, briefingCheck.dataset.briefingCheck, briefingCheck.checked);
+      if (briefingStatus) updateBriefingField(briefingStatus.dataset.briefingStatus, "status", briefingStatus.value);
     });
 
     document.addEventListener("input", (event) => {
@@ -1140,6 +1361,7 @@
       const driveField = event.target.closest("[data-drive-field]");
       const weatherField = event.target.closest("[data-weather-field]");
       const stayField = event.target.closest("[data-stay-field]");
+      const briefingField = event.target.closest("[data-briefing-field]");
       if (note) {
         updateDayNote(note.dataset.dayNote, note.value);
         renderBackupSummary();
@@ -1155,6 +1377,7 @@
       if (driveField) updateDriveField(driveField.dataset.driveDayNumber, driveField.dataset.driveField, driveField.value);
       if (weatherField) updateWeatherField(weatherField.dataset.weatherId, weatherField.dataset.weatherField, weatherField.value);
       if (stayField) updateStayField(stayField.dataset.stayId, stayField.dataset.stayField, stayField.value);
+      if (briefingField) updateBriefingField(briefingField.dataset.briefingDayNumber, briefingField.dataset.briefingField, briefingField.value);
     });
 
     stageDialog?.addEventListener("click", (event) => {
@@ -1174,6 +1397,7 @@
   renderStays();
   renderDrive();
   renderWeather();
+  renderBriefing();
   renderStages();
   renderChecklist();
   renderBackupSummary();
