@@ -5,11 +5,11 @@ window.tripData = {
     "dateRange": "7.–17. Sept. 2026",
     "returnInfo": "17. Sept. · 20:00 Uhr Abflug",
     "traveller": "Axel",
-    "updated": "7. Juli 2026 · Link-Audit",
+    "updated": "7. Juli 2026 · Tagesatlas & Etappenkarten",
     "totalDays": 11,
     "totalNights": 10,
     "totalDistance": "ca. 1.700 km mit Mietwagen",
-    "version": "5.6"
+    "version": "5.7"
   },
   "days": [
     {
@@ -1397,3 +1397,210 @@ window.tripData.routeMap = {
     }
   ]
 };
+
+window.tripData.dayAtlas = [
+  {
+    "day": 1,
+    "routeKind": "arrival",
+    "modeLabel": "Ankunft & Orientierung",
+    "cardTitle": "Christchurch ruhig beginnen",
+    "routeLabel": "Flughafen → Unterkunft → Innenstadt → Weg zum Bahnhof",
+    "mapPoints": [[-43.4894,172.5320],[-43.5321,172.6362],[-43.5428,172.5919]],
+    "mapStartLabel": "Flughafen",
+    "mapEndLabel": "Bahnhofweg",
+    "stops": ["Christchurch Airport", "Unterkunft und Gepäck", "Innenstadt / Riverside Market", "Bahnhofweg für den nächsten Morgen"],
+    "windows": [
+      {"when":"Nach Ankunft", "title":"Transfer und Check-in", "note":"Nur Grundlogistik erledigen und Raum für Erholung lassen."},
+      {"when":"Später Nachmittag", "title":"Kurze Orientierung", "note":"Innenstadt, Lebensmittel und den Weg zum Bahnhof prüfen."},
+      {"when":"Am Abend", "title":"Zugtag vorbereiten", "note":"Ticket, Ausweis, Gepäck und Wecker für den TranzAlpine bereitlegen."}
+    ],
+    "decision":"Nicht mit einem vollen Stadtprogramm überladen. Der klare Erfolg des Tages ist ein entspannter, vorbereiteter Start am Folgemorgen.",
+    "planB":"Bei verspäteter oder anstrengender Ankunft direkt zur Unterkunft und die Innenstadt streichen. Entscheidend bleiben Zugunterlagen, Gepäck und der Weg zum Bahnhof."
+  },
+  {
+    "day": 2,
+    "routeKind": "rail",
+    "modeLabel": "Bahnreise & Übergang",
+    "cardTitle": "TranzAlpine zur Westküste",
+    "routeLabel": "Christchurch Railway Station → Arthur’s Pass → Greymouth → Hokitika",
+    "image": "assets/images/tranzalpine.jpg",
+    "imageAlt": "TranzAlpine-Zug an einem Bahnhof vor bewaldeten Bergen",
+    "imageLabel": "Zugstrecke · West Coast",
+    "stops": ["Christchurch Railway Station", "Canterbury Plains und Waimakariri Gorge", "Arthur’s Pass aus dem Zug", "Greymouth: Übergabe / Übernahme", "Hokitika und Strand am Abend"],
+    "windows": [
+      {"when":"Früh", "title":"Mit Reserve zum Bahnhof", "note":"Zugunterlagen und Gepäck griffbereit; Abfahrtszeit direkt beim Betreiber gegenprüfen."},
+      {"when":"Morgen bis Nachmittag", "title":"TranzAlpine als Hauptprogramm", "note":"Die Bahnreise setzt den landschaftlichen Schwerpunkt. Keine Paralleltermine planen."},
+      {"when":"Nach Ankunft", "title":"Greymouth und Weiterfahrt", "note":"Mietwagenübergabe und die kurze Strecke nach Hokitika ohne Zeitdruck abwickeln."},
+      {"when":"Abend", "title":"Hokitika ankommen", "note":"Ein kurzer Strandspaziergang nur bei Licht und passendem Wetter."}
+    ],
+    "decision":"Der Zug ist der Fixpunkt. Die Übergabe in Greymouth und die Weiterfahrt nach Hokitika bleiben bewusst schlank.",
+    "planB":"Bei Verzögerungen keine zusätzlichen Westküstenstopps erzwingen. Direkt nach Hokitika fahren, einchecken und den Abend flexibel halten."
+  },
+  {
+    "day": 3,
+    "routeKind": "road",
+    "modeLabel": "Regenwald & Gletscherregion",
+    "cardTitle": "Hokitika Gorge und Franz Josef",
+    "routeLabel": "Hokitika → Hokitika Gorge → West Coast → Franz Josef",
+    "image": "assets/images/hokitika-gorge.jpg",
+    "imageAlt": "Türkisfarbener Fluss der Hokitika Gorge zwischen Regenwald und Felsen",
+    "imageLabel": "Hokitika Gorge · Vormittagsstopp",
+    "stops": ["Hokitika: Tanken und Vorräte", "Hokitika Gorge Walk", "Küsten- und Regenwaldstrecke nach Süden", "Franz Josef: Unterkunft und Abendspaziergang"],
+    "windows": [
+      {"when":"Morgen", "title":"Wetterentscheid für die Gorge", "note":"Bei nassem Wetter rutschige Wege und einen kürzeren Aufenthalt einplanen."},
+      {"when":"Mittag", "title":"Südwärts entlang der West Coast", "note":"Fahrt mit Fotostopps, Tank- und Verpflegungspuffer strukturieren."},
+      {"when":"Nachmittag", "title":"Franz Josef erreichen", "note":"Vor Einbruch der Dunkelheit ankommen; Gletscheraktivitäten nur optional vormerken."}
+    ],
+    "decision":"Die Gorge ist der Hauptstopp. Danach gewinnt ein ruhiger, wetterflexibler Weg in die Gletscherregion gegenüber zusätzlichen Umwegen.",
+    "planB":"Bei Starkregen oder sehr eingeschränkter Sicht die Gorge kürzen oder auslassen und früh nach Franz Josef fahren."
+  },
+  {
+    "day": 4,
+    "routeKind": "road",
+    "modeLabel": "West Coast, Pass & Seen",
+    "cardTitle": "Über Haast Pass nach Wānaka",
+    "routeLabel": "Franz Josef → Haast Pass → Wasserfälle / Blue Pools → Wānaka",
+    "image": "assets/images/wanaka.jpg",
+    "imageAlt": "Lake Wānaka mit Booten und schneebedeckten Bergen im Hintergrund",
+    "imageLabel": "Zielraum · Lake Wānaka",
+    "stops": ["Franz Josef: früher Start", "West Coast südlich von Fox / Haast", "Haast Pass und kurze Wasserfallstopps", "Blue Pools oder Lake Hāwea nach Zeit", "Wānaka Lakefront"],
+    "windows": [
+      {"when":"Früh", "title":"Straßenlage und Wetter prüfen", "note":"Passstrecke und Regen bestimmen den Tagesrhythmus; volltanken und Wasser auffüllen."},
+      {"when":"Tagsüber", "title":"Landschaftsetappe bewusst begrenzen", "note":"Wasserfälle, kurze Walks und Fotostopps nach Energie, Licht und Fahrtfortschritt wählen."},
+      {"when":"Später Nachmittag", "title":"Wānaka ankommen", "note":"Nach der langen Strecke nur noch Seeufer, Check-in und Abendessen planen."}
+    ],
+    "decision":"Früh starten und einen einzigen längeren Stopp wählen. Die Etappe ist wegen Pass, Wetter und Fotostopps länger als sie auf der Karte wirkt.",
+    "planB":"Bei schlechter Straße oder spätem Start Stopps reduzieren und Blue Pools / Lake Hāwea auslassen. Das Ziel bleibt eine sichere Ankunft in Wānaka."
+  },
+  {
+    "day": 5,
+    "routeKind": "road",
+    "modeLabel": "Hochland & Südalpen",
+    "cardTitle": "Lindis Pass und Aoraki / Mount Cook",
+    "routeLabel": "Wānaka → Lindis Pass → Omarama → Lake Pukaki → Aoraki / Mount Cook",
+    "image": "assets/images/aoraki-mount-cook.jpg",
+    "imageAlt": "Aoraki Mount Cook und schneebedeckte Gipfel spiegeln sich in einem See",
+    "imageLabel": "Aoraki / Mount Cook · Zielraum",
+    "stops": ["Lake Wānaka am Morgen", "Lindis Pass", "Omarama: Pause und Tanken", "Lake Pukaki", "Aoraki / Mount Cook Village"],
+    "windows": [
+      {"when":"Morgen", "title":"Wānaka kompakt genießen", "note":"Kurzer Seeufermoment, dann früh in Richtung Pass aufbrechen."},
+      {"when":"Mittag", "title":"Lindis Pass und Omarama", "note":"Wetter, Wind und Tankstand vor dem Hochland sichern."},
+      {"when":"Nachmittag", "title":"Lake Pukaki und Nationalpark", "note":"Bergsicht und Licht entscheiden über zusätzliche Aussichtspunkte."},
+      {"when":"Abend", "title":"Aoraki ankommen", "note":"Unterkunft, kurze Orientierung und Track-Entscheidung für den Folgetag."}
+    ],
+    "decision":"Die Sicht im Mackenzie Country ist der Mehrwert. Nicht zu viel Zeit im Pass verlieren, damit Lake Pukaki und Aoraki noch bei gutem Licht funktionieren können.",
+    "planB":"Bei schlechter Sicht direkt durchfahren, Nationalpark-Programm auf Tag 6 verlagern und in Mount Cook Village früh einchecken."
+  },
+  {
+    "day": 6,
+    "routeKind": "road",
+    "modeLabel": "Alpen, See & Sternenfenster",
+    "cardTitle": "Vom Nationalpark nach Lake Tekapo",
+    "routeLabel": "Aoraki / Mount Cook → Lake Pukaki → Lake Tekapo",
+    "image": "assets/images/lake-tekapo.jpg",
+    "imageAlt": "Lake Tekapo vor schneebedeckten Bergen",
+    "imageLabel": "Lake Tekapo · Abendfenster",
+    "stops": ["Aoraki / Mount Cook Village", "Kurzer Track oder Aussichtspunkt nach DOC-Hinweis", "Lake Pukaki", "Church of the Good Shepherd", "Lake Tekapo"],
+    "windows": [
+      {"when":"Vormittag", "title":"Sichtfenster in Aoraki nutzen", "note":"Tracklänge dem Wetter, Wegzustand und der eigenen Energie anpassen."},
+      {"when":"Mittag", "title":"Ruhige Fahrt über Lake Pukaki", "note":"Die kurze Etappe lässt einen bewussten Übergang ohne Zeitdruck zu."},
+      {"when":"Nachmittag", "title":"Lake Tekapo einrichten", "note":"Unterkunft, Essen und einen warmen Abendplan organisieren."},
+      {"when":"Nacht", "title":"Sterne nur bei Wetterfenster", "note":"Keine starre Fotoplanung: Wolken, Wind und Temperatur entscheiden am Abend."}
+    ],
+    "decision":"Der Vormittag gehört dem Nationalpark; die Sternenidee bleibt freiwillig und vollständig wetterabhängig.",
+    "planB":"Bei Wolken oder Wind eine ruhige See- und Ortsrunde statt Sternenprogramm. Die fotografische Nacht nicht erzwingen."
+  },
+  {
+    "day": 7,
+    "routeKind": "road",
+    "modeLabel": "Lange Transferetappe",
+    "cardTitle": "Vom Mackenzie Basin an die Pazifikküste",
+    "routeLabel": "Lake Tekapo → Inland / Canterbury → Kaikōura",
+    "image": "assets/images/kaikoura.jpg",
+    "imageAlt": "Kaikōura Peninsula mit Küste und türkisfarbenem Meer aus der Luft",
+    "imageLabel": "Kaikōura · Zielraum",
+    "stops": ["Lake Tekapo: früher Start", "Mackenzie Country", "geplanter Tank- und Essensstopp", "Raum Christchurch nach Bedarf", "Kaikōura Esplanade"],
+    "windows": [
+      {"when":"Früh", "title":"Lange Strecke strukturieren", "note":"Volltanken, Wasser und Snacks; reale Abfahrt festlegen."},
+      {"when":"Mittag", "title":"Nur gezielte Pause", "note":"Eine längere Essens- oder Kaffeepause genügt. Keine große Aktivität einplanen."},
+      {"when":"Nachmittag / Abend", "title":"Kaikōura erreichen", "note":"Unterkunft, Parkplatz und Abendessen vorab klar haben; Küste nur noch entspannt ansehen."}
+    ],
+    "decision":"Dieser Tag ist Fahrtag. Die Landschaft am Ziel ist der Bonus, nicht ein weiteres volles Programm unterwegs.",
+    "planB":"Bei spätem Start oder langsamen Straßenbedingungen Kaikōura ohne Zwischenstopp ansteuern und Restaurant- / Abendpläne vereinfachen."
+  },
+  {
+    "day": 8,
+    "routeKind": "local",
+    "modeLabel": "Küste & Aktivitätstag",
+    "cardTitle": "Kaikōura: Wale, Robben und Peninsula",
+    "routeLabel": "Kaikōura Township → Whale Watch → Peninsula Walkway / Robben → Esplanade",
+    "image": "assets/images/kaikoura.jpg",
+    "imageAlt": "Kaikōura Peninsula mit Küste und türkisfarbenem Meer aus der Luft",
+    "imageLabel": "Kaikōura Peninsula",
+    "stops": ["Whale Watch Check-in", "Hafen und Bootstour nach Durchführung", "Kaikōura Peninsula Walkway", "Robbenkolonie und Küstenblicke", "Esplanade / Ortszentrum"],
+    "windows": [
+      {"when":"Vor Tourbeginn", "title":"Durchführung und Check-in prüfen", "note":"Tourstatus, Treffpunkt und windfeste Schicht direkt beim Betreiber abgleichen."},
+      {"when":"Tourfenster", "title":"Walbeobachtung als Fixpunkt", "note":"Der Ablauf richtet sich nach dem gebuchten Termin und den Bedingungen auf See."},
+      {"when":"Danach", "title":"Küstenrunde nach Energie", "note":"Peninsula Walkway oder kurzer Robbenstopp; nicht beides erzwingen, wenn Wetter oder Zeit dagegen sprechen."},
+      {"when":"Abend", "title":"Kaikōura offen halten", "note":"Bei gutem Licht nochmals an die Küste, sonst entspannt im Ort bleiben."}
+    ],
+    "decision":"Die Bootstour ist Priorität. Der Landteil ist eine flexible Ergänzung, kein zweiter Pflichttermin.",
+    "planB":"Bei abgesagter oder verschobener Tour die Peninsula und Robbenkolonie als wetterfesten Landtag nutzen und mögliche Ersatztermine direkt prüfen."
+  },
+  {
+    "day": 9,
+    "routeKind": "road",
+    "modeLabel": "Küstenwechsel & Banks Peninsula",
+    "cardTitle": "Von Kaikōura nach Akaroa",
+    "routeLabel": "Kaikōura → Canterbury / Christchurch-Raum → Banks Peninsula → Akaroa",
+    "image": "assets/images/akaroa-harbour.jpg",
+    "imageAlt": "Boote im Akaroa Harbour bei dunklen Wolken und Licht über dem Wasser",
+    "imageLabel": "Akaroa Harbour · Zielraum",
+    "stops": ["Kaikōura: Abfahrt nach Wetter", "Canterbury: Tank- und Essenspause", "Christchurch-Raum nur als Übergang", "Banks Peninsula", "Akaroa Harbour"],
+    "windows": [
+      {"when":"Morgen", "title":"Küste verlassen", "note":"Wetter und Straßenlage prüfen, dann mit Reserven Richtung Süden starten."},
+      {"when":"Mittag", "title":"Fahrtunterbrechung bewusst halten", "note":"Eine Pause für Tanken und Essen reicht; keine zusätzliche Stadtbesichtigung planen."},
+      {"when":"Später Nachmittag", "title":"Banks Peninsula und Akaroa", "note":"Die letzten kurvigen Kilometer nicht unterschätzen und bei Licht am Ziel eintreffen."}
+    ],
+    "decision":"Akaroa ist das Ziel. Die Route ist ein Transfer; die Peninsula soll nicht mit einer späten, hektischen Anfahrt beginnen.",
+    "planB":"Bei Verzögerung den Christchurch-Raum nur passieren, direkte Route nach Akaroa wählen und lokale Stopps auf Tag 10 verschieben."
+  },
+  {
+    "day": 10,
+    "routeKind": "local",
+    "modeLabel": "Hafen & Banks Peninsula",
+    "cardTitle": "Akaroa bewusst langsam",
+    "routeLabel": "Akaroa Harbour → Ortskern → Aussichtspunkt / kurze Peninsula-Runde → Harbour",
+    "image": "assets/images/akaroa-harbour.jpg",
+    "imageAlt": "Boote im Akaroa Harbour bei dunklen Wolken und Licht über dem Wasser",
+    "imageLabel": "Akaroa · ruhiger Schlusstag",
+    "stops": ["Akaroa Wharf und Harbour", "Ortskern / französisches Erbe", "kurzer Aussichtspunkt oder lokale Runde", "Café / Essen am Hafen", "Unterkunft und Abreisevorbereitung"],
+    "windows": [
+      {"when":"Vormittag", "title":"Hafen und Ortskern", "note":"Zu Fuß beginnen, ohne feste Kilometerleistung oder Zeitdruck."},
+      {"when":"Mittag", "title":"Lokale Entscheidung", "note":"Bei passendem Wetter kurzer Aussichtspunkt oder eine kleine Peninsula-Runde; sonst im Ort bleiben."},
+      {"when":"Nachmittag", "title":"Puffer für den Rückreisetag", "note":"Mietwagenunterlagen, Abfahrtszeit und Flughafenweg für Tag 11 vorbereiten."}
+    ],
+    "decision":"Dies ist der ruhige Schlusstag. Weniger Programm schafft mehr Reserve für Wetter, Erholung und die Rückgabe am Folgetag.",
+    "planB":"Bei Regen oder Wind im Ort, am Hafen und in der Unterkunft bleiben. Keine lange Peninsula-Runde aus Prinzip fahren."
+  },
+  {
+    "day": 11,
+    "routeKind": "return",
+    "modeLabel": "Rückgabe & Abflug",
+    "cardTitle": "Akaroa zum Christchurch Airport",
+    "routeLabel": "Akaroa → Little River / Inland → Christchurch Airport → Mietwagenrückgabe → Abflug",
+    "image": "assets/images/akaroa-harbour.jpg",
+    "imageAlt": "Boote im Akaroa Harbour bei dunklen Wolken und Licht über dem Wasser",
+    "imageLabel": "Abschied von der Banks Peninsula",
+    "stops": ["Akaroa: Check-out und Abfahrt", "Little River / Inland als Durchfahrt", "Tanken nach Mietwagenregel", "Christchurch Airport: Mietwagenrückgabe bis 17:00 Uhr", "Terminal und Abflug um 20:00 Uhr"],
+    "windows": [
+      {"when":"Vormittag", "title":"Rechtzeitig aus Akaroa losfahren", "note":"Start so festlegen, dass Tankstopp, Rückgabe und Weg zum Terminal ohne Hektik möglich sind."},
+      {"when":"Früher Nachmittag", "title":"Tanken und Airport erreichen", "note":"Mietwagenvertrag, Tankregel und genaue Rückgabestelle vor der Fahrt öffnen."},
+      {"when":"Bis 17:00 Uhr", "title":"Mietwagen zurückgeben", "note":"Rückgabezeit als feste Grenze behandeln und danach direkt zum Terminal gehen."},
+      {"when":"20:00 Uhr", "title":"Abflug", "note":"Puffer für Gepäck, Sicherheitskontrolle und mögliche Rückgabefragen behalten."}
+    ],
+    "decision":"Die Mietwagenrückgabe bis 17:00 Uhr ist die Priorität. Alles davor ist nur dann möglich, wenn der Zeitpuffer vollständig erhalten bleibt.",
+    "planB":"Keinen zusätzlichen Peninsula-Stopp planen. Bei Zeitdruck direkt zum Airport, Tanken an einer passenden Station auf dem Weg und Rückgabe zuerst erledigen."
+  }
+];
+

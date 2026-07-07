@@ -1403,6 +1403,7 @@
         <div><span>Distanz</span><strong>${escapeHtml(day.distance)}</strong></div>
         <div><span>Übernachtung</span><strong>${escapeHtml(day.overnight)}</strong></div>
       </div>
+      ${window.NZDayAtlas && typeof window.NZDayAtlas.dialogMarkup === "function" ? window.NZDayAtlas.dialogMarkup(day.number) : ""}
       <div class="dialog-grid">
         <section>
           <h3>Tagesnotiz</h3>

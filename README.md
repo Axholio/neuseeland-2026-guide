@@ -1,6 +1,6 @@
 # Neuseeland 2026 – Reiseführer
 
-**Version 5.6** – statischer HTML-Reiseführer für die Südinsel-Rundreise vom **7. bis 17. September 2026**.
+**Version 5.7** – statischer HTML-Reiseführer für die Südinsel-Rundreise vom **7. bis 17. September 2026**.
 
 ## Route
 
@@ -18,24 +18,14 @@
 
 Mietwagenrückgabe: **17. September bis 17:00 Uhr** am Christchurch Airport. Abflug: **20:00 Uhr**.
 
-## Version 5.6 – Link-Audit und Direktzugriff
+## Version 5.7 – Tagesatlas und Etappenkarten
 
-- Link-Audit für alle operativen Quellen im Guide: sichere HTTP(S)-Ziele, Zuordnung zu Reisetagen und sichtbare Direktaktionen
-- jede Etappenkarte enthält jetzt bis zu drei direkt klickbare Schnellaktionen, etwa Karte, Wetter, Straßenlage, Bahn, DOC oder Aktivität
-- erweitert um MetService-Warnungen, NZTA-Verkehrsmeldungen, Christchurch Railway Station, Aoraki Visitor Centre und den aktuellen Whale-Watch-Tourstatus
-- Hooker Valley Track auf die aktuelle, kurze DOC-Adresse umgestellt; Whale Watch verlinkt direkt auf die Buchung
-- auf Smartphone und iPad werden die Direktaktionen einspaltig und mit großer Touch-Fläche dargestellt
-- der integrierte Link-Audit-Bereich prüft die Projektstruktur; aktuelle Bedingungen und Verfügbarkeiten sind weiter ausschließlich auf den externen Betreiberseiten verbindlich
-
-## Version 5.5 – Direktlinks und Quellen
-
-- neuer Bereich **„Links für unterwegs“** mit zentralen Quellen für Straßenlage, Wetter, DOC-Wanderwege, Einreise und Flughafen
-- jede Tagesetappe enthält direkte Links zu Karte, Wetter, Straßenlage und den passenden offiziellen Informationsseiten
-- Wetterfenster enthalten direkte Prüflinks zu MetService, NZTA und den jeweiligen Aktivitäts- oder Trackseiten
-- TranzAlpine, Mietwagenübernahme/-rückgabe, Whale Watch Kaikōura, Dark Sky Project, DOC-Tracks sowie Christchurch Airport sind direkt verlinkt
-- Unterkunftseinträge öffnen den jeweiligen Ort unmittelbar in Google Maps
-- Planung, Buchungen und Unterlagen verweisen – wo sinnvoll – direkt auf die passende offizielle Quelle
-- externe Quellen öffnen bewusst in einem neuen Browser-Tab; aktuelle Hinweise beim jeweiligen Betreiber oder bei der Behörde sind maßgeblich
+- neuer Bereich **„Tagesatlas“** mit 11 Tageskarten für die vollständige Route
+- jede Tageskarte zeigt eine lokal erzeugte, offline verfügbare schematische Karte mit Start, Ziel und Streckenverlauf
+- Bilder der prägenden Landschaftsräume wurden den passenden Etappen als Bildanker zugeordnet
+- Tagesseiten im Detaildialog enthalten jetzt Karte, Streckenfolge, Tagesrhythmus und einen realistischen Plan B
+- die Tageskarten sind bewusst keine Navigation: Für die tatsächliche Fahrt bleiben Karten-App, NZTA, DOC und Wetterlage maßgeblich
+- neue Datei `assets/js/day-atlas.js`; sie ist im Offline-Cache enthalten
 
 ## Lokal öffnen
 
@@ -43,7 +33,7 @@ Mietwagenrückgabe: **17. September bis 17:00 Uhr** am Christchurch Airport. Abf
 
 Für die installierbare Web-App und den Offline-Cache muss der Guide über HTTPS ausgeliefert werden, zum Beispiel über GitHub Pages. Beim direkten Öffnen einer lokalen Datei stehen Service Worker und Offline-Cache nicht zur Verfügung.
 
-Die interaktive Karte sowie externe Links benötigen Internet. Bilder, Reisedaten, Formulare und persönliche Eingaben liegen im Projekt beziehungsweise im lokalen Browser-Speicher.
+Die interaktive Karte sowie externe Links benötigen Internet. Die Tageskarten, Bilder, Reisedaten, Formulare und persönlichen Eingaben liegen im Projekt beziehungsweise im lokalen Browser-Speicher.
 
 ## GitHub Pages
 
@@ -54,10 +44,17 @@ Die interaktive Karte sowie externe Links benötigen Internet. Bilder, Reisedate
 
 ## Inhalt bearbeiten
 
-Reiseetappen, Übernachtungen, Routenpunkte, Planungspunkte, Wetterfenster, Checklisten und die Linklisten stehen in:
+Reiseetappen, Übernachtungen, Routenpunkte, Planungspunkte, Wetterfenster, Checklisten, Direktlinks und die Texte für den Tagesatlas stehen in:
 
 ```text
 assets/data/trip-data.js
+```
+
+Die Darstellung des Tagesatlas liegt hier:
+
+```text
+assets/js/day-atlas.js
+assets/css/styles.css
 ```
 
 Bilder und Bildnachweise liegen hier:
@@ -77,17 +74,6 @@ assets/js/calendar-export.js
 assets/js/travel-mode.js
 ```
 
-## Linkquellen (Audit: 7. Juli 2026)
-
-Die folgenden Seiten sind im Guide als externe Quellen hinterlegt:
-
-- Great Journeys NZ – TranzAlpine: `greatjourneysnz.com/scenic-trains/tranzalpine-train/`
-- NZ Transport Agency / NZTA Journey Planner: `journeys.nzta.govt.nz`
-- MetService: `metservice.com`
-- Department of Conservation / DOC: `doc.govt.nz`
-- Immigration New Zealand / NZeTA: `immigration.govt.nz`
-- Whale Watch Kaikōura: `whalewatch.co.nz`
-- Dark Sky Project Takapō: `darkskyproject.co.nz`
-- Christchurch Airport: `christchurchairport.co.nz`
+## Wichtiger Umgang mit lokalen Daten
 
 Persönliche Daten werden ausschließlich im lokalen Browser-Speicher abgelegt. Sie werden nicht nach GitHub synchronisiert. Vor dem Wechsel des Geräts oder dem Löschen von Browserdaten die Sicherungsfunktion des Guides verwenden. Keine Passwörter, Kreditkartendaten oder Ausweiskopien in Feldern der Buchungsübersicht speichern.

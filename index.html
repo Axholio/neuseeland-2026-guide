@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <script src="assets/data/trip-data.js" defer></script>
   <script src="assets/js/app.js" defer></script>
+  <script src="assets/js/day-atlas.js" defer></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer crossorigin=""></script>
   <script src="assets/js/route-map.js" defer></script>
   <script src="assets/js/calendar-export.js" defer></script>
@@ -41,6 +42,7 @@
         <a href="#route">Route</a>
         <a href="#karte">Karte</a>
         <a href="#bilder">Bilder</a>
+        <a href="#tagesatlas">Tagesatlas</a>
         <a href="#unterkuenfte">Unterkünfte</a>
         <a href="#planung">Planung</a>
         <a href="#buchungen">Buchungen</a>
@@ -68,11 +70,11 @@
       <div class="hero-contour contour-two" aria-hidden="true"></div>
       <div class="page-shell hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow">Persönlicher Reiseführer · Version 5.6 · Link-Audit & Direktzugriff</p>
+          <p class="eyebrow">Persönlicher Reiseführer · Version 5.7 · Tagesatlas & Etappenkarten</p>
           <h1>Mit dem TranzAlpine zur Westküste. Zurück über Kaikōura und Akaroa.</h1>
           <p class="hero-lead">Elf Reisetage auf der Südinsel: Christchurch, West Coast, Haast Pass, Aoraki / Mount Cook, Lake Tekapo, Kaikōura und Banks Peninsula.</p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#etappen">Etappen ansehen</a>
+            <a class="button button-primary" href="#tagesatlas">Tagesatlas ansehen</a>
             <a class="button button-ghost" href="#tagesbriefing">Tagesbriefing</a>
           </div>
         </div>
@@ -90,12 +92,13 @@
         <p class="quick-nav-label">Schnellzugriff</p>
         <nav class="quick-nav" aria-label="Direkt zu wichtigen Bereichen">
           <a href="#reisemodus"><span>01</span>Reisemodus</a>
-          <a href="#tagesbriefing"><span>02</span>Tagesbriefing</a>
-          <a href="#unterkuenfte"><span>03</span>Übernachtungen</a>
-          <a href="#wetter"><span>04</span>Wetterfenster</a>
-          <a href="#links"><span>05</span>Direktlinks</a>
-          <a href="#kalender"><span>06</span>Kalender</a>
-          <a href="#etappen"><span>07</span>Etappen</a>
+          <a href="#tagesatlas"><span>02</span>Tagesatlas</a>
+          <a href="#tagesbriefing"><span>03</span>Tagesbriefing</a>
+          <a href="#unterkuenfte"><span>04</span>Übernachtungen</a>
+          <a href="#wetter"><span>05</span>Wetterfenster</a>
+          <a href="#links"><span>06</span>Direktlinks</a>
+          <a href="#kalender"><span>07</span>Kalender</a>
+          <a href="#etappen"><span>08</span>Etappen</a>
         </nav>
       </div>
     </section>
@@ -242,6 +245,24 @@
             </ol>
           </div>
         </details>
+      </div>
+    </section>
+
+    <section class="section atlas-section" id="tagesatlas">
+      <div class="page-shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow">Route, Tagesrhythmus &amp; Entscheidungspunkte</p>
+            <h2>Tagesatlas</h2>
+          </div>
+          <p class="section-intro">Jede Karte zeigt die Etappe als lokale Orientierung: Start, Ziel, wichtige Zwischenschritte und den sinnvollen Tagesrhythmus. Die Linien sind schematisch und dienen nicht der Navigation. Für die tatsächliche Fahrt bleiben Karten-App, NZTA und Wetterlage maßgeblich.</p>
+        </div>
+        <div class="atlas-intro-strip" role="note">
+          <span>11 Tageskarten</span>
+          <p>Die Tagesseiten bündeln Route, Bildanker, Stoppreihenfolge, Plan B und die bereits hinterlegten Direktlinks.</p>
+          <a href="#tagesbriefing">Zum Tagesbriefing <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="atlas-grid" id="day-atlas-grid" aria-live="polite"></div>
       </div>
     </section>
 
@@ -604,7 +625,7 @@
   <footer class="site-footer">
     <div class="page-shell footer-inner">
       <p><strong>Neuseeland 2026</strong> · Südinsel-Roadtrip</p>
-      <p>Arbeitsstand <span id="updated-date"></span> · v5.6</p>
+      <p>Arbeitsstand <span id="updated-date"></span> · v5.7</p>
     </div>
   </footer>
 
