@@ -19,6 +19,7 @@
   <script src="assets/js/app.js" defer></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer crossorigin=""></script>
   <script src="assets/js/route-map.js" defer></script>
+  <script src="assets/js/calendar-export.js" defer></script>
   <script src="assets/js/pwa.js" defer></script>
 </head>
 <body>
@@ -49,6 +50,7 @@
         <a href="#etappen">Etappen</a>
         <a href="#wissen">Unterwegs</a>
         <a href="#packliste">Packliste</a>
+        <a href="#kalender">Kalender</a>
         <a href="#sicherung">Sicherung</a>
         <a href="#offline">Offline</a>
         <button class="install-button" type="button" data-install-guide hidden>Auf Gerät speichern</button>
@@ -63,7 +65,7 @@
       <div class="hero-contour contour-two" aria-hidden="true"></div>
       <div class="page-shell hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow">Persönlicher Reiseführer · Version 5.1 · Abschlussstand</p>
+          <p class="eyebrow">Persönlicher Reiseführer · Version 5.3 · Kalender & Reisemodus</p>
           <h1>Mit dem TranzAlpine zur Westküste. Zurück über Kaikōura und Akaroa.</h1>
           <p class="hero-lead">Elf Reisetage auf der Südinsel: Christchurch, West Coast, Haast Pass, Aoraki / Mount Cook, Lake Tekapo, Kaikōura und Banks Peninsula.</p>
           <div class="hero-actions">
@@ -87,7 +89,8 @@
           <a href="#tagesbriefing"><span>01</span>Tagesbriefing</a>
           <a href="#unterkuenfte"><span>02</span>Übernachtungen</a>
           <a href="#wetter"><span>03</span>Wetterfenster</a>
-          <a href="#etappen"><span>04</span>Etappen</a>
+          <a href="#kalender"><span>04</span>Kalender</a>
+          <a href="#etappen"><span>05</span>Etappen</a>
         </nav>
       </div>
     </section>
@@ -440,6 +443,43 @@
     </section>
 
 
+    <section class="section calendar-section" id="kalender">
+      <div class="page-shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow">Für Telefon, iPad und Laptop</p>
+            <h2>Reise in den Kalender übernehmen</h2>
+          </div>
+          <p class="section-intro">Lade die vollständige Route oder eine einzelne Etappe als Kalenderdatei herunter. Die Datei enthält nur Datum, Strecke, Übernachtungsort und Planungsnotizen – keine persönlichen Buchungsdaten oder Browser-Eingaben.</p>
+        </div>
+        <div class="calendar-grid">
+          <article class="calendar-card calendar-card-feature">
+            <span class="calendar-kicker">11 Tage · 7.–17. September 2026</span>
+            <h3>Gesamte Rundreise</h3>
+            <p>Erstellt elf ganztägige Termine von Christchurch über die Westküste, Aoraki / Mount Cook, Lake Tekapo, Kaikōura und Akaroa bis zur Mietwagenrückgabe am Christchurch Airport.</p>
+            <button class="calendar-button" type="button" data-export-calendar-all>Reiseplan als Kalenderdatei laden</button>
+            <p class="calendar-hint">Auf iPhone oder iPad die geladene Datei öffnen und „Alle hinzufügen“ wählen. Auf anderen Geräten die Datei mit der gewünschten Kalender-App öffnen.</p>
+          </article>
+          <article class="calendar-card">
+            <span class="calendar-kicker">Gezielt übernehmen</span>
+            <h3>Eine Etappe auswählen</h3>
+            <label class="calendar-field" for="calendar-day-select">
+              <span>Reisetag</span>
+              <select id="calendar-day-select" data-calendar-day-select aria-label="Etappe für Kalenderdatei auswählen"></select>
+            </label>
+            <button class="calendar-button calendar-button-secondary" type="button" data-export-calendar-day>Nur diese Etappe laden</button>
+            <a class="calendar-text-link" href="#tagesbriefing">Etappe zuerst im Tagesbriefing vorbereiten <span aria-hidden="true">→</span></a>
+          </article>
+          <article class="calendar-card calendar-card-note">
+            <span class="calendar-kicker">Hinweis</span>
+            <h3>Kein Live-Kalender</h3>
+            <p>Die Datei ist ein einmaliger Export. Änderungen an der Website werden nicht automatisch in den Kalender übertragen. Bei Routenänderungen die alte Terminserie im Kalender löschen und eine neue Datei herunterladen.</p>
+          </article>
+        </div>
+        <p class="calendar-status" id="calendar-status" role="status" aria-live="polite">Kalenderdatei kann erstellt werden.</p>
+      </div>
+    </section>
+
     <section class="section offline-section" id="offline">
       <div class="page-shell">
         <div class="section-heading split-heading">
@@ -516,7 +556,7 @@
   <footer class="site-footer">
     <div class="page-shell footer-inner">
       <p><strong>Neuseeland 2026</strong> · Südinsel-Roadtrip</p>
-      <p>Arbeitsstand <span id="updated-date"></span> · v5.2</p>
+      <p>Arbeitsstand <span id="updated-date"></span> · v5.3</p>
     </div>
   </footer>
 

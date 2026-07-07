@@ -1,4 +1,4 @@
-const CACHE_NAME = "nz-2026-guide-v5-2";
+const CACHE_NAME = "nz-2026-guide-v5-3";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -9,6 +9,7 @@ const APP_SHELL = [
   "./assets/js/route-map.js",
   "./assets/js/photo-viewer.js",
   "./assets/js/pwa.js",
+  "./assets/js/calendar-export.js",
   "./assets/icons/fern.svg",
   "./assets/icons/app-icon-180.png",
   "./assets/icons/app-icon-192.png",
