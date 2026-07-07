@@ -213,7 +213,7 @@ h3 { margin: 0; font-size: 1.46rem; letter-spacing: -0.02em; }
 @media print {
   :root { --page: 100%; }
   body { background: #fff; font-size: 10.5pt; }
-  .site-header, .hero-actions, .menu-toggle, .stage-controls, .travel-section, .checklist-section, .site-footer, .route-legend, .hero-contour { display: none !important; }
+  .site-header, .hero-actions, .menu-toggle, .stage-controls, .planning-section, .travel-section, .checklist-section, .site-footer, .route-legend, .hero-contour { display: none !important; }
   .hero { min-height: 0; padding: 0 0 20px; background: #fff !important; }
   .hero::before { display: none; }
   .hero-grid { display: block; }
@@ -234,4 +234,69 @@ h3 { margin: 0; font-size: 1.46rem; letter-spacing: -0.02em; }
   .stage-priority { margin-top: 10px; }
   .stage-card footer { padding-top: 13px; }
   .stage-detail-button { display: none; }
+}
+
+
+/* Version 4.1b: Planungsstatus, Filter und persönliche Tagesnotizen */
+.route-stop {
+  border: 0;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+.route-stop:hover .route-place,
+.route-stop:focus-visible .route-place { color: var(--pine); text-decoration: underline; text-underline-offset: 4px; }
+.route-stop:focus-visible { outline: 3px solid rgba(79,128,100,0.32); outline-offset: 4px; border-radius: 12px; }
+
+.planning-section { background: #edf2ec; }
+.planning-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 24px; }
+.planning-stat { display: flex; flex-direction: column; min-height: 122px; justify-content: space-between; padding: 22px; border: 1px solid rgba(23,48,49,0.12); border-radius: var(--radius-md); background: rgba(255,255,255,0.72); }
+.planning-stat strong { font-family: var(--serif); font-size: 2.35rem; font-weight: 400; line-height: 1; }
+.planning-stat span { color: #63716c; font-size: 0.8rem; font-weight: 750; letter-spacing: 0.04em; text-transform: uppercase; }
+.planning-board { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.planning-item { display: flex; flex-direction: column; min-height: 246px; padding: 23px; border: 1px solid rgba(23,48,49,0.13); border-radius: var(--radius-md); background: var(--white); }
+.planning-item-top, .planning-item-bottom { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.planning-category { color: var(--fern); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+.planning-day { padding: 4px 7px; border-radius: 999px; color: #5d6966; background: #edf1ec; font-size: 0.72rem; font-weight: 750; }
+.planning-item h3 { margin-top: 22px; font-size: 1.42rem; }
+.planning-item p { margin: 12px 0 22px; color: #5a6963; font-size: 0.9rem; }
+.planning-item-bottom { margin-top: auto; }
+.planning-select, .dialog-status-control select { appearance: none; min-height: 36px; padding: 7px 29px 7px 10px; border: 1px solid rgba(23,48,49,0.17); border-radius: 8px; color: #44534d; background-color: #f7f9f6; background-image: linear-gradient(45deg, transparent 50%, #50605a 50%), linear-gradient(135deg, #50605a 50%, transparent 50%); background-position: calc(100% - 13px) 15px, calc(100% - 8px) 15px; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; font-size: 0.8rem; font-weight: 750; }
+.planning-jump { padding: 0; border: 0; color: var(--pine); background: transparent; font-size: 0.82rem; font-weight: 800; }
+.planning-jump:hover, .planning-jump:focus-visible { text-decoration: underline; text-underline-offset: 4px; }
+
+.filter-group { display: flex; flex-wrap: wrap; gap: 8px; }
+.filter-button { padding: 7px 10px; border: 1px solid rgba(23,48,49,0.17); border-radius: 999px; color: #586761; background: var(--white); font-size: 0.79rem; font-weight: 750; }
+.filter-button:hover, .filter-button:focus-visible { border-color: var(--fern); color: var(--pine); }
+.filter-button.is-active { border-color: var(--pine); color: var(--white); background: var(--pine); }
+.signal-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+.signal-list span { padding: 4px 7px; border-radius: 999px; color: #4a6654; background: #e8f0e5; font-size: 0.69rem; font-weight: 800; letter-spacing: 0.03em; }
+.status-vorgemerkt { color: #705e35; background: #f4eedf; }
+.status-gebucht { color: #326149; background: #e1efe3; }
+.status-erledigt { color: #496a70; background: #e1eeef; }
+.status-optional { color: #685f79; background: #eeebf5; }
+
+.personal-note { margin-top: 30px; padding: 20px; border: 1px solid rgba(23,48,49,0.12); border-radius: 14px; background: #f3f6f1; }
+.personal-note-heading { display: flex; align-items: start; justify-content: space-between; gap: 18px; }
+.personal-note-label { display: block; color: var(--fern); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+.personal-note h3 { margin-top: 4px; font-size: 1.25rem; }
+.dialog-status-control { display: grid; gap: 5px; color: #60706a; font-size: 0.72rem; font-weight: 750; }
+.personal-note textarea { display: block; width: 100%; margin-top: 16px; padding: 11px 12px; resize: vertical; border: 1px solid rgba(23,48,49,0.16); border-radius: 9px; color: var(--ink); background: var(--white); line-height: 1.5; }
+.personal-note textarea:focus, .planning-select:focus, .dialog-status-control select:focus { outline: 3px solid rgba(79,128,100,0.24); outline-offset: 2px; }
+.note-save-hint { margin: 8px 0 0; color: #71807a; font-size: 0.76rem; }
+.dialog-section-title { margin-top: 24px !important; }
+
+@media (max-width: 850px) {
+  .planning-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .planning-board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stage-controls { align-items: flex-start; flex-direction: column; }
+}
+
+@media (max-width: 560px) {
+  .planning-board { grid-template-columns: 1fr; }
+  .planning-stat { min-height: 105px; padding: 18px; }
+  .personal-note-heading { flex-direction: column; }
+  .dialog-status-control { width: 100%; }
+  .dialog-status-control select { width: 100%; }
 }

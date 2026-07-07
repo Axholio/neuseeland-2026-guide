@@ -1,13 +1,15 @@
 # Neuseeland 2026 – Reiseführer
 
-**Version 4.1a** – statischer, responsiver HTML-Grundaufbau für den persönlichen Reiseführer zur Südinsel-Rundreise vom **5. bis 17. September 2026**.
+**Version 4.1b** – statischer, responsiver HTML-Reiseführer für den persönlichen Südinsel-Roadtrip vom **5. bis 17. September 2026**.
 
 ## Enthalten
 
 - Tagesetappen als editierbare Datenquelle (`assets/data/trip-data.js`)
 - Responsive Darstellung für Desktop und Mobilgeräte
-- Detailansicht je Reisetag
-- Unterkunfts- und Aufgabenstatus je Etappe
+- Detailansicht zu jeder Etappe inklusive Link zu Google Maps
+- Filter für Wetterfenster, Buchungspunkte und lange Fahrtage
+- Planungsboard für zentrale Buchungs- und Organisationspunkte
+- Persönliche Tagesnotizen und Planungsstatus mit lokaler Speicherung im Browser
 - Packliste mit lokaler Speicherung im Browser
 - Druckansicht für eine kompakte Reiseübersicht
 
@@ -21,12 +23,12 @@
 2. In **Settings → Pages** die Bereitstellung von `main` / Root aktivieren.
 3. Nach der Veröffentlichung ist der Guide über GitHub Pages erreichbar.
 
-## Bearbeitung der Route
+## Inhaltlich bearbeiten
 
-Alle Reisetage, Fahrtstrecken, Hinweise, Unterkünfte und Links stehen gesammelt in:
+Alle Reisetage, Fahrtstrecken, Hinweise, Statuswerte und Planungspunkte stehen gesammelt in:
 
 ```text
 assets/data/trip-data.js
 ```
 
-Die derzeit eingetragenen Etappen sind ein editierbarer Arbeitsstand für v4.1a.
+Die Statuswerte auf der Website sowie persönliche Tagesnotizen werden im Browser dieses Geräts gespeichert. Sie werden nicht automatisch in GitHub zurückgeschrieben.

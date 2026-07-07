@@ -26,6 +26,7 @@
       </button>
       <nav class="site-nav" id="site-nav" aria-label="Hauptnavigation">
         <a href="#route">Route</a>
+        <a href="#planung">Planung</a>
         <a href="#etappen">Etappen</a>
         <a href="#wissen">Unterwegs</a>
         <a href="#packliste">Packliste</a>
@@ -40,19 +41,19 @@
       <div class="hero-contour contour-two" aria-hidden="true"></div>
       <div class="page-shell hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow">Persönlicher Reiseführer · Version 4.1a</p>
+          <p class="eyebrow">Persönlicher Reiseführer · Version 4.1b</p>
           <h1>Von den Marlborough Sounds bis zum Arthur’s Pass.</h1>
           <p class="hero-lead">Ein Roadtrip über die Südinsel – Küste, Hochland, Fiordland, West Coast und die Südalpen in dreizehn Tagen.</p>
           <div class="hero-actions">
             <a class="button button-primary" href="#etappen">Etappen ansehen</a>
-            <a class="button button-ghost" href="#packliste">Packliste</a>
+            <a class="button button-ghost" href="#planung">Planungsstand</a>
           </div>
         </div>
         <aside class="trip-card" aria-label="Reiseüberblick">
           <p class="trip-card-label">Reiseüberblick</p>
           <dl id="trip-facts" class="trip-facts"></dl>
           <div class="trip-card-line"></div>
-          <p class="trip-card-note">Arbeitsstand für die weitere Detailplanung. Unterkünfte, Buchungen und Wetterfenster werden in den nächsten Versionen ergänzt.</p>
+          <p class="trip-card-note">Planungsstand, Tagesnotizen und Checkliste bleiben auf diesem Gerät im Browser gespeichert.</p>
         </aside>
       </div>
     </section>
@@ -75,6 +76,20 @@
       </div>
     </section>
 
+    <section class="section planning-section" id="planung">
+      <div class="page-shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow">Reisestand</p>
+            <h2>Planung im Blick</h2>
+          </div>
+          <p class="section-intro">Die wichtigsten Buchungs- und Organisationspunkte lassen sich direkt auf dieser Seite markieren. Der Stand wird nur lokal in diesem Browser gespeichert.</p>
+        </div>
+        <div class="planning-summary" id="planning-summary" aria-live="polite"></div>
+        <div class="planning-board" id="planning-board"></div>
+      </div>
+    </section>
+
     <section class="section stages-section" id="etappen">
       <div class="page-shell">
         <div class="section-heading split-heading">
@@ -86,6 +101,12 @@
         </div>
         <div class="stage-controls">
           <p id="stage-count" aria-live="polite"></p>
+          <div class="filter-group" aria-label="Etappen filtern">
+            <button class="filter-button is-active" type="button" data-stage-filter="all" aria-pressed="true">Alle</button>
+            <button class="filter-button" type="button" data-stage-filter="weather" aria-pressed="false">Wetterfenster</button>
+            <button class="filter-button" type="button" data-stage-filter="booking" aria-pressed="false">Buchung</button>
+            <button class="filter-button" type="button" data-stage-filter="long-drive" aria-pressed="false">Lange Fahrt</button>
+          </div>
         </div>
         <div class="stages-grid" id="stages-grid"></div>
       </div>
@@ -133,13 +154,13 @@
   <footer class="site-footer">
     <div class="page-shell footer-inner">
       <p><strong>Neuseeland 2026</strong> · Südinsel-Roadtrip</p>
-      <p>Arbeitsstand <span id="updated-date"></span> · v4.1a</p>
+      <p>Arbeitsstand <span id="updated-date"></span> · v4.1b</p>
     </div>
   </footer>
 
   <dialog class="stage-dialog" id="stage-dialog" aria-labelledby="dialog-title">
     <button class="dialog-close" type="button" aria-label="Detailansicht schließen" data-close-dialog>×</button>
-    <div id="dialog-content"></div>
+    <div class="dialog-content" id="dialog-content"></div>
   </dialog>
 </body>
 </html>
