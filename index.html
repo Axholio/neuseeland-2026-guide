@@ -22,6 +22,7 @@
   <script src="assets/js/route-map.js" defer></script>
   <script src="assets/js/calendar-export.js" defer></script>
   <script src="assets/js/pwa.js" defer></script>
+  <script src="assets/js/print-brief.js" defer></script>
   <script src="assets/js/travel-mode.js" defer></script>
 </head>
 <body>
@@ -57,9 +58,10 @@
         <a href="#packliste">Packliste</a>
         <a href="#kalender">Kalender</a>
         <a href="#sicherung">Sicherung</a>
+        <a href="#abschluss">Abschluss</a>
         <a href="#offline">Offline</a>
         <button class="install-button" type="button" data-install-guide hidden>Auf Gerät speichern</button>
-        <button class="print-button" type="button" data-print>Übersicht drucken</button>
+        <button class="print-button" type="button" data-print-brief>Kurzblatt drucken</button>
       </nav>
     </div>
   </header>
@@ -75,7 +77,7 @@
           <p class="hero-lead">Elf Reisetage auf der Südinsel: Christchurch, West Coast, Haast Pass, Aoraki / Mount Cook, Lake Tekapo, Kaikōura und Banks Peninsula.</p>
           <div class="hero-actions">
             <a class="button button-primary" href="#tagesatlas">Tagesatlas ansehen</a>
-            <a class="button button-ghost" href="#tagesbriefing">Tagesbriefing</a>
+            <a class="button button-ghost" href="#abschluss">Finalcheck</a>
           </div>
         </div>
         <aside class="trip-card" aria-label="Reiseüberblick">
@@ -97,6 +99,7 @@
           <a href="#unterkuenfte"><span>04</span>Übernachtungen</a>
           <a href="#wetter"><span>05</span>Wetterfenster</a>
           <a href="#links"><span>06</span>Direktlinks</a>
+          <a href="#abschluss"><span>07</span>Finalcheck</a>
           <a href="#kalender"><span>07</span>Kalender</a>
           <a href="#etappen"><span>08</span>Etappen</a>
         </nav>
@@ -385,6 +388,46 @@
       </div>
     </section>
 
+    <section class="section final-section" id="abschluss">
+      <div class="page-shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow">Vor der Abreise</p>
+            <h2>Finalcheck</h2>
+          </div>
+          <p class="section-intro">Der Guide ist für die Route vom 7. bis 17. September 2026 vorbereitet. Diese vier letzten Prüfungen verbinden Reiseunterlagen, Live-Informationen, Gerät und Rückreisetag.</p>
+        </div>
+        <div class="final-grid">
+          <article class="final-card final-card-feature">
+            <span class="final-kicker">Kurzblatt</span>
+            <h3>Reise auf einer Seite</h3>
+            <p>Eine druckfreundliche Übersicht mit allen elf Tagen, Übernachtungsorten, Schlüsselstellen sowie den festen Zeiten am Rückreisetag.</p>
+            <button class="final-print-button" type="button" data-print-brief>Reise-Kurzblatt drucken</button>
+            <small>Im Druckdialog als PDF sichern oder auf Papier ausgeben.</small>
+          </article>
+          <article class="final-card">
+            <span class="final-kicker">01 · Fixpunkte</span>
+            <h3>Tickets, Orte, Übergaben</h3>
+            <p>Für den 8. September TranzAlpine, Gepäck und Mietwagenübergabe in Greymouth verbindlich abgleichen. Für den 17. September bleibt die Mietwagenrückgabe bis 17:00 Uhr am Christchurch Airport die feste Grenze.</p>
+            <a href="#dokumente">Unterlagen prüfen <span aria-hidden="true">→</span></a>
+          </article>
+          <article class="final-card">
+            <span class="final-kicker">02 · Jeden Fahrtag</span>
+            <h3>Wetter, Straße, Betreiber</h3>
+            <p>Vor Berg-, Westküsten- und Küstenetappen aktuelle Straßenlage, Wetter, DOC-Trackstatus und bei Aktivitäten die Betreiberhinweise öffnen. Tagesatlas und Briefing liefern die Reihenfolge, aber keine Live-Freigabe.</p>
+            <a href="#links">Direktlinks öffnen <span aria-hidden="true">→</span></a>
+          </article>
+          <article class="final-card">
+            <span class="final-kicker">03 · Auf dem Gerät</span>
+            <h3>Offline und Sicherung</h3>
+            <p>Die veröffentlichte Seite einmal mit Verbindung öffnen, die Bilder laden und die persönlichen Eingaben sichern. Karten, Tickets und Buchungsbestätigungen zusätzlich außerhalb des Guides offline speichern.</p>
+            <a href="#offline">Offline-Check öffnen <span aria-hidden="true">→</span></a>
+          </article>
+        </div>
+        <p class="final-note">Die gespeicherten Notizen, Buchungsnummern und Häkchen liegen nur im jeweiligen Browser. Beim Wechsel auf Handy, iPad oder Laptop vorher eine Sicherungsdatei exportieren und auf dem Zielgerät wieder importieren.</p>
+      </div>
+    </section>
+
     <section class="section planning-section" id="planung">
       <div class="page-shell">
         <div class="section-heading split-heading">
@@ -622,10 +665,67 @@
     </section>
   </main>
 
+  <section class="print-brief" id="print-brief" aria-hidden="true">
+    <header class="print-brief-header">
+      <p>Neuseeland 2026 · Südinsel-Rundreise</p>
+      <h1>Reise-Kurzblatt</h1>
+      <div><span>7.–17. September 2026</span><span>Axel</span></div>
+    </header>
+    <section class="print-brief-route" aria-label="Tagesübersicht">
+      <h2>Route und Übernachtungen</h2>
+      <table>
+        <thead><tr><th>Tag</th><th>Datum</th><th>Etappe</th><th>Übernachtung / Fixpunkt</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Mo, 7.9.</td><td>Christchurch · Ankunft und Orientierung</td><td>Christchurch</td></tr>
+          <tr><td>2</td><td>Di, 8.9.</td><td>TranzAlpine: Christchurch → Greymouth → Hokitika</td><td>Hokitika</td></tr>
+          <tr><td>3</td><td>Mi, 9.9.</td><td>Hokitika Gorge → Franz Josef</td><td>Franz Josef</td></tr>
+          <tr><td>4</td><td>Do, 10.9.</td><td>Franz Josef → Haast Pass → Wānaka</td><td>Wānaka</td></tr>
+          <tr><td>5</td><td>Fr, 11.9.</td><td>Wānaka → Lindis Pass → Aoraki / Mount Cook</td><td>Aoraki / Mount Cook Village</td></tr>
+          <tr><td>6</td><td>Sa, 12.9.</td><td>Aoraki / Mount Cook → Lake Tekapo</td><td>Lake Tekapo</td></tr>
+          <tr><td>7</td><td>So, 13.9.</td><td>Lake Tekapo → Kaikōura</td><td>Kaikōura</td></tr>
+          <tr><td>8</td><td>Mo, 14.9.</td><td>Kaikōura · Wale, Robben, Peninsula Walkway</td><td>Kaikōura</td></tr>
+          <tr><td>9</td><td>Di, 15.9.</td><td>Kaikōura → Akaroa</td><td>Akaroa</td></tr>
+          <tr><td>10</td><td>Mi, 16.9.</td><td>Akaroa und Banks Peninsula</td><td>Akaroa</td></tr>
+          <tr><td>11</td><td>Do, 17.9.</td><td>Akaroa → Christchurch Airport</td><td>Rückgabe bis 17:00 Uhr · Abflug 20:00 Uhr</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="print-brief-grid">
+      <article>
+        <h2>Fixpunkte</h2>
+        <ul>
+          <li>8.9.: TranzAlpine, Gepäck und Mietwagenübergabe in Greymouth am Vorabend nochmals bestätigen.</li>
+          <li>10.9.: Haast Pass nur nach aktueller Straßen- und Wetterprüfung.</li>
+          <li>11.–12.9.: Aoraki / Mount Cook: DOC-Trackstatus vor jeder Wanderung prüfen.</li>
+          <li>13.9.: Lake Tekapo → Kaikōura ist der längste Fahrtag; früh starten und nur gezielte Pausen.</li>
+          <li>14.9.: Whale Watch nur nach aktuellem Betreiberstatus; Landprogramm als Plan B bereithalten.</li>
+          <li>17.9.: Rückgabezeit vor allem anderen schützen; Tankregel und Abgabestelle vor der Fahrt öffnen.</li>
+        </ul>
+      </article>
+      <article>
+        <h2>Live prüfen</h2>
+        <ul>
+          <li>Straßenlage: NZTA Journey Planner</li>
+          <li>Wetter und Warnungen: MetService</li>
+          <li>Tracks und Sicherheit: Department of Conservation (DOC)</li>
+          <li>TranzAlpine und Walbeobachtung: jeweiliger Betreiber</li>
+          <li>Rückreisetag: Christchurch Airport und Mietwagenanbieter</li>
+        </ul>
+        <h2>Auf dem Telefon</h2>
+        <ul>
+          <li>Guide einmal online öffnen, bis Bilder und Offline-Status geladen sind.</li>
+          <li>Offline-Karten, Tickets und Buchungen zusätzlich separat sichern.</li>
+          <li>Persönliche Guide-Eingaben als Sicherungsdatei exportieren.</li>
+        </ul>
+      </article>
+    </section>
+    <footer class="print-brief-footer">Stand: 7. Juli 2026 · Die Tagesroute bleibt eine Planungsgrundlage. Aktuelle Straßen-, Wetter-, DOC- und Betreiberhinweise sind am Reisetag verbindlich.</footer>
+  </section>
+
   <footer class="site-footer">
     <div class="page-shell footer-inner">
       <p><strong>Neuseeland 2026</strong> · Südinsel-Roadtrip</p>
-      <p>Arbeitsstand <span id="updated-date"></span> · v5.7</p>
+      <p>Arbeitsstand <span id="updated-date"></span> · v6.0 Final</p>
     </div>
   </footer>
 

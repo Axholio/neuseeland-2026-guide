@@ -1256,3 +1256,53 @@ h3 { margin: 0; font-size: 1.46rem; letter-spacing: -0.02em; }
   .atlas-section, .dialog-atlas { display: none !important; }
 }
 
+
+
+/* Version 6.0: Finalcheck und druckbares Reise-Kurzblatt */
+.final-section { background: #eaf0e8; }
+.final-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.final-card { display: flex; flex-direction: column; min-height: 242px; padding: 27px; border: 1px solid rgba(33, 79, 64, 0.15); border-radius: 18px; background: #ffffff; box-shadow: 0 13px 28px rgba(22, 58, 46, 0.06); }
+.final-card-feature { color: #f5fbf4; border-color: rgba(255,255,255,0.16); background: linear-gradient(140deg, #143d35 0%, #245f50 100%); }
+.final-kicker { display: block; color: #5c876f; font-size: 0.69rem; font-weight: 850; letter-spacing: 0.1em; text-transform: uppercase; }
+.final-card-feature .final-kicker { color: #c6dbbd; }
+.final-card h3 { margin-top: 18px; color: #25483c; font-size: 1.72rem; }
+.final-card-feature h3 { color: #ffffff; }
+.final-card p { margin: 13px 0 0; color: #576d62; font-size: 0.9rem; line-height: 1.5; }
+.final-card-feature p { color: rgba(255,255,255,0.79); }
+.final-card a { display: inline-flex; align-items: center; gap: 6px; width: fit-content; margin-top: auto; padding-top: 20px; color: #266650; font-size: 0.85rem; font-weight: 850; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.final-card a:hover, .final-card a:focus-visible { color: #143e33; outline: none; }
+.final-print-button { width: fit-content; margin-top: auto; padding: 11px 15px; border: 0; border-radius: 999px; color: #183e35; background: #dcebd7; font-weight: 850; font-size: 0.84rem; }
+.final-print-button:hover, .final-print-button:focus-visible { color: #ffffff; background: #a6c799; outline: none; }
+.final-card small { display: block; margin-top: 11px; color: rgba(255,255,255,0.68); font-size: 0.75rem; line-height: 1.4; }
+.final-note { max-width: 860px; margin: 20px 0 0; color: #5d7065; font-size: 0.86rem; }
+.print-brief { display: none; }
+
+@media (max-width: 740px) {
+  .final-grid { grid-template-columns: 1fr; }
+  .final-card { min-height: 0; padding: 22px; }
+}
+
+@media print {
+  @page { size: A4 portrait; margin: 11mm; }
+  body.is-printing-brief { min-width: 0; color: #173031; background: #ffffff; font-size: 9pt; line-height: 1.38; }
+  body.is-printing-brief > *:not(.print-brief) { display: none !important; }
+  body.is-printing-brief .print-brief { display: block !important; }
+  body.is-printing-brief .print-brief-header { display: grid; grid-template-columns: 1fr auto; gap: 5px 20px; padding-bottom: 11px; border-bottom: 2px solid #315f52; }
+  body.is-printing-brief .print-brief-header p { grid-column: 1 / -1; margin: 0; color: #4e7f68; font-size: 8pt; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase; }
+  body.is-printing-brief .print-brief-header h1 { margin: 0; color: #173d35; font-family: var(--serif); font-size: 27pt; letter-spacing: -0.035em; }
+  body.is-printing-brief .print-brief-header div { align-self: end; display: grid; gap: 2px; color: #4e615b; font-size: 9pt; text-align: right; }
+  body.is-printing-brief .print-brief h2 { margin: 0 0 7px; color: #285541; font-size: 13pt; }
+  body.is-printing-brief .print-brief-route { margin-top: 14px; }
+  body.is-printing-brief .print-brief table { width: 100%; border-collapse: collapse; font-size: 7.4pt; }
+  body.is-printing-brief .print-brief th, body.is-printing-brief .print-brief td { padding: 4px 5px; border-bottom: 1px solid #d6e1d8; vertical-align: top; text-align: left; }
+  body.is-printing-brief .print-brief th { color: #2b5947; background: #eff5ee; font-weight: 850; }
+  body.is-printing-brief .print-brief tbody tr:nth-child(even) td { background: #fafcfa; }
+  body.is-printing-brief .print-brief th:first-child, body.is-printing-brief .print-brief td:first-child { width: 6%; }
+  body.is-printing-brief .print-brief th:nth-child(2), body.is-printing-brief .print-brief td:nth-child(2) { width: 11%; white-space: nowrap; }
+  body.is-printing-brief .print-brief th:nth-child(3), body.is-printing-brief .print-brief td:nth-child(3) { width: 48%; }
+  body.is-printing-brief .print-brief-grid { display: grid; grid-template-columns: 1fr 0.9fr; gap: 14px; margin-top: 14px; }
+  body.is-printing-brief .print-brief-grid article { padding: 10px 11px; border: 1px solid #d2dfd2; border-radius: 7px; background: #fbfdfb; break-inside: avoid; }
+  body.is-printing-brief .print-brief ul { margin: 0; padding-left: 16px; }
+  body.is-printing-brief .print-brief li + li { margin-top: 4px; }
+  body.is-printing-brief .print-brief-footer { margin-top: 12px; padding-top: 8px; border-top: 1px solid #cbd8cb; color: #63716c; font-size: 7.5pt; }
+}

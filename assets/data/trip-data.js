@@ -5,11 +5,11 @@ window.tripData = {
     "dateRange": "7.–17. Sept. 2026",
     "returnInfo": "17. Sept. · 20:00 Uhr Abflug",
     "traveller": "Axel",
-    "updated": "7. Juli 2026 · Tagesatlas & Etappenkarten",
+    "updated": "7. Juli 2026 · Version 6.0 Final",
     "totalDays": 11,
     "totalNights": 10,
     "totalDistance": "ca. 1.700 km mit Mietwagen",
-    "version": "5.7"
+    "version": "6.0"
   },
   "days": [
     {
@@ -198,7 +198,7 @@ window.tripData = {
       "status": "offen",
       "priority": "Den Vormittag in Aoraki / Mount Cook nach Sicht und Wetter nutzen; danach ohne Eile nach Lake Tekapo fahren.",
       "highlights": [
-        "Hooker Valley oder kurze Aussichtspunkte nach Weglage",
+        "Hooker Valley Track nur bis zum aktuell geöffneten DOC-Endpunkt oder kurzer Aussichtspunkt",
         "Lake Pukaki",
         "Church of the Good Shepherd",
         "Abend im Aoraki Mackenzie Dark Sky Reserve"
@@ -1313,9 +1313,9 @@ window.tripData.externalLinks = {
 
 
 window.tripData.linkAudit = {
-  "checked": "7. Juli 2026",
+  "checked": "7. Juli 2026 · Version 6.0",
   "scope": "Offizielle Quellen, Karten und operative Tageslinks",
-  "note": "Der Projekt-Check prüft sichere HTTP(S)-Ziele und die Zuordnung zu den Reisetagen. Live-Informationen sind ausschließlich auf der jeweiligen externen Quelle verbindlich."
+  "note": "Der Projekt-Check prüft sichere HTTP(S)-Ziele und die Zuordnung zu den Reisetagen. Er ersetzt keine Live-Prüfung: Für Straßen, Wetter, DOC-Tracks, Bahn und Aktivitäten ist ausschließlich die jeweilige externe Quelle am Reisetag verbindlich."
 };
 
 
