@@ -9,7 +9,7 @@ window.tripData = {
     "totalDays": 11,
     "totalNights": 10,
     "totalDistance": "ca. 1.700 km mit Mietwagen",
-    "version": "4.7"
+    "version": "4.8"
   },
   "days": [
     {
@@ -467,6 +467,38 @@ window.tripData = {
       "planB": "Bei ungünstiger Lage im Ort bleiben, Hafen und kurze Wege nutzen und die lange Halbinsel-Rundfahrt vermeiden."
     }
   ],
+  "rentalCar": {
+    "pickup": {
+      "day": 2,
+      "date": "Dienstag, 8. September",
+      "title": "Mietwagenübernahme an der Westküste",
+      "place": "Greymouth / West Coast · Übergabeort laut Buchung",
+      "time": "Nach Ankunft des TranzAlpine",
+      "focus": "Übergabeort, Öffnungszeit und Puffer zwischen Zugankunft und Fahrzeugübernahme verbindlich notieren.",
+      "mapQuery": "Greymouth New Zealand"
+    },
+    "returnInfo": {
+      "day": 11,
+      "date": "Donnerstag, 17. September",
+      "title": "Mietwagenrückgabe am Christchurch Airport",
+      "place": "Christchurch Airport · Abgabestelle laut Buchung",
+      "time": "Rückgabe bis 17:00 Uhr · Abflug um 20:00 Uhr",
+      "focus": "Tankregel, Abgabestelle und ausreichenden Puffer vor dem Flug fest einplanen.",
+      "mapQuery": "Christchurch Airport New Zealand"
+    },
+    "pickupChecks": [
+      { "id": "documents", "label": "Führerschein, Kreditkarte und Reservierung bereit" },
+      { "id": "condition", "label": "Fahrzeugzustand und vorhandene Schäden fotografiert" },
+      { "id": "cover", "label": "Versicherung, Selbstbeteiligung und Notfallkontakt geklärt" },
+      { "id": "fuel", "label": "Tankregel, Tankstand und Rückgabeort notiert" }
+    ],
+    "returnChecks": [
+      { "id": "fuel", "label": "Tankregel erfüllt und Beleg bei Bedarf gesichert" },
+      { "id": "belongings", "label": "Fahrzeug auf persönliche Gegenstände geprüft" },
+      { "id": "condition", "label": "Rückgabezustand dokumentiert und Schadenhinweise geklärt" },
+      { "id": "receipt", "label": "Rückgabebeleg oder Bestätigung erhalten" }
+    ]
+  },
   "stays": [
     {
       "id": "christchurch",

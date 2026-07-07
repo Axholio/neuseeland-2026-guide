@@ -15,9 +15,10 @@
   const weatherStorageKey = "nz-2026-weather-v45";
   const stayStorageKey = "nz-2026-stays-v46";
   const briefingStorageKey = "nz-2026-briefing-v47";
+  const rentalStorageKey = "nz-2026-rental-v48";
   const backupSchema = "nz-2026-guide-backup";
-  const backupVersion = 2;
-  const localStorageKeys = [checklistStorageKey, plannerStorageKey, bookingStorageKey, budgetStorageKey, driveStorageKey, weatherStorageKey, stayStorageKey, briefingStorageKey];
+  const backupVersion = 3;
+  const localStorageKeys = [checklistStorageKey, plannerStorageKey, bookingStorageKey, budgetStorageKey, driveStorageKey, weatherStorageKey, stayStorageKey, briefingStorageKey, rentalStorageKey];
   let activeStageFilter = "all";
 
   function escapeHtml(value) {
@@ -445,6 +446,208 @@
     if (!window.confirm("Alle Unterkunftseinträge in diesem Browser löschen?")) return;
     saveState(stayStorageKey, {});
     renderStays();
+    renderBackupSummary();
+  }
+
+
+  function getRentalState() {
+    const state = loadState(rentalStorageKey, { pickup: {}, returnInfo: {} });
+    return {
+      pickup: state.pickup && typeof state.pickup === "object" && !Array.isArray(state.pickup) ? state.pickup : {},
+      returnInfo: state.returnInfo && typeof state.returnInfo === "object" && !Array.isArray(state.returnInfo) ? state.returnInfo : {}
+    };
+  }
+
+  function rentalRecord(part) {
+    const state = getRentalState();
+    const source = part === "pickup" ? state.pickup : state.returnInfo;
+    return {
+      checks: source.checks && typeof source.checks === "object" && !Array.isArray(source.checks) ? source.checks : {},
+      provider: source.provider || "",
+      reference: source.reference || "",
+      vehicle: source.vehicle || "",
+      registration: source.registration || "",
+      time: source.time || "",
+      mileage: source.mileage || "",
+      fuel: source.fuel || "",
+      note: source.note || ""
+    };
+  }
+
+  function rentalInfo(part) {
+    const rental = data.rentalCar || {};
+    return part === "pickup" ? (rental.pickup || {}) : (rental.returnInfo || {});
+  }
+
+  function rentalChecks(part) {
+    const rental = data.rentalCar || {};
+    const checks = part === "pickup" ? rental.pickupChecks : rental.returnChecks;
+    return Array.isArray(checks) ? checks : [];
+  }
+
+  function rentalRecordHasEntry(record) {
+    return Boolean(record.provider || record.reference || record.vehicle || record.registration || record.time || record.mileage || record.fuel || record.note || Object.values(record.checks || {}).some(Boolean));
+  }
+
+  function rentalCheckCount(part) {
+    const record = rentalRecord(part);
+    return rentalChecks(part).filter((check) => record.checks[check.id]).length;
+  }
+
+  function rentalMileage() {
+    const pickup = Number(String(rentalRecord("pickup").mileage || "").replace(",", "."));
+    const returnMileage = Number(String(rentalRecord("return").mileage || "").replace(",", "."));
+    const difference = returnMileage - pickup;
+    return Number.isFinite(difference) && pickup >= 0 && returnMileage >= pickup && difference <= 4000 ? difference : 0;
+  }
+
+  function renderRentalSummary() {
+    const target = $("#rental-summary");
+    if (!target) return;
+    const pickup = rentalRecord("pickup");
+    const returnRecord = rentalRecord("return");
+    const pickupTotal = rentalChecks("pickup").length;
+    const returnTotal = rentalChecks("return").length;
+    const vehicleState = pickup.vehicle || pickup.registration ? "erfasst" : "offen";
+    const returnState = returnRecordHasEntry(returnRecord) ? "angelegt" : "offen";
+    const kilometres = rentalMileage();
+    target.innerHTML = `
+      <article class="rental-stat"><strong>${pickupTotal ? `${rentalCheckCount("pickup")}/${pickupTotal}` : "—"}</strong><span>Übernahme-Checks</span></article>
+      <article class="rental-stat"><strong>${vehicleState}</strong><span>Fahrzeugdaten</span></article>
+      <article class="rental-stat"><strong>${returnTotal ? `${rentalCheckCount("return")}/${returnTotal}` : "—"}</strong><span>Rückgabe-Checks</span></article>
+      <article class="rental-stat"><strong>${kilometres > 0 ? `${Math.round(kilometres)} km` : "—"}</strong><span>zwischen Übergabe & Rückgabe</span></article>
+    `;
+  }
+
+  function rentalCard(part) {
+    const isPickup = part === "pickup";
+    const info = rentalInfo(part);
+    const record = rentalRecord(part);
+    const checks = rentalChecks(part);
+    const phase = isPickup ? "Übernahme" : "Rückgabe";
+    const day = data.days.find((item) => Number(item.number) === Number(info.day));
+    const location = info.place || "Ort laut Buchung";
+    const timeDescription = info.time || "Zeit laut Buchung";
+    const route = day ? day.route : "";
+    const detailFields = isPickup ? `
+      <label class="rental-field">
+        <span>Anbieter</span>
+        <input type="text" autocomplete="organization" placeholder="z. B. Mietwagenanbieter" value="${escapeHtml(record.provider)}" data-rental-field="provider" data-rental-part="pickup">
+      </label>
+      <label class="rental-field">
+        <span>Reservierungsnummer</span>
+        <input type="text" autocomplete="off" placeholder="Buchungsnummer" value="${escapeHtml(record.reference)}" data-rental-field="reference" data-rental-part="pickup">
+      </label>
+      <label class="rental-field">
+        <span>Fahrzeug</span>
+        <input type="text" autocomplete="off" placeholder="Modell / Kategorie" value="${escapeHtml(record.vehicle)}" data-rental-field="vehicle" data-rental-part="pickup">
+      </label>
+      <label class="rental-field">
+        <span>Kennzeichen</span>
+        <input type="text" autocomplete="off" placeholder="Nummernschild" value="${escapeHtml(record.registration)}" data-rental-field="registration" data-rental-part="pickup">
+      </label>
+      <label class="rental-field">
+        <span>Übergabezeit</span>
+        <input type="time" value="${escapeHtml(record.time)}" data-rental-field="time" data-rental-part="pickup">
+      </label>
+      <label class="rental-field">
+        <span>Kilometerstand</span>
+        <input type="number" min="0" step="1" inputmode="numeric" placeholder="z. B. 12480" value="${escapeHtml(record.mileage)}" data-rental-field="mileage" data-rental-part="pickup">
+      </label>
+      <label class="rental-field rental-field-wide">
+        <span>Tankstand bei Übernahme</span>
+        <input type="text" autocomplete="off" placeholder="z. B. voll / 7/8" value="${escapeHtml(record.fuel)}" data-rental-field="fuel" data-rental-part="pickup">
+      </label>
+      <label class="rental-field rental-field-wide">
+        <span>Eigene Notiz</span>
+        <textarea rows="3" placeholder="Schäden, Versicherung, Übergabeort, besondere Regeln …" data-rental-field="note" data-rental-part="pickup">${escapeHtml(record.note)}</textarea>
+      </label>
+    ` : `
+      <label class="rental-field">
+        <span>Rückgabezeit</span>
+        <input type="time" value="${escapeHtml(record.time)}" data-rental-field="time" data-rental-part="return">
+      </label>
+      <label class="rental-field">
+        <span>Kilometerstand</span>
+        <input type="number" min="0" step="1" inputmode="numeric" placeholder="z. B. 14180" value="${escapeHtml(record.mileage)}" data-rental-field="mileage" data-rental-part="return">
+      </label>
+      <label class="rental-field rental-field-wide">
+        <span>Tankstand bei Rückgabe</span>
+        <input type="text" autocomplete="off" placeholder="z. B. voll / 7/8" value="${escapeHtml(record.fuel)}" data-rental-field="fuel" data-rental-part="return">
+      </label>
+      <label class="rental-field rental-field-wide">
+        <span>Eigene Notiz</span>
+        <textarea rows="3" placeholder="Tankbeleg, Rückgabe, Abflugpuffer, Bestätigung …" data-rental-field="note" data-rental-part="return">${escapeHtml(record.note)}</textarea>
+      </label>
+    `;
+
+    return `
+      <article class="rental-card rental-card-${isPickup ? "pickup" : "return"}">
+        <div class="rental-card-top">
+          <div>
+            <span class="rental-phase">${phase} · Tag ${escapeHtml(info.day || "—")}</span>
+            <h3>${escapeHtml(info.title || phase)}</h3>
+            <p class="rental-date">${escapeHtml(info.date || "")}</p>
+          </div>
+          <span class="rental-check-count">${rentalCheckCount(part)}/${checks.length || "—"} Checks</span>
+        </div>
+        <div class="rental-context">
+          <p><strong>Ort</strong>${escapeHtml(location)}</p>
+          <p><strong>Rahmen</strong>${escapeHtml(timeDescription)}</p>
+          <p><strong>Fokus</strong>${escapeHtml(info.focus || "Verbindliche Buchungsdaten prüfen.")}</p>
+        </div>
+        <div class="rental-checks" role="group" aria-label="${phase}-Checks">
+          ${checks.map((check) => `
+            <label class="rental-check${record.checks[check.id] ? " is-checked" : ""}">
+              <input type="checkbox" data-rental-check="${escapeHtml(check.id)}" data-rental-part="${part}"${record.checks[check.id] ? " checked" : ""}>
+              <span>${escapeHtml(check.label)}</span>
+            </label>
+          `).join("")}
+        </div>
+        <div class="rental-fields">
+          ${detailFields}
+        </div>
+        <footer class="rental-card-footer">
+          <a href="${mapUrl(info.mapQuery || location)}" target="_blank" rel="noopener noreferrer">Ort öffnen <span aria-hidden="true">↗</span></a>
+          ${day ? `<button type="button" data-jump-stage="${day.number}">Zur Etappe${route ? ` · ${escapeHtml(route)}` : ""} <span aria-hidden="true">→</span></button>` : ""}
+        </footer>
+      </article>
+    `;
+  }
+
+  function renderRental() {
+    const board = $("#rental-board");
+    if (!board) return;
+    renderRentalSummary();
+    board.innerHTML = `${rentalCard("pickup")}${rentalCard("return")}`;
+  }
+
+  function updateRentalCheck(part, checkId, checked) {
+    const state = getRentalState();
+    const key = part === "pickup" ? "pickup" : "returnInfo";
+    const record = rentalRecord(part);
+    record.checks[checkId] = checked;
+    state[key] = record;
+    saveState(rentalStorageKey, state);
+    renderRental();
+    renderBackupSummary();
+  }
+
+  function updateRentalField(part, field, value) {
+    const state = getRentalState();
+    const key = part === "pickup" ? "pickup" : "returnInfo";
+    const record = rentalRecord(part);
+    record[field] = value;
+    state[key] = record;
+    saveState(rentalStorageKey, state);
+    renderRentalSummary();
+    renderBackupSummary();
+  }
+
+  function resetRental() {
+    if (!window.confirm("Alle Einträge im Mietwagen-Journal in diesem Browser löschen?")) return;
+    saveState(rentalStorageKey, { pickup: {}, returnInfo: {} });
+    renderRental();
     renderBackupSummary();
   }
 
@@ -1147,7 +1350,8 @@
     const weatherCount = Array.isArray(data.weatherWindows) ? data.weatherWindows.filter((window) => weatherWindowHasEntry(weatherRecord(window.id))).length : 0;
     const stayCount = Array.isArray(data.stays) ? data.stays.filter((stay) => stayRecordHasEntry(getStayRecord(stay))).length : 0;
     const briefingCount = data.days.filter((day) => briefingRecordHasEntry(briefingRecord(day.number))).length;
-    return { planner: plannerCount, booking: bookingCount, budget: budgetCount, checklist: checklistCount, drive: driveCount, weather: weatherCount, stays: stayCount, briefing: briefingCount };
+    const rentalCount = [rentalRecord("pickup"), rentalRecord("return")].filter(rentalRecordHasEntry).length;
+    return { planner: plannerCount, booking: bookingCount, budget: budgetCount, checklist: checklistCount, drive: driveCount, weather: weatherCount, stays: stayCount, briefing: briefingCount, rental: rentalCount };
   }
 
   function renderBackupSummary() {
@@ -1156,7 +1360,7 @@
     const count = savedEntryCount();
     target.innerHTML = `
       <article class="backup-stat"><strong>${count.planner}</strong><span>Planungseinträge</span></article>
-      <article class="backup-stat"><strong>${count.booking + count.budget + count.stays}</strong><span>Buchungs-, Unterkunfts- & Kosteneinträge</span></article>
+      <article class="backup-stat"><strong>${count.booking + count.budget + count.stays + count.rental}</strong><span>Buchungs-, Unterkunfts-, Kosten- & Mietwagen-Einträge</span></article>
       <article class="backup-stat"><strong>${count.drive}</strong><span>Fahrtage erfasst</span></article>
       <article class="backup-stat"><strong>${count.weather}</strong><span>Wetterfenster bewertet</span></article>
       <article class="backup-stat"><strong>${count.briefing}</strong><span>Tagesbriefings erfasst</span></article>
@@ -1185,7 +1389,8 @@
         drive: getDriveState(),
         weather: getWeatherState(),
         stays: getStayState(),
-        briefing: getBriefingState()
+        briefing: getBriefingState(),
+        rental: getRentalState()
       }
     };
   }
@@ -1221,6 +1426,7 @@
     renderDrive();
     renderWeather();
     renderBriefing();
+    renderRental();
     renderStages();
     renderChecklist();
     renderBackupSummary();
@@ -1232,7 +1438,7 @@
     reader.onload = (event) => {
       try {
         const payload = JSON.parse(String(event.target?.result || ""));
-        if (!payload || payload.schema !== backupSchema || ![1, 2].includes(Number(payload.version)) || !plainObject(payload.state)) {
+        if (!payload || payload.schema !== backupSchema || ![1, 2, 3].includes(Number(payload.version)) || !plainObject(payload.state)) {
           throw new Error("invalid-backup");
         }
         const state = payload.state;
@@ -1244,6 +1450,7 @@
         saveState(weatherStorageKey, plainObject(state.weather));
         saveState(stayStorageKey, plainObject(state.stays));
         saveState(briefingStorageKey, plainObject(state.briefing));
+        saveState(rentalStorageKey, plainObject(state.rental));
         closeStage();
         refreshLocalViews();
         setBackupStatus("Sicherungsdatei wurde eingespielt. Vorherige lokale Eingaben wurden ersetzt.", "success");
@@ -1314,6 +1521,7 @@
       if (event.target.closest("[data-reset-weather]")) resetWeather();
       if (event.target.closest("[data-reset-stays]")) resetStays();
       if (event.target.closest("[data-reset-briefing]")) resetBriefing();
+      if (event.target.closest("[data-reset-rental]")) resetRental();
       if (event.target.closest("[data-export-state]")) downloadBackup();
       if (event.target.closest("[data-select-import]")) $("#backup-import")?.click();
       if (event.target.closest("[data-clear-local]")) clearLocalData();
@@ -1329,6 +1537,7 @@
       const stayStatus = event.target.closest("[data-stay-status]");
       const briefingCheck = event.target.closest("[data-briefing-check]");
       const briefingStatus = event.target.closest("[data-briefing-status]");
+      const rentalCheck = event.target.closest("[data-rental-check]");
       if (checkbox) {
         const state = getChecklistState();
         state[checkbox.dataset.checkIndex] = checkbox.checked;
@@ -1352,6 +1561,7 @@
       if (stayStatus) updateStayField(stayStatus.dataset.stayStatus, "status", stayStatus.value);
       if (briefingCheck) updateBriefingCheck(briefingCheck.dataset.briefingDayNumber, briefingCheck.dataset.briefingCheck, briefingCheck.checked);
       if (briefingStatus) updateBriefingField(briefingStatus.dataset.briefingStatus, "status", briefingStatus.value);
+      if (rentalCheck) updateRentalCheck(rentalCheck.dataset.rentalPart, rentalCheck.dataset.rentalCheck, rentalCheck.checked);
     });
 
     document.addEventListener("input", (event) => {
@@ -1362,6 +1572,7 @@
       const weatherField = event.target.closest("[data-weather-field]");
       const stayField = event.target.closest("[data-stay-field]");
       const briefingField = event.target.closest("[data-briefing-field]");
+      const rentalField = event.target.closest("[data-rental-field]");
       if (note) {
         updateDayNote(note.dataset.dayNote, note.value);
         renderBackupSummary();
@@ -1378,6 +1589,7 @@
       if (weatherField) updateWeatherField(weatherField.dataset.weatherId, weatherField.dataset.weatherField, weatherField.value);
       if (stayField) updateStayField(stayField.dataset.stayId, stayField.dataset.stayField, stayField.value);
       if (briefingField) updateBriefingField(briefingField.dataset.briefingDayNumber, briefingField.dataset.briefingField, briefingField.value);
+      if (rentalField) updateRentalField(rentalField.dataset.rentalPart, rentalField.dataset.rentalField, rentalField.value);
     });
 
     stageDialog?.addEventListener("click", (event) => {
@@ -1398,6 +1610,7 @@
   renderDrive();
   renderWeather();
   renderBriefing();
+  renderRental();
   renderStages();
   renderChecklist();
   renderBackupSummary();
