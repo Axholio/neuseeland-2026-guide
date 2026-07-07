@@ -32,6 +32,7 @@
         <a href="#etappen">Etappen</a>
         <a href="#wissen">Unterwegs</a>
         <a href="#packliste">Packliste</a>
+        <a href="#sicherung">Sicherung</a>
         <button class="print-button" type="button" data-print>Übersicht drucken</button>
       </nav>
     </div>
@@ -43,7 +44,7 @@
       <div class="hero-contour contour-two" aria-hidden="true"></div>
       <div class="page-shell hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow">Persönlicher Reiseführer · Version 4.1d</p>
+          <p class="eyebrow">Persönlicher Reiseführer · Version 4.2</p>
           <h1>Von den Marlborough Sounds bis zum Arthur’s Pass.</h1>
           <p class="hero-lead">Ein Roadtrip über die Südinsel – Küste, Hochland, Fiordland, West Coast und die Südalpen in dreizehn Tagen.</p>
           <div class="hero-actions">
@@ -184,12 +185,49 @@
         <ul class="checklist" id="checklist"></ul>
       </div>
     </section>
+
+    <section class="section backup-section" id="sicherung">
+      <div class="page-shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow">Daten auf diesem Gerät</p>
+            <h2>Planung sichern</h2>
+          </div>
+          <p class="section-intro">Tagesnotizen, Statuswerte, Buchungsdaten, Budget und Packliste liegen nur lokal im Browser. Erstelle vor Gerätewechseln oder dem Leeren von Browserdaten eine Sicherungsdatei.</p>
+        </div>
+        <div class="backup-summary" id="backup-summary" aria-live="polite"></div>
+        <div class="backup-grid">
+          <article class="backup-card">
+            <span class="backup-kicker">1 · Export</span>
+            <h3>Sicherungsdatei erzeugen</h3>
+            <p>Speichert alle persönlichen Eingaben in einer JSON-Datei. Die Reisedaten selbst bleiben unverändert im Projekt.</p>
+            <button class="backup-button" type="button" data-export-state>Sicherung herunterladen</button>
+          </article>
+          <article class="backup-card">
+            <span class="backup-kicker">2 · Import</span>
+            <h3>Gesicherte Daten einspielen</h3>
+            <p>Wähle eine zuvor aus diesem Guide exportierte Datei. Vorhandene lokale Eingaben werden ersetzt.</p>
+            <input class="visually-hidden" id="backup-import" type="file" accept="application/json,.json" data-backup-import>
+            <button class="backup-button backup-button-secondary" type="button" data-select-import>Sicherungsdatei auswählen</button>
+          </article>
+        </div>
+        <p class="backup-status" id="backup-status" role="status">Bereit für die Datensicherung.</p>
+        <div class="backup-danger-zone">
+          <div>
+            <h3>Lokale Eingaben entfernen</h3>
+            <p>Entfernt nur deine gespeicherten Eingaben aus diesem Browser. Die Reiseplanung im Projekt bleibt erhalten.</p>
+          </div>
+          <button class="text-button" type="button" data-clear-local>Lokale Daten löschen</button>
+        </div>
+        <p class="backup-privacy-note">Sicherungsdateien können Bestätigungsnummern und persönliche Notizen enthalten. Nicht öffentlich in GitHub hochladen und keine Passwörter, Kreditkartendaten oder Ausweiskopien eintragen.</p>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">
     <div class="page-shell footer-inner">
       <p><strong>Neuseeland 2026</strong> · Südinsel-Roadtrip</p>
-      <p>Arbeitsstand <span id="updated-date"></span> · v4.1d</p>
+      <p>Arbeitsstand <span id="updated-date"></span> · v4.2</p>
     </div>
   </footer>
 

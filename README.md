@@ -1,6 +1,6 @@
 # Neuseeland 2026 – Reiseführer
 
-**Version 4.1d** – statischer, responsiver HTML-Reiseführer für den persönlichen Südinsel-Roadtrip vom **5. bis 17. September 2026**.
+**Version 4.2** – statischer, responsiver HTML-Reiseführer für den persönlichen Südinsel-Roadtrip vom **5. bis 17. September 2026**.
 
 ## Enthalten
 
@@ -14,6 +14,7 @@
 - Persönliche Tagesnotizen, Planungsstatus und Buchungsdaten mit lokaler Speicherung im Browser
 - Packliste mit lokaler Speicherung im Browser
 - Druckansicht für eine kompakte Reiseübersicht
+- Export und Import der lokalen persönlichen Eingaben als Sicherungsdatei (JSON)
 
 ## Lokal öffnen
 
@@ -33,4 +34,4 @@ Alle Reisetage, Fahrtstrecken, Hinweise, Statuswerte und Planungspunkte stehen g
 assets/data/trip-data.js
 ```
 
-Planungsstatus, persönliche Tagesnotizen, Buchungsdaten und Kostenwerte werden nur im Browser dieses Geräts gespeichert. Sie werden nicht automatisch in GitHub zurückgeschrieben. Keine Passwörter, Kreditkartendaten oder Ausweiskopien in die Buchungsübersicht eintragen.
+Planungsstatus, persönliche Tagesnotizen, Buchungsdaten, Kostenwerte und Packlisten-Häkchen werden nur im Browser dieses Geräts gespeichert. Sie werden nicht automatisch in GitHub zurückgeschrieben. Über den Bereich **„Planung sichern“** lässt sich eine lokale Sicherungsdatei exportieren und später wieder importieren. Sicherungsdateien nicht in GitHub veröffentlichen. Keine Passwörter, Kreditkartendaten oder Ausweiskopien in die Buchungsübersicht eintragen.

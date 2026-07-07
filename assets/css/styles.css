@@ -154,6 +154,30 @@ h3 { margin: 0; font-size: 1.46rem; letter-spacing: -0.02em; }
 .checklist label { cursor: pointer; }
 .checklist input:checked + label { color: #708079; text-decoration: line-through; }
 
+
+.backup-section { background: #eef3ed; }
+.backup-summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+.backup-stat { display: flex; flex-direction: column; justify-content: center; min-height: 112px; padding: 18px; border: 1px solid rgba(23,48,49,0.12); border-radius: var(--radius-sm); background: rgba(255,255,255,0.72); }
+.backup-stat strong { font-family: var(--serif); font-size: 2rem; font-weight: 400; line-height: 1; }
+.backup-stat span { margin-top: 7px; color: #66746e; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
+.backup-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.backup-card { display: flex; flex-direction: column; min-height: 260px; padding: 28px; border: 1px solid rgba(23,48,49,0.15); border-radius: var(--radius-md); background: var(--white); }
+.backup-kicker { color: var(--fern); font-size: 0.73rem; font-weight: 800; letter-spacing: 0.11em; text-transform: uppercase; }
+.backup-card h3 { margin-top: 19px; }
+.backup-card p { margin: 14px 0 0; color: #5b6864; font-size: 0.94rem; }
+.backup-button { align-self: flex-start; margin-top: auto; padding: 11px 16px; border: 1px solid var(--pine); border-radius: 999px; color: var(--white); background: var(--pine); font-weight: 800; font-size: 0.9rem; }
+.backup-button:hover, .backup-button:focus-visible { background: #1e4c45; }
+.backup-button-secondary { color: var(--pine); background: transparent; }
+.backup-button-secondary:hover, .backup-button-secondary:focus-visible { color: var(--white); background: var(--pine); }
+.backup-status { min-height: 25px; margin: 18px 0 0; color: #56645f; font-size: 0.9rem; }
+.backup-status.is-success { color: #275c45; }
+.backup-status.is-error { color: #934646; }
+.backup-danger-zone { display: flex; align-items: center; justify-content: space-between; gap: 28px; margin-top: 32px; padding: 24px 0; border-top: 1px solid rgba(23,48,49,0.15); border-bottom: 1px solid rgba(23,48,49,0.15); }
+.backup-danger-zone h3 { font-size: 1.28rem; }
+.backup-danger-zone p { margin: 8px 0 0; color: #62716b; font-size: 0.9rem; }
+.backup-danger-zone .text-button { flex: 0 0 auto; color: #8e3d3d; }
+.backup-privacy-note { max-width: 830px; margin: 18px 0 0; color: #69766f; font-size: 0.82rem; }
+
 .site-footer { padding: 26px 0; color: rgba(255,255,255,0.7); background: #09201f; font-size: 0.82rem; }
 .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 20px; }
 .site-footer p { margin: 0; }
@@ -184,6 +208,8 @@ h3 { margin: 0; font-size: 1.46rem; letter-spacing: -0.02em; }
   .hero-copy { padding: 0; }
   .trip-card { max-width: 540px; }
   .advice-grid { grid-template-columns: 1fr; }
+  .backup-summary, .backup-grid { grid-template-columns: 1fr; }
+  .backup-danger-zone { align-items: flex-start; flex-direction: column; gap: 14px; }
   .advice-card { min-height: 0; }
   .stages-grid { grid-template-columns: 1fr; }
   .checklist { grid-template-columns: 1fr; }
@@ -206,6 +232,9 @@ h3 { margin: 0; font-size: 1.46rem; letter-spacing: -0.02em; }
   .stage-card footer { flex-direction: column; align-items: flex-start; }
   .dialog-content { padding: 32px 22px 26px; }
   .dialog-facts { grid-template-columns: 1fr; }
+  .backup-card { min-height: 0; padding: 22px; }
+  .backup-button { width: 100%; }
+  .backup-stat { min-height: 0; }
   .footer-inner { display: block; }
   .footer-inner p + p { margin-top: 6px; }
 }
@@ -213,7 +242,7 @@ h3 { margin: 0; font-size: 1.46rem; letter-spacing: -0.02em; }
 @media print {
   :root { --page: 100%; }
   body { background: #fff; font-size: 10.5pt; }
-  .site-header, .hero-actions, .menu-toggle, .stage-controls, .planning-section, .travel-section, .checklist-section, .site-footer, .route-legend, .hero-contour { display: none !important; }
+  .site-header, .hero-actions, .menu-toggle, .stage-controls, .planning-section, .travel-section, .checklist-section, .backup-section, .site-footer, .route-legend, .hero-contour { display: none !important; }
   .hero { min-height: 0; padding: 0 0 20px; background: #fff !important; }
   .hero::before { display: none; }
   .hero-grid { display: block; }

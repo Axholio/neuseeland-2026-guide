@@ -11,6 +11,9 @@
   const plannerStorageKey = "nz-2026-planner-v41b";
   const bookingStorageKey = "nz-2026-bookings-v41c";
   const budgetStorageKey = "nz-2026-budget-v41d";
+  const backupSchema = "nz-2026-guide-backup";
+  const backupVersion = 1;
+  const localStorageKeys = [checklistStorageKey, plannerStorageKey, bookingStorageKey, budgetStorageKey];
   let activeStageFilter = "all";
 
   function escapeHtml(value) {
@@ -518,6 +521,121 @@
     }
   }
 
+
+  function savedEntryCount() {
+    const planner = getPlannerState();
+    const booking = getBookingState();
+    const budget = getBudgetState();
+    const checklist = getChecklistState();
+    const plannerCount = Object.keys(planner.taskStatus || {}).length + Object.keys(planner.dayStatus || {}).length + Object.keys(planner.notes || {}).filter((key) => planner.notes[key]).length;
+    const bookingCount = Object.values(booking).filter(bookingIsFilled).length;
+    const budgetCount = Object.values(budget).filter((record) => record && (record.planned || record.actual || record.note)).length;
+    const checklistCount = Object.values(checklist).filter(Boolean).length;
+    return { planner: plannerCount, booking: bookingCount, budget: budgetCount, checklist: checklistCount };
+  }
+
+  function renderBackupSummary() {
+    const target = $("#backup-summary");
+    if (!target) return;
+    const count = savedEntryCount();
+    target.innerHTML = `
+      <article class="backup-stat"><strong>${count.planner}</strong><span>Planungseinträge</span></article>
+      <article class="backup-stat"><strong>${count.booking + count.budget}</strong><span>Buchungs- & Kosteneinträge</span></article>
+      <article class="backup-stat"><strong>${count.checklist}</strong><span>Packliste erledigt</span></article>
+    `;
+  }
+
+  function setBackupStatus(message, type = "") {
+    const target = $("#backup-status");
+    if (!target) return;
+    target.textContent = message;
+    target.className = `backup-status${type ? ` is-${type}` : ""}`;
+  }
+
+  function backupPayload() {
+    return {
+      schema: backupSchema,
+      version: backupVersion,
+      createdAt: new Date().toISOString(),
+      tripVersion: data.meta.version,
+      state: {
+        checklist: getChecklistState(),
+        planner: getPlannerState(),
+        bookings: getBookingState(),
+        budget: getBudgetState()
+      }
+    };
+  }
+
+  function downloadBackup() {
+    try {
+      const payload = JSON.stringify(backupPayload(), null, 2);
+      const blob = new Blob([payload], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      const date = new Date().toISOString().slice(0, 10);
+      link.href = url;
+      link.download = `neuseeland-2026-sicherung-${date}.json`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+      setBackupStatus("Sicherungsdatei wurde erstellt.", "success");
+    } catch (_) {
+      setBackupStatus("Die Sicherungsdatei konnte nicht erstellt werden.", "error");
+    }
+  }
+
+  function plainObject(value) {
+    return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+  }
+
+  function refreshLocalViews() {
+    renderPlanning();
+    renderBookings();
+    renderBudget();
+    renderStages();
+    renderChecklist();
+    renderBackupSummary();
+  }
+
+  function importBackup(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const payload = JSON.parse(String(event.target?.result || ""));
+        if (!payload || payload.schema !== backupSchema || payload.version !== backupVersion || !plainObject(payload.state)) {
+          throw new Error("invalid-backup");
+        }
+        const state = payload.state;
+        saveChecklistState(plainObject(state.checklist));
+        saveState(plannerStorageKey, plainObject(state.planner));
+        saveState(bookingStorageKey, plainObject(state.bookings));
+        saveState(budgetStorageKey, plainObject(state.budget));
+        closeStage();
+        refreshLocalViews();
+        setBackupStatus("Sicherungsdatei wurde eingespielt. Vorherige lokale Eingaben wurden ersetzt.", "success");
+      } catch (_) {
+        setBackupStatus("Diese Datei ist keine gültige Sicherungsdatei dieses Reiseführers.", "error");
+      }
+    };
+    reader.onerror = () => setBackupStatus("Die Sicherungsdatei konnte nicht gelesen werden.", "error");
+    reader.readAsText(file, "utf-8");
+  }
+
+  function clearLocalData() {
+    if (!window.confirm("Alle persönlichen Eingaben in diesem Browser löschen? Die Reiseplanung selbst bleibt erhalten.")) return;
+    try {
+      localStorageKeys.forEach((key) => localStorage.removeItem(key));
+      closeStage();
+      refreshLocalViews();
+      setBackupStatus("Alle lokalen Eingaben wurden aus diesem Browser entfernt.", "success");
+    } catch (_) {
+      setBackupStatus("Lokale Eingaben konnten nicht vollständig entfernt werden.", "error");
+    }
+  }
+
   function bindEvents() {
     $(".menu-toggle").addEventListener("click", (event) => {
       const button = event.currentTarget;
@@ -550,33 +668,59 @@
       if (event.target.closest("[data-reset-checklist]")) {
         saveChecklistState({});
         renderChecklist();
+        renderBackupSummary();
       }
       if (event.target.closest("[data-reset-budget]")) {
         saveState(budgetStorageKey, {});
         renderBudget();
+        renderBackupSummary();
       }
+      if (event.target.closest("[data-export-state]")) downloadBackup();
+      if (event.target.closest("[data-select-import]")) $("#backup-import")?.click();
+      if (event.target.closest("[data-clear-local]")) clearLocalData();
     });
 
     document.addEventListener("change", (event) => {
       const checkbox = event.target.closest("[data-check-index]");
       const taskSelect = event.target.closest("[data-task-status]");
       const daySelect = event.target.closest("[data-day-status]");
+      const backupImport = event.target.closest("[data-backup-import]");
       if (checkbox) {
         const state = getChecklistState();
         state[checkbox.dataset.checkIndex] = checkbox.checked;
         saveChecklistState(state);
+        renderBackupSummary();
       }
-      if (taskSelect) updateTaskStatus(taskSelect.dataset.taskStatus, taskSelect.value);
-      if (daySelect) updateDayStatus(daySelect.dataset.dayStatus, daySelect.value);
+      if (taskSelect) {
+        updateTaskStatus(taskSelect.dataset.taskStatus, taskSelect.value);
+        renderBackupSummary();
+      }
+      if (daySelect) {
+        updateDayStatus(daySelect.dataset.dayStatus, daySelect.value);
+        renderBackupSummary();
+      }
+      if (backupImport) {
+        importBackup(backupImport.files?.[0]);
+        backupImport.value = "";
+      }
     });
 
     document.addEventListener("input", (event) => {
       const note = event.target.closest("[data-day-note]");
       const bookingField = event.target.closest("[data-booking-field]");
       const budgetField = event.target.closest("[data-budget-field]");
-      if (note) updateDayNote(note.dataset.dayNote, note.value);
-      if (bookingField) updateBookingField(bookingField.dataset.bookingId, bookingField.dataset.bookingField, bookingField.value);
-      if (budgetField) updateBudgetField(budgetField.dataset.budgetId, budgetField.dataset.budgetField, budgetField.value);
+      if (note) {
+        updateDayNote(note.dataset.dayNote, note.value);
+        renderBackupSummary();
+      }
+      if (bookingField) {
+        updateBookingField(bookingField.dataset.bookingId, bookingField.dataset.bookingField, bookingField.value);
+        renderBackupSummary();
+      }
+      if (budgetField) {
+        updateBudgetField(budgetField.dataset.budgetId, budgetField.dataset.budgetField, budgetField.value);
+        renderBackupSummary();
+      }
     });
 
     stageDialog?.addEventListener("click", (event) => {
@@ -595,5 +739,6 @@
   renderBudget();
   renderStages();
   renderChecklist();
+  renderBackupSummary();
   bindEvents();
 }());
