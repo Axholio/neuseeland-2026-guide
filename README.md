@@ -1,6 +1,6 @@
 # Neuseeland 2026 – Reiseführer
 
-**Version 5.3** – statischer HTML-Reiseführer für die Südinsel-Rundreise vom **7. bis 17. September 2026**.
+**Version 5.4** – statischer HTML-Reiseführer für die Südinsel-Rundreise vom **7. bis 17. September 2026**.
 
 ## Route
 
@@ -18,9 +18,11 @@
 
 Die Rückgabe des Mietwagens ist am **17. September bis 17:00 Uhr** am Christchurch Airport vorgesehen; der Abflug ist für **20:00 Uhr** eingeplant.
 
-## Version 5.3 – Kalender-Export und Offline-Betrieb
+## Version 5.4 – Reisemodus, Kalender-Export und Offline-Betrieb
 
-- vollständige, korrigierte Tagesroute mit TranzAlpine am 8. September
+- automatischer Reisemodus nach dem Tagesdatum in Neuseeland
+- manuelle Tagesvorschau für die gesamte Reise, lokal auf dem jeweiligen Gerät gespeichert
+- direkter Zugriff aus dem Reisemodus auf Tagesbriefing, Etappendetails und Karten-Suche
 - Kalender-Export für die komplette Rundreise oder einzelne Tagesetappen als `.ics`-Datei
 - Kalenderdateien enthalten nur Route, Datum, Übernachtungsort und Planungsnotizen – keine lokalen Buchungs- oder persönlichen Eingabedaten
 - sieben lokal gespeicherte Routenbilder inklusive Lizenznachweisen
@@ -69,6 +71,7 @@ manifest.webmanifest
 service-worker.js
 assets/js/pwa.js
 assets/js/calendar-export.js
+assets/js/travel-mode.js
 ```
 
 Persönliche Daten werden ausschließlich im lokalen Browser-Speicher abgelegt. Sie werden nicht zurück nach GitHub synchronisiert. Vor dem Wechsel des Geräts oder dem Löschen von Browserdaten die Sicherungsfunktion des Guides verwenden. Keine Passwörter, Kreditkartendaten oder Ausweiskopien in Feldern der Buchungsübersicht speichern.

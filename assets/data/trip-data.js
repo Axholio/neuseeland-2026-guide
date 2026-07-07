@@ -9,7 +9,7 @@ window.tripData = {
     "totalDays": 11,
     "totalNights": 10,
     "totalDistance": "ca. 1.700 km mit Mietwagen",
-    "version": "5.3"
+    "version": "5.4"
   },
   "days": [
     {

@@ -21,6 +21,7 @@
   <script src="assets/js/route-map.js" defer></script>
   <script src="assets/js/calendar-export.js" defer></script>
   <script src="assets/js/pwa.js" defer></script>
+  <script src="assets/js/travel-mode.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Zum Inhalt springen</a>
@@ -36,6 +37,7 @@
         <span></span><span></span><span></span>
       </button>
       <nav class="site-nav" id="site-nav" aria-label="Hauptnavigation">
+        <a href="#reisemodus">Reisemodus</a>
         <a href="#route">Route</a>
         <a href="#karte">Karte</a>
         <a href="#bilder">Bilder</a>
@@ -65,7 +67,7 @@
       <div class="hero-contour contour-two" aria-hidden="true"></div>
       <div class="page-shell hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow">Persönlicher Reiseführer · Version 5.3 · Kalender & Reisemodus</p>
+          <p class="eyebrow">Persönlicher Reiseführer · Version 5.4 · Reisemodus & Kalender</p>
           <h1>Mit dem TranzAlpine zur Westküste. Zurück über Kaikōura und Akaroa.</h1>
           <p class="hero-lead">Elf Reisetage auf der Südinsel: Christchurch, West Coast, Haast Pass, Aoraki / Mount Cook, Lake Tekapo, Kaikōura und Banks Peninsula.</p>
           <div class="hero-actions">
@@ -86,12 +88,36 @@
       <div class="page-shell quick-nav-shell">
         <p class="quick-nav-label">Schnellzugriff</p>
         <nav class="quick-nav" aria-label="Direkt zu wichtigen Bereichen">
-          <a href="#tagesbriefing"><span>01</span>Tagesbriefing</a>
-          <a href="#unterkuenfte"><span>02</span>Übernachtungen</a>
-          <a href="#wetter"><span>03</span>Wetterfenster</a>
-          <a href="#kalender"><span>04</span>Kalender</a>
-          <a href="#etappen"><span>05</span>Etappen</a>
+          <a href="#reisemodus"><span>01</span>Reisemodus</a>
+          <a href="#tagesbriefing"><span>02</span>Tagesbriefing</a>
+          <a href="#unterkuenfte"><span>03</span>Übernachtungen</a>
+          <a href="#wetter"><span>04</span>Wetterfenster</a>
+          <a href="#kalender"><span>05</span>Kalender</a>
+          <a href="#etappen"><span>06</span>Etappen</a>
         </nav>
+      </div>
+    </section>
+
+    <section class="section travel-mode-section" id="reisemodus">
+      <div class="page-shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow">Für den jeweiligen Reisetag</p>
+            <h2>Reisemodus</h2>
+          </div>
+          <p class="section-intro">Der Guide richtet sich im automatischen Modus nach dem Datum in Neuseeland. Für die Vorbereitung lässt sich jeder Reisetag manuell vorab anzeigen. Die Auswahl bleibt nur auf diesem Gerät gespeichert.</p>
+        </div>
+        <div class="travel-mode-toolbar">
+          <label class="travel-mode-select-label" for="travel-mode-select">
+            <span>Ansicht wählen</span>
+            <select id="travel-mode-select" data-travel-mode-select aria-label="Reisemodus auswählen"></select>
+          </label>
+          <div class="travel-mode-toolbar-status">
+            <p id="travel-mode-status" class="travel-mode-status" role="status" aria-live="polite"></p>
+            <button class="text-button" type="button" data-travel-mode-auto>Automatische Ansicht verwenden</button>
+          </div>
+        </div>
+        <div class="travel-mode-grid" id="travel-mode-panel" aria-live="polite"></div>
       </div>
     </section>
 
@@ -556,7 +582,7 @@
   <footer class="site-footer">
     <div class="page-shell footer-inner">
       <p><strong>Neuseeland 2026</strong> · Südinsel-Roadtrip</p>
-      <p>Arbeitsstand <span id="updated-date"></span> · v5.3</p>
+      <p>Arbeitsstand <span id="updated-date"></span> · v5.4</p>
     </div>
   </footer>
 
