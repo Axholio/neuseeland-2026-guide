@@ -12,9 +12,10 @@
   const bookingStorageKey = "nz-2026-bookings-v41c";
   const budgetStorageKey = "nz-2026-budget-v41d";
   const driveStorageKey = "nz-2026-drive-v43";
+  const weatherStorageKey = "nz-2026-weather-v44";
   const backupSchema = "nz-2026-guide-backup";
   const backupVersion = 1;
-  const localStorageKeys = [checklistStorageKey, plannerStorageKey, bookingStorageKey, budgetStorageKey, driveStorageKey];
+  const localStorageKeys = [checklistStorageKey, plannerStorageKey, bookingStorageKey, budgetStorageKey, driveStorageKey, weatherStorageKey];
   let activeStageFilter = "all";
 
   function escapeHtml(value) {
@@ -261,6 +262,134 @@
     if (!window.confirm("Alle Fahrtag-Einträge in diesem Browser löschen?")) return;
     saveState(driveStorageKey, { activeDay: 1, days: {} });
     renderDrive();
+    renderBackupSummary();
+  }
+
+
+
+  function getWeatherState() {
+    return loadState(weatherStorageKey, {});
+  }
+
+  function weatherRecord(windowId) {
+    const state = getWeatherState();
+    const record = state[windowId] && typeof state[windowId] === "object" ? state[windowId] : {};
+    const permitted = ["open", "good", "mixed", "critical", "plan-b"];
+    return {
+      status: permitted.includes(record.status) ? record.status : "open",
+      checkedAt: record.checkedAt || "",
+      note: record.note || ""
+    };
+  }
+
+  function weatherStatusLabel(status) {
+    const labels = {
+      open: "noch prüfen",
+      good: "günstig",
+      mixed: "wechselhaft",
+      critical: "kritisch",
+      "plan-b": "Plan B"
+    };
+    return labels[status] || labels.open;
+  }
+
+  function weatherStatusOptions(selected) {
+    return ["open", "good", "mixed", "critical", "plan-b"].map((value) =>
+      `<option value="${value}"${value === selected ? " selected" : ""}>${weatherStatusLabel(value)}</option>`
+    ).join("");
+  }
+
+  function weatherStats() {
+    const records = data.weatherWindows.map((window) => weatherRecord(window.id));
+    return {
+      checked: records.filter((record) => record.status !== "open").length,
+      good: records.filter((record) => record.status === "good").length,
+      action: records.filter((record) => record.status === "critical" || record.status === "plan-b").length,
+      open: records.filter((record) => record.status === "open").length
+    };
+  }
+
+  function weatherWindowHasEntry(record) {
+    return Boolean(record.status !== "open" || record.checkedAt || record.note);
+  }
+
+  function renderWeatherSummary() {
+    const stats = weatherStats();
+    const target = $("#weather-summary");
+    if (!target) return;
+    target.innerHTML = `
+      <article class="weather-stat"><strong>${stats.checked}/${data.weatherWindows.length}</strong><span>bewertet</span></article>
+      <article class="weather-stat"><strong>${stats.good}</strong><span>günstige Fenster</span></article>
+      <article class="weather-stat${stats.action ? " is-action" : ""}"><strong>${stats.action}</strong><span>Plan B / kritisch</span></article>
+      <article class="weather-stat"><strong>${stats.open}</strong><span>noch prüfen</span></article>
+    `;
+  }
+
+  function renderWeather() {
+    const target = $("#weather-board");
+    if (!target || !Array.isArray(data.weatherWindows)) return;
+    renderWeatherSummary();
+    target.innerHTML = data.weatherWindows.map((window) => {
+      const record = weatherRecord(window.id);
+      return `
+        <article class="weather-card status-${escapeHtml(record.status)}" data-weather-card="${escapeHtml(window.id)}">
+          <div class="weather-card-top">
+            <div>
+              <span class="weather-region">${escapeHtml(window.region)}</span>
+              <h3>${escapeHtml(window.title)}</h3>
+            </div>
+            <span class="weather-day">Tag ${escapeHtml(window.day)}</span>
+          </div>
+          <p class="weather-priority">${escapeHtml(window.priority)}</p>
+          <div class="weather-plans">
+            <p><span>Plan A</span>${escapeHtml(window.planA)}</p>
+            <p><span>Plan B</span>${escapeHtml(window.planB)}</p>
+          </div>
+          <div class="weather-fields">
+            <label class="weather-field">
+              <span>Lage</span>
+              <select data-weather-id="${escapeHtml(window.id)}" data-weather-field="status">${weatherStatusOptions(record.status)}</select>
+            </label>
+            <label class="weather-field">
+              <span>Geprüft am</span>
+              <input type="datetime-local" value="${escapeHtml(record.checkedAt)}" data-weather-id="${escapeHtml(window.id)}" data-weather-field="checkedAt">
+            </label>
+            <label class="weather-field weather-field-wide">
+              <span>Entscheidung / Notiz</span>
+              <textarea rows="2" placeholder="Quelle, Uhrzeit, Ersatzplan oder Buchungsentscheidung …" data-weather-id="${escapeHtml(window.id)}" data-weather-field="note">${escapeHtml(record.note)}</textarea>
+            </label>
+          </div>
+          <footer class="weather-card-footer">
+            <span class="weather-save-hint">Wird automatisch lokal gespeichert.</span>
+            <button class="weather-jump" type="button" data-jump-stage="${escapeHtml(window.day)}">Zur Etappe <span aria-hidden="true">→</span></button>
+          </footer>
+        </article>
+      `;
+    }).join("");
+  }
+
+  function updateWeatherField(windowId, field, value) {
+    const state = getWeatherState();
+    const allowedFields = ["status", "checkedAt", "note"];
+    if (!allowedFields.includes(field)) return;
+    state[windowId] = { ...(state[windowId] || {}), [field]: value };
+    saveState(weatherStorageKey, state);
+    renderWeatherSummary();
+    renderBackupSummary();
+
+    if (field === "status") {
+      const card = document.querySelector(`[data-weather-card="${windowId}"]`);
+      if (card) {
+        card.classList.remove("status-open", "status-good", "status-mixed", "status-critical", "status-plan-b");
+        card.classList.add(`status-${value}`);
+      }
+    }
+  }
+
+  function resetWeather() {
+    if (!window.confirm("Alle Wetterfenster-Einträge in diesem Browser löschen?")) return;
+    saveState(weatherStorageKey, {});
+    renderWeather();
     renderBackupSummary();
   }
 
@@ -674,6 +803,7 @@
     const budget = getBudgetState();
     const checklist = getChecklistState();
     const drive = getDriveState();
+    const weather = getWeatherState();
     const plannerCount = Object.keys(planner.taskStatus || {}).length + Object.keys(planner.dayStatus || {}).length + Object.keys(planner.notes || {}).filter((key) => planner.notes[key]).length;
     const bookingCount = Object.values(booking).filter(bookingIsFilled).length;
     const budgetCount = Object.values(budget).filter((record) => record && (record.planned || record.actual || record.note)).length;
@@ -685,7 +815,8 @@
       mileageEnd: record && record.mileageEnd,
       note: record && record.note
     })).length;
-    return { planner: plannerCount, booking: bookingCount, budget: budgetCount, checklist: checklistCount, drive: driveCount };
+    const weatherCount = Array.isArray(data.weatherWindows) ? data.weatherWindows.filter((window) => weatherWindowHasEntry(weatherRecord(window.id))).length : 0;
+    return { planner: plannerCount, booking: bookingCount, budget: budgetCount, checklist: checklistCount, drive: driveCount, weather: weatherCount };
   }
 
   function renderBackupSummary() {
@@ -696,6 +827,7 @@
       <article class="backup-stat"><strong>${count.planner}</strong><span>Planungseinträge</span></article>
       <article class="backup-stat"><strong>${count.booking + count.budget}</strong><span>Buchungs- & Kosteneinträge</span></article>
       <article class="backup-stat"><strong>${count.drive}</strong><span>Fahrtage erfasst</span></article>
+      <article class="backup-stat"><strong>${count.weather}</strong><span>Wetterfenster bewertet</span></article>
       <article class="backup-stat"><strong>${count.checklist}</strong><span>Packliste erledigt</span></article>
     `;
   }
@@ -718,7 +850,8 @@
         planner: getPlannerState(),
         bookings: getBookingState(),
         budget: getBudgetState(),
-        drive: getDriveState()
+        drive: getDriveState(),
+        weather: getWeatherState()
       }
     };
   }
@@ -751,6 +884,7 @@
     renderBookings();
     renderBudget();
     renderDrive();
+    renderWeather();
     renderStages();
     renderChecklist();
     renderBackupSummary();
@@ -771,6 +905,7 @@
         saveState(bookingStorageKey, plainObject(state.bookings));
         saveState(budgetStorageKey, plainObject(state.budget));
         saveState(driveStorageKey, plainObject(state.drive));
+        saveState(weatherStorageKey, plainObject(state.weather));
         closeStage();
         refreshLocalViews();
         setBackupStatus("Sicherungsdatei wurde eingespielt. Vorherige lokale Eingaben wurden ersetzt.", "success");
@@ -836,6 +971,7 @@
         renderBackupSummary();
       }
       if (event.target.closest("[data-reset-drive]")) resetDrive();
+      if (event.target.closest("[data-reset-weather]")) resetWeather();
       if (event.target.closest("[data-export-state]")) downloadBackup();
       if (event.target.closest("[data-select-import]")) $("#backup-import")?.click();
       if (event.target.closest("[data-clear-local]")) clearLocalData();
@@ -847,6 +983,7 @@
       const daySelect = event.target.closest("[data-day-status]");
       const backupImport = event.target.closest("[data-backup-import]");
       const driveCheck = event.target.closest("[data-drive-check]");
+      const weatherField = event.target.closest("[data-weather-field]");
       if (checkbox) {
         const state = getChecklistState();
         state[checkbox.dataset.checkIndex] = checkbox.checked;
@@ -866,6 +1003,7 @@
         backupImport.value = "";
       }
       if (driveCheck) updateDriveCheck(driveCheck.dataset.driveDayNumber, driveCheck.dataset.driveCheck, driveCheck.checked);
+      if (weatherField) updateWeatherField(weatherField.dataset.weatherId, weatherField.dataset.weatherField, weatherField.value);
     });
 
     document.addEventListener("input", (event) => {
@@ -873,6 +1011,7 @@
       const bookingField = event.target.closest("[data-booking-field]");
       const budgetField = event.target.closest("[data-budget-field]");
       const driveField = event.target.closest("[data-drive-field]");
+      const weatherField = event.target.closest("[data-weather-field]");
       if (note) {
         updateDayNote(note.dataset.dayNote, note.value);
         renderBackupSummary();
@@ -886,6 +1025,7 @@
         renderBackupSummary();
       }
       if (driveField) updateDriveField(driveField.dataset.driveDayNumber, driveField.dataset.driveField, driveField.value);
+      if (weatherField) updateWeatherField(weatherField.dataset.weatherId, weatherField.dataset.weatherField, weatherField.value);
     });
 
     stageDialog?.addEventListener("click", (event) => {
@@ -903,6 +1043,7 @@
   renderBookings();
   renderBudget();
   renderDrive();
+  renderWeather();
   renderStages();
   renderChecklist();
   renderBackupSummary();

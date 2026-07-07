@@ -30,6 +30,7 @@
         <a href="#buchungen">Buchungen</a>
         <a href="#kosten">Kosten</a>
         <a href="#fahrtag">Fahrtag</a>
+        <a href="#wetter">Wetterfenster</a>
         <a href="#etappen">Etappen</a>
         <a href="#wissen">Unterwegs</a>
         <a href="#packliste">Packliste</a>
@@ -45,7 +46,7 @@
       <div class="hero-contour contour-two" aria-hidden="true"></div>
       <div class="page-shell hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow">Persönlicher Reiseführer · Version 4.2</p>
+          <p class="eyebrow">Persönlicher Reiseführer · Version 4.4</p>
           <h1>Von den Marlborough Sounds bis zum Arthur’s Pass.</h1>
           <p class="hero-lead">Ein Roadtrip über die Südinsel – Küste, Hochland, Fiordland, West Coast und die Südalpen in dreizehn Tagen.</p>
           <div class="hero-actions">
@@ -97,6 +98,26 @@
         <div class="drive-footer">
           <p>Der Tagescheck ersetzt keine aktuelle Prüfung von Wetter, Straßenlage oder Betreiberhinweisen. Diese Daten sind nicht im Guide enthalten.</p>
           <button class="text-button" type="button" data-reset-drive>Fahrtage zurücksetzen</button>
+        </div>
+      </div>
+    </section>
+
+
+
+    <section class="section weather-section" id="wetter">
+      <div class="page-shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow">Entscheidungen nach Wetterlage</p>
+            <h2>Wetterfenster</h2>
+          </div>
+          <p class="section-intro">Die sechs wetterkritischen Punkte der Route bleiben getrennt im Blick. Trage nach der täglichen Prüfung Lage, Zeitpunkt und Entscheidung ein. Alle Werte werden nur lokal in diesem Browser gespeichert.</p>
+        </div>
+        <div class="weather-summary" id="weather-summary" aria-live="polite"></div>
+        <div class="weather-board" id="weather-board"></div>
+        <div class="weather-footer">
+          <p>Die Einträge sind eine persönliche Entscheidungsstütze und ersetzen keine aktuellen Hinweise zu Wetter, Straßen, Wanderwegen oder Aktivitäten.</p>
+          <button class="text-button" type="button" data-reset-weather>Wetterfenster zurücksetzen</button>
         </div>
       </div>
     </section>
@@ -249,7 +270,7 @@
   <footer class="site-footer">
     <div class="page-shell footer-inner">
       <p><strong>Neuseeland 2026</strong> · Südinsel-Roadtrip</p>
-      <p>Arbeitsstand <span id="updated-date"></span> · v4.3</p>
+      <p>Arbeitsstand <span id="updated-date"></span> · v4.4</p>
     </div>
   </footer>
 

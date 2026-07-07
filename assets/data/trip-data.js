@@ -7,7 +7,7 @@ window.tripData = {
     "totalDays": 13,
     "totalNights": 12,
     "totalDistance": "ca. 2.300 km",
-    "version": "4.3"
+    "version": "4.4"
   },
   "days": [
     {
@@ -438,6 +438,62 @@ window.tripData = {
     {
       "id": "arrival",
       "label": "Unterkunft, Ankunftszeit und Parkplatz geklärt"
+    }
+  ],
+  "weatherWindows": [
+    {
+      "id": "kaikoura",
+      "day": 2,
+      "region": "Kaikōura · Küste & Meer",
+      "title": "Walbeobachtung und Küstenweg",
+      "priority": "Meer und Wind entscheiden über die Aktivität.",
+      "planA": "Bei ruhiger See die gebuchte Walbeobachtung nutzen; danach Point Kean oder die Esplanade.",
+      "planB": "Bei Absage den Küstenweg, Cafés im Ort und einen ruhigen Abend einplanen. Buchungsbedingungen dokumentieren."
+    },
+    {
+      "id": "tekapo",
+      "day": 4,
+      "region": "Lake Tekapo · Mackenzie Country",
+      "title": "Sternenfotografie",
+      "priority": "Klarer Himmel und ein später Abend sind entscheidend.",
+      "planA": "Church of the Good Shepherd und Seeufer nach Einbruch der Dunkelheit; warme Schichten und Stirnlampe bereithalten.",
+      "planB": "Bei Wolken den Abend flexibel halten und nur die Tageslandschaft nutzen; keinen starren Fototermin erzwingen."
+    },
+    {
+      "id": "aoraki",
+      "day": 5,
+      "region": "Aoraki / Mount Cook",
+      "title": "Wanderung im Nationalpark",
+      "priority": "Wegzustand, Wind und Sicht früh prüfen.",
+      "planA": "Bei passenden Bedingungen den Hooker Valley Track oder einen kürzeren Aussichtspunkt auswählen.",
+      "planB": "Bei ungünstiger Lage auf Talblicke, Lake Pukaki und ein früheres Ankommen in Wānaka ausweichen."
+    },
+    {
+      "id": "milford",
+      "day": 8,
+      "region": "Fiordland · Milford Sound",
+      "title": "Milford Road und Bootsfahrt",
+      "priority": "Der Schlüsseltermin der Route: Straße, Wind und Betreiberhinweise am Morgen prüfen.",
+      "planA": "Früh losfahren, Stopps begrenzen und die Bootsfahrt mit großzügigem Rückweg-Puffer durchführen.",
+      "planB": "Bei Straßensperrung oder Absage Buchungsbedingungen nutzen, in Te Anau bleiben und den Tag nach Betreiberhinweis neu ordnen."
+    },
+    {
+      "id": "franz-josef",
+      "day": 11,
+      "region": "Franz Josef · West Coast",
+      "title": "Gletscheraktivität",
+      "priority": "Touren und Rundflüge sind besonders wetter- und sichtabhängig.",
+      "planA": "Nur bei bestätigter Durchführung den Aktivitätstermin wahrnehmen; danach mit Zeitpuffer nach Hokitika weiterfahren.",
+      "planB": "Bei Absage Lake Matheson, Glacier Valley Walk oder einen früheren Küstenabend in Hokitika wählen."
+    },
+    {
+      "id": "arthurs-pass",
+      "day": 12,
+      "region": "Arthur’s Pass · Alpenquerung",
+      "title": "Passstraße und kurze Wanderung",
+      "priority": "Schnee, Eis und starke Niederschläge können die Tagesplanung verändern.",
+      "planA": "Straßenlage prüfen, Devils Punchbowl Falls oder Otira Gorge passend zur Lage auswählen.",
+      "planB": "Bei kritischer Prognose zusätzliche Fahrzeit vorsehen, Stopps reduzieren und die Rückreise am Folgetag defensiv planen."
     }
   ],
   "checklist": [
