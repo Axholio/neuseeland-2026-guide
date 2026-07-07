@@ -29,6 +29,7 @@
         <a href="#planung">Planung</a>
         <a href="#buchungen">Buchungen</a>
         <a href="#kosten">Kosten</a>
+        <a href="#fahrtag">Fahrtag</a>
         <a href="#etappen">Etappen</a>
         <a href="#wissen">Unterwegs</a>
         <a href="#packliste">Packliste</a>
@@ -76,6 +77,27 @@
           <span><i class="legend-dot return"></i>Rückgabe & Abflug</span>
         </div>
         <div class="route-track" id="route-track" aria-label="Tagesfolge der Reise"></div>
+      </div>
+    </section>
+
+    <section class="section drive-section" id="fahrtag">
+      <div class="page-shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow">Für unterwegs</p>
+            <h2>Fahrtag-Check</h2>
+          </div>
+          <p class="section-intro">Für jede Etappe lassen sich Tagesstart, Kilometerstand und eine kurze Notiz erfassen. Die Angaben bleiben nur auf diesem Gerät im Browser gespeichert.</p>
+        </div>
+        <div class="drive-summary" id="drive-summary" aria-live="polite"></div>
+        <div class="drive-layout">
+          <div class="drive-day-picker" id="drive-day-picker" aria-label="Fahrtag auswählen"></div>
+          <article class="drive-card" id="drive-card"></article>
+        </div>
+        <div class="drive-footer">
+          <p>Der Tagescheck ersetzt keine aktuelle Prüfung von Wetter, Straßenlage oder Betreiberhinweisen. Diese Daten sind nicht im Guide enthalten.</p>
+          <button class="text-button" type="button" data-reset-drive>Fahrtage zurücksetzen</button>
+        </div>
       </div>
     </section>
 
@@ -193,7 +215,7 @@
             <p class="eyebrow">Daten auf diesem Gerät</p>
             <h2>Planung sichern</h2>
           </div>
-          <p class="section-intro">Tagesnotizen, Statuswerte, Buchungsdaten, Budget und Packliste liegen nur lokal im Browser. Erstelle vor Gerätewechseln oder dem Leeren von Browserdaten eine Sicherungsdatei.</p>
+          <p class="section-intro">Tagesnotizen, Statuswerte, Buchungsdaten, Budget, Fahrtag-Einträge und Packliste liegen nur lokal im Browser. Erstelle vor Gerätewechseln oder dem Leeren von Browserdaten eine Sicherungsdatei.</p>
         </div>
         <div class="backup-summary" id="backup-summary" aria-live="polite"></div>
         <div class="backup-grid">
@@ -227,7 +249,7 @@
   <footer class="site-footer">
     <div class="page-shell footer-inner">
       <p><strong>Neuseeland 2026</strong> · Südinsel-Roadtrip</p>
-      <p>Arbeitsstand <span id="updated-date"></span> · v4.2</p>
+      <p>Arbeitsstand <span id="updated-date"></span> · v4.3</p>
     </div>
   </footer>
 

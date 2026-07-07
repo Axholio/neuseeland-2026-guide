@@ -11,9 +11,10 @@
   const plannerStorageKey = "nz-2026-planner-v41b";
   const bookingStorageKey = "nz-2026-bookings-v41c";
   const budgetStorageKey = "nz-2026-budget-v41d";
+  const driveStorageKey = "nz-2026-drive-v43";
   const backupSchema = "nz-2026-guide-backup";
   const backupVersion = 1;
-  const localStorageKeys = [checklistStorageKey, plannerStorageKey, bookingStorageKey, budgetStorageKey];
+  const localStorageKeys = [checklistStorageKey, plannerStorageKey, bookingStorageKey, budgetStorageKey, driveStorageKey];
   let activeStageFilter = "all";
 
   function escapeHtml(value) {
@@ -116,6 +117,151 @@
         <span class="route-place">${escapeHtml(day.end)}</span>
       </button>
     `).join("");
+  }
+
+
+  function getDriveState() {
+    const state = loadState(driveStorageKey, { activeDay: 1, days: {} });
+    return {
+      activeDay: Number(state.activeDay) || 1,
+      days: state.days && typeof state.days === "object" && !Array.isArray(state.days) ? state.days : {}
+    };
+  }
+
+  function driveRecord(dayNumber) {
+    const state = getDriveState();
+    const record = state.days[dayNumber] && typeof state.days[dayNumber] === "object" ? state.days[dayNumber] : {};
+    return {
+      checks: record.checks && typeof record.checks === "object" && !Array.isArray(record.checks) ? record.checks : {},
+      startTime: record.startTime || "",
+      mileageStart: record.mileageStart || "",
+      mileageEnd: record.mileageEnd || "",
+      note: record.note || ""
+    };
+  }
+
+  function driveRecordHasEntry(record) {
+    return Boolean(record.startTime || record.mileageStart || record.mileageEnd || record.note || Object.values(record.checks || {}).some(Boolean));
+  }
+
+  function isDriveReady(record) {
+    return data.driveCheck.every((item) => record.checks && record.checks[item.id]);
+  }
+
+  function mileageDifference(record) {
+    const start = Number(String(record.mileageStart || "").replace(",", "."));
+    const end = Number(String(record.mileageEnd || "").replace(",", "."));
+    const difference = end - start;
+    return Number.isFinite(difference) && difference >= 0 && difference <= 1200 ? difference : 0;
+  }
+
+  function driveStats() {
+    const records = data.days.map((day) => driveRecord(day.number));
+    const ready = records.filter(isDriveReady).length;
+    const started = records.filter(driveRecordHasEntry).length;
+    const kilometres = records.reduce((sum, record) => sum + mileageDifference(record), 0);
+    return { ready, started, kilometres };
+  }
+
+  function renderDriveSummary() {
+    const stats = driveStats();
+    const missing = data.days.length - stats.ready;
+    $("#drive-summary").innerHTML = `
+      <article class="drive-stat"><strong>${stats.ready}</strong><span>Tageschecks vollständig</span></article>
+      <article class="drive-stat"><strong>${stats.started}</strong><span>Tage mit Eintrag</span></article>
+      <article class="drive-stat"><strong>${stats.kilometres > 0 ? `${Math.round(stats.kilometres)} km` : "—"}</strong><span>erfasste Kilometer</span></article>
+      <article class="drive-stat"><strong>${missing}</strong><span>noch offen</span></article>
+    `;
+  }
+
+  function renderDrive() {
+    const state = getDriveState();
+    const activeDay = data.days.find((day) => day.number === state.activeDay) || data.days[0];
+    const record = driveRecord(activeDay.number);
+    renderDriveSummary();
+
+    $("#drive-day-picker").innerHTML = data.days.map((day) => {
+      const dayRecord = driveRecord(day.number);
+      const stateLabel = isDriveReady(dayRecord) ? "bereit" : driveRecordHasEntry(dayRecord) ? "in Arbeit" : "offen";
+      return `
+        <button class="drive-day-button${day.number === activeDay.number ? " is-active" : ""}${isDriveReady(dayRecord) ? " is-ready" : ""}" type="button" data-drive-day="${day.number}" aria-pressed="${day.number === activeDay.number}">
+          <span>Tag ${day.number}</span>
+          <small>${escapeHtml(stateLabel)}</small>
+        </button>
+      `;
+    }).join("");
+
+    $("#drive-card").innerHTML = `
+      <div class="drive-card-heading">
+        <div>
+          <span class="drive-kicker">Tag ${activeDay.number} · ${escapeHtml(activeDay.date)}</span>
+          <h3>${escapeHtml(activeDay.route)}</h3>
+          <p>${escapeHtml(activeDay.drive)} · ${escapeHtml(activeDay.distance)}</p>
+        </div>
+        <a class="drive-map-link" href="${mapUrl(activeDay.mapQuery)}" target="_blank" rel="noopener noreferrer">Route öffnen <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="drive-checks" role="group" aria-label="Tagescheck für Tag ${activeDay.number}">
+        ${data.driveCheck.map((item) => `
+          <label class="drive-check${record.checks[item.id] ? " is-checked" : ""}">
+            <input type="checkbox" data-drive-check="${escapeHtml(item.id)}" data-drive-day-number="${activeDay.number}"${record.checks[item.id] ? " checked" : ""}>
+            <span>${escapeHtml(item.label)}</span>
+          </label>
+        `).join("")}
+      </div>
+      <div class="drive-fields">
+        <label class="drive-field">
+          <span>Abfahrt</span>
+          <input type="time" value="${escapeHtml(record.startTime)}" data-drive-field="startTime" data-drive-day-number="${activeDay.number}">
+        </label>
+        <label class="drive-field">
+          <span>Km-Stand Start</span>
+          <input type="number" min="0" step="1" inputmode="numeric" placeholder="z. B. 12480" value="${escapeHtml(record.mileageStart)}" data-drive-field="mileageStart" data-drive-day-number="${activeDay.number}">
+        </label>
+        <label class="drive-field">
+          <span>Km-Stand Ende</span>
+          <input type="number" min="0" step="1" inputmode="numeric" placeholder="z. B. 12635" value="${escapeHtml(record.mileageEnd)}" data-drive-field="mileageEnd" data-drive-day-number="${activeDay.number}">
+        </label>
+        <label class="drive-field drive-field-wide">
+          <span>Tagesnotiz</span>
+          <textarea rows="3" placeholder="Wetter, Tankstopp, Unterkunft, Besonderheiten …" data-drive-field="note" data-drive-day-number="${activeDay.number}">${escapeHtml(record.note)}</textarea>
+        </label>
+      </div>
+      <p class="drive-save-hint">Alle Angaben werden automatisch lokal in diesem Browser gespeichert.</p>
+    `;
+  }
+
+  function setActiveDriveDay(dayNumber) {
+    const state = getDriveState();
+    state.activeDay = Number(dayNumber);
+    saveState(driveStorageKey, state);
+    renderDrive();
+  }
+
+  function updateDriveCheck(dayNumber, checkId, checked) {
+    const state = getDriveState();
+    const record = driveRecord(dayNumber);
+    record.checks[checkId] = checked;
+    state.days[dayNumber] = record;
+    saveState(driveStorageKey, state);
+    renderDrive();
+    renderBackupSummary();
+  }
+
+  function updateDriveField(dayNumber, field, value) {
+    const state = getDriveState();
+    const record = driveRecord(dayNumber);
+    record[field] = value;
+    state.days[dayNumber] = record;
+    saveState(driveStorageKey, state);
+    renderDriveSummary();
+    renderBackupSummary();
+  }
+
+  function resetDrive() {
+    if (!window.confirm("Alle Fahrtag-Einträge in diesem Browser löschen?")) return;
+    saveState(driveStorageKey, { activeDay: 1, days: {} });
+    renderDrive();
+    renderBackupSummary();
   }
 
   function visibleDays() {
@@ -527,11 +673,19 @@
     const booking = getBookingState();
     const budget = getBudgetState();
     const checklist = getChecklistState();
+    const drive = getDriveState();
     const plannerCount = Object.keys(planner.taskStatus || {}).length + Object.keys(planner.dayStatus || {}).length + Object.keys(planner.notes || {}).filter((key) => planner.notes[key]).length;
     const bookingCount = Object.values(booking).filter(bookingIsFilled).length;
     const budgetCount = Object.values(budget).filter((record) => record && (record.planned || record.actual || record.note)).length;
     const checklistCount = Object.values(checklist).filter(Boolean).length;
-    return { planner: plannerCount, booking: bookingCount, budget: budgetCount, checklist: checklistCount };
+    const driveCount = Object.values(drive.days || {}).filter((record) => driveRecordHasEntry({
+      checks: record && record.checks,
+      startTime: record && record.startTime,
+      mileageStart: record && record.mileageStart,
+      mileageEnd: record && record.mileageEnd,
+      note: record && record.note
+    })).length;
+    return { planner: plannerCount, booking: bookingCount, budget: budgetCount, checklist: checklistCount, drive: driveCount };
   }
 
   function renderBackupSummary() {
@@ -541,6 +695,7 @@
     target.innerHTML = `
       <article class="backup-stat"><strong>${count.planner}</strong><span>Planungseinträge</span></article>
       <article class="backup-stat"><strong>${count.booking + count.budget}</strong><span>Buchungs- & Kosteneinträge</span></article>
+      <article class="backup-stat"><strong>${count.drive}</strong><span>Fahrtage erfasst</span></article>
       <article class="backup-stat"><strong>${count.checklist}</strong><span>Packliste erledigt</span></article>
     `;
   }
@@ -562,7 +717,8 @@
         checklist: getChecklistState(),
         planner: getPlannerState(),
         bookings: getBookingState(),
-        budget: getBudgetState()
+        budget: getBudgetState(),
+        drive: getDriveState()
       }
     };
   }
@@ -594,6 +750,7 @@
     renderPlanning();
     renderBookings();
     renderBudget();
+    renderDrive();
     renderStages();
     renderChecklist();
     renderBackupSummary();
@@ -613,6 +770,7 @@
         saveState(plannerStorageKey, plainObject(state.planner));
         saveState(bookingStorageKey, plainObject(state.bookings));
         saveState(budgetStorageKey, plainObject(state.budget));
+        saveState(driveStorageKey, plainObject(state.drive));
         closeStage();
         refreshLocalViews();
         setBackupStatus("Sicherungsdatei wurde eingespielt. Vorherige lokale Eingaben wurden ersetzt.", "success");
@@ -654,6 +812,7 @@
       const routeButton = event.target.closest("[data-route-day]");
       const jumpButton = event.target.closest("[data-jump-stage]");
       const filterButton = event.target.closest("[data-stage-filter]");
+      const driveDayButton = event.target.closest("[data-drive-day]");
 
       if (stageButton) openStage(stageButton.dataset.openStage);
       if (routeButton) focusStage(routeButton.dataset.routeDay, true);
@@ -663,6 +822,7 @@
         renderStages();
         updateFilterButtons();
       }
+      if (driveDayButton) setActiveDriveDay(driveDayButton.dataset.driveDay);
       if (event.target.closest("[data-close-dialog]")) closeStage();
       if (event.target.closest("[data-print]")) window.print();
       if (event.target.closest("[data-reset-checklist]")) {
@@ -675,6 +835,7 @@
         renderBudget();
         renderBackupSummary();
       }
+      if (event.target.closest("[data-reset-drive]")) resetDrive();
       if (event.target.closest("[data-export-state]")) downloadBackup();
       if (event.target.closest("[data-select-import]")) $("#backup-import")?.click();
       if (event.target.closest("[data-clear-local]")) clearLocalData();
@@ -685,6 +846,7 @@
       const taskSelect = event.target.closest("[data-task-status]");
       const daySelect = event.target.closest("[data-day-status]");
       const backupImport = event.target.closest("[data-backup-import]");
+      const driveCheck = event.target.closest("[data-drive-check]");
       if (checkbox) {
         const state = getChecklistState();
         state[checkbox.dataset.checkIndex] = checkbox.checked;
@@ -703,12 +865,14 @@
         importBackup(backupImport.files?.[0]);
         backupImport.value = "";
       }
+      if (driveCheck) updateDriveCheck(driveCheck.dataset.driveDayNumber, driveCheck.dataset.driveCheck, driveCheck.checked);
     });
 
     document.addEventListener("input", (event) => {
       const note = event.target.closest("[data-day-note]");
       const bookingField = event.target.closest("[data-booking-field]");
       const budgetField = event.target.closest("[data-budget-field]");
+      const driveField = event.target.closest("[data-drive-field]");
       if (note) {
         updateDayNote(note.dataset.dayNote, note.value);
         renderBackupSummary();
@@ -721,6 +885,7 @@
         updateBudgetField(budgetField.dataset.budgetId, budgetField.dataset.budgetField, budgetField.value);
         renderBackupSummary();
       }
+      if (driveField) updateDriveField(driveField.dataset.driveDayNumber, driveField.dataset.driveField, driveField.value);
     });
 
     stageDialog?.addEventListener("click", (event) => {
@@ -737,6 +902,7 @@
   renderPlanning();
   renderBookings();
   renderBudget();
+  renderDrive();
   renderStages();
   renderChecklist();
   renderBackupSummary();

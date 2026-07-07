@@ -156,7 +156,7 @@ h3 { margin: 0; font-size: 1.46rem; letter-spacing: -0.02em; }
 
 
 .backup-section { background: #eef3ed; }
-.backup-summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+.backup-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
 .backup-stat { display: flex; flex-direction: column; justify-content: center; min-height: 112px; padding: 18px; border: 1px solid rgba(23,48,49,0.12); border-radius: var(--radius-sm); background: rgba(255,255,255,0.72); }
 .backup-stat strong { font-family: var(--serif); font-size: 2rem; font-weight: 400; line-height: 1; }
 .backup-stat span { margin-top: 7px; color: #66746e; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
@@ -427,4 +427,63 @@ h3 { margin: 0; font-size: 1.46rem; letter-spacing: -0.02em; }
 
 @media print {
   .budget-section { display: none !important; }
+}
+
+
+/* Version 4.3: Fahrtag-Check mit lokalem Tagesprotokoll */
+.drive-section { background: #f1f0ea; }
+.drive-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 24px; }
+.drive-stat { display: flex; flex-direction: column; justify-content: space-between; min-height: 118px; padding: 21px; border: 1px solid rgba(64, 81, 73, 0.15); border-radius: var(--radius-md); background: rgba(255,255,255,0.78); }
+.drive-stat strong { color: #324d44; font-family: var(--serif); font-size: clamp(1.64rem, 3vw, 2.15rem); font-weight: 400; line-height: 1.05; }
+.drive-stat span { color: #66716b; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; }
+.drive-layout { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 16px; align-items: start; }
+.drive-day-picker { display: grid; grid-template-columns: 1fr; gap: 7px; }
+.drive-day-button { display: flex; align-items: center; justify-content: space-between; gap: 9px; width: 100%; padding: 11px 12px; border: 1px solid rgba(48, 73, 64, 0.16); border-radius: 10px; color: #46564f; background: rgba(255,255,255,0.62); font-size: 0.84rem; font-weight: 800; text-align: left; }
+.drive-day-button small { color: #748077; font-size: 0.68rem; font-weight: 750; letter-spacing: 0.04em; text-transform: uppercase; }
+.drive-day-button:hover, .drive-day-button:focus-visible { border-color: rgba(46,91,79,0.62); color: var(--pine); }
+.drive-day-button.is-active { border-color: var(--pine); color: var(--white); background: var(--pine); }
+.drive-day-button.is-active small { color: rgba(255,255,255,0.78); }
+.drive-day-button.is-ready:not(.is-active) { border-color: rgba(79,128,100,0.4); background: #edf5ec; }
+.drive-card { min-height: 560px; padding: 28px; border: 1px solid rgba(48, 73, 64, 0.15); border-radius: var(--radius-md); background: var(--white); box-shadow: 0 12px 30px rgba(41, 54, 48, 0.045); }
+.drive-card-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 22px; }
+.drive-kicker { display: block; color: var(--fern); font-size: 0.71rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+.drive-card h3 { margin-top: 6px; font-size: clamp(1.7rem, 3vw, 2.35rem); }
+.drive-card-heading p { margin: 10px 0 0; color: #61706a; font-size: 0.9rem; }
+.drive-map-link { flex: 0 0 auto; padding: 9px 12px; border-radius: 999px; color: var(--pine); background: #eef5ed; font-size: 0.82rem; font-weight: 800; text-decoration: none; }
+.drive-map-link:hover, .drive-map-link:focus-visible { color: var(--white); background: var(--pine); }
+.drive-checks { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; margin-top: 28px; }
+.drive-check { display: flex; align-items: flex-start; gap: 10px; min-height: 66px; padding: 13px; border: 1px solid rgba(48, 73, 64, 0.14); border-radius: 10px; color: #4e5b55; background: #f7f8f5; font-size: 0.88rem; line-height: 1.35; }
+.drive-check.is-checked { border-color: rgba(72, 122, 85, 0.32); color: #35664a; background: #edf5ec; }
+.drive-check input { appearance: none; flex: 0 0 18px; width: 18px; height: 18px; margin: 1px 0 0; border: 1.5px solid var(--pine); border-radius: 4px; background: var(--white); }
+.drive-check input:checked { background: var(--pine); box-shadow: inset 0 0 0 3px var(--white); }
+.drive-field input:focus, .drive-field textarea:focus, .drive-check input:focus-visible { outline: 3px solid rgba(79,128,100,0.22); outline-offset: 2px; }
+.drive-fields { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; margin-top: 18px; }
+.drive-field { display: grid; gap: 6px; color: #57665f; font-size: 0.71rem; font-weight: 800; letter-spacing: 0.045em; text-transform: uppercase; }
+.drive-field-wide { grid-column: 1 / -1; }
+.drive-field input, .drive-field textarea { width: 100%; min-width: 0; border: 1px solid rgba(48, 73, 64, 0.17); border-radius: 9px; color: var(--ink); background: #fcfcfa; font: inherit; font-size: 0.9rem; font-weight: 500; letter-spacing: normal; text-transform: none; }
+.drive-field input { min-height: 41px; padding: 8px 10px; }
+.drive-field textarea { padding: 10px; resize: vertical; line-height: 1.45; }
+.drive-save-hint { margin: 14px 0 0; color: #738078; font-size: 0.76rem; }
+.drive-footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 20px; color: #68746e; font-size: 0.82rem; }
+.drive-footer p { max-width: 720px; margin: 0; }
+
+@media (max-width: 850px) {
+  .drive-summary { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .drive-layout { grid-template-columns: 1fr; }
+  .drive-day-picker { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .drive-day-button { flex-direction: column; align-items: flex-start; min-height: 64px; }
+}
+
+@media (max-width: 560px) {
+  .drive-summary { grid-template-columns: 1fr; }
+  .drive-stat { min-height: 96px; padding: 18px; }
+  .drive-day-picker { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .drive-card { min-height: 0; padding: 20px; }
+  .drive-card-heading, .drive-footer { align-items: flex-start; flex-direction: column; }
+  .drive-checks, .drive-fields { grid-template-columns: 1fr; }
+  .drive-field-wide { grid-column: auto; }
+}
+
+@media print {
+  .drive-section { display: none !important; }
 }

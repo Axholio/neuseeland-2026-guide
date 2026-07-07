@@ -7,7 +7,7 @@ window.tripData = {
     "totalDays": 13,
     "totalNights": 12,
     "totalDistance": "ca. 2.300 km",
-    "version": "4.2"
+    "version": "4.3"
   },
   "days": [
     {
@@ -420,6 +420,24 @@ window.tripData = {
       "filterTags": [
         "booking"
       ]
+    }
+  ],
+  "driveCheck": [
+    {
+      "id": "weather",
+      "label": "Wetter, Straßen- und DOC-Hinweise geprüft"
+    },
+    {
+      "id": "fuel",
+      "label": "Tankstand, Trinkwasser und Verpflegung geprüft"
+    },
+    {
+      "id": "route",
+      "label": "Route, Offline-Karte und geplante Stopps bereit"
+    },
+    {
+      "id": "arrival",
+      "label": "Unterkunft, Ankunftszeit und Parkplatz geklärt"
     }
   ],
   "checklist": [
